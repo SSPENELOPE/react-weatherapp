@@ -5,7 +5,7 @@ import Header from '../components/Header';
 function Home() {
     return (
         <div>
-            <video class="video-1" src={videoBg} autoPlay loop muted />
+            <video className="video-1" src={videoBg} autoPlay loop muted />
             <Header />
             
         </div>

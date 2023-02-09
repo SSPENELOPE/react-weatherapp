@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.HttpOverrides;
 using System.Text;
 
 namespace react_weatherapp
@@ -30,13 +31,33 @@ namespace react_weatherapp
                 };
             });
 
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                    options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
+
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            /*             // Configure the HTTP request pipeline.
+                        if (!app.Environment.IsDevelopment())
+                        {
+                            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                            app.UseHsts();
+                        } */
+
             if (!app.Environment.IsDevelopment())
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler("/Error");
+                app.UseForwardedHeaders();
                 app.UseHsts();
+            }
+            else
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseForwardedHeaders();
             }
 
             app.UseHttpsRedirection();

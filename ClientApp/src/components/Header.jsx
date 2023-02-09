@@ -4,7 +4,7 @@ const cityList = document.getElementById("city-list");
 
 function Header() {
     // Set the button state
-    const [btn, setBtn] = useState(true);
+    const [btn, setBtn] = useState(false);
 
     // Hide and show the clear button
     const showBtn = ()  => {
@@ -15,28 +15,32 @@ function Header() {
     }
     
     // Will fix this later to update the page based on the element having a list or not
-    const checkIfCities = () => {
+    // *TODO* is reading null for .hasChildNodes method
+/*     const checkIfCities = () => {
         while(!cityList.hasChildNodes) {
             setBtn(false)
         }
     }
-    
+    checkIfCities(); */
     
 
     return (
         <header className="custom-header text-center p-3">
             <h1 className="text-light">Weather Dashboard</h1>
             <section className="d-flex flex-column">
-                <div className="d-flex flex-row justify-content-start">
-                    <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light"></input>
-                    <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={showBtn}>Search</button>
+                <div className="d-flex flex-row justify-content-between">
+                    <div>
+                        <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light"></input>
+                        <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={showBtn}>Search</button>
+                    </div>
+                    <div>
+                        <button className="btn bg-light border-dark">Login</button>
+                    </div>
                 </div>
                 <div className="row align-items-center justify-content-between">
                     <div className="row listDiv">
                         <h3 className="my-2 d-flex">Previously Viewed:</h3>
-                        <ul className="cities-list mx-3" id="city-list">
-                    
-                        </ul>
+                        <ul className="cities-list mx-3" id="city-list"></ul>
                     </div>
                     {btn ? (
                     <div>    

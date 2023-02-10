@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-const cityList = document.getElementById("city-list");
+import { Link } from "react-router-dom";
+
 
 
 function Header() {
@@ -34,7 +35,7 @@ function Header() {
                         <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={showBtn}>Search</button>
                     </div>
                     <div>
-                        <button className="btn bg-light border-dark">Login</button>
+                        <Link to="/login" className="btn bg-light border-dark">Login</Link>
                     </div>
                 </div>
                 <div className="row align-items-center justify-content-between">

@@ -13,10 +13,7 @@ namespace react_weatherapp.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _config;
-        public LoginController(IConfiguration config)
-        {
-            _config = config;
-        }
+        public LoginController(IConfiguration config) => _config = config;
 
         [AllowAnonymous]
         [HttpPost]
@@ -33,15 +30,15 @@ namespace react_weatherapp.Controllers
         }
 
         // To generate token
-        private string GenerateToken(UserModel user)
+        private string GenerateToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 #pragma warning disable CS8604 // Possible null reference argument.
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier,user.Username),
-                new Claim(ClaimTypes.Role,user.Role)
+                new Claim(ClaimTypes.NameIdentifier,user.Email)
+               
             };
 #pragma warning restore CS8604 // Possible null reference argument.
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
@@ -55,11 +52,11 @@ namespace react_weatherapp.Controllers
         }
 
         //To authenticate user
-        private UserModel? Authenticate(UserLogin userLogin)
+        private User? Authenticate(UserLogin userLogin)
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            var currentUser = UserConstants.Users.FirstOrDefault(x => x.Username.ToLower() ==
-                userLogin.Username.ToLower() && x.Password == userLogin.Password);
+            var currentUser = UserConstants.Users.FirstOrDefault(x => x.Email.ToLower() ==
+                userLogin.Email.ToLower() && x.Password == userLogin.Password);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             if (currentUser != null)
             {

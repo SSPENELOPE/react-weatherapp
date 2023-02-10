@@ -3,7 +3,7 @@
 # Description
 - This is a recreation of my school project (Weather Dashboard) using many different technologies. The front end of this application will be built using React. The back end of this application will be built using ASP.NET Core. The database for this application will be a azureSQL database and the application will be deployed using azure web services.
 
-- This is very different than anything I have yet to build so expect there to be a long delay between commits. As far as I know there are not many tutorials and demonstrations out there on how to build this specific application being that it incorporates React, ASP.NET and sql all in the same solution. It will take awhile for me to figure this out. If you have questions on why or how I did something, you can reach me at the (Contribution/Questions)[#Contribution/questons] portions of the page
+- This is very different than anything I have yet to build so expect there to be a long delay between commits. As far as I know there are not many tutorials and demonstrations out there on how to build this specific application being that it incorporates React, ASP.NET and sql all in the same solution. It will take awhile for me to figure this out. If you have questions on why or how I did something, you can reach me at the - [Contribution/questons](#Contribution/Questions) portions of the page
 
 # Installation
 - After I am finsihed creating this application I will give detailed instructions on how to clone and set the repository up for your own application

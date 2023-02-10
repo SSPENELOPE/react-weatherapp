@@ -1,6 +1,6 @@
 namespace react_weatherapp.Models
 {
-    // We are not taking data from data base so we get data from constant
+    // For testing jwt purposes until database and queries are finshed
     public class UserConstants
     {
         public static List<User> Users = new()

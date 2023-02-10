@@ -5,70 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Data;
-using System.Data.SqlClient;
-using System;
-using System.Configuration;
 using react_weatherapp.Models;
 
 
 namespace react_weatherapp.Controllers
 {
-
-    [Route("api/[controller]")]
-    [ApiController]
-
-    public class UserQuery : ControllerBase 
-    {
-        private readonly IConfiguration _configuration;
-        public UserQuery(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        [HttpGet]
-        public JsonResult Get()
-        {
-        string password = _configuration["ConnString:Password"];
-        DataTable table = new DataTable();
-        try
-            {
-            
-            SqlConnectionStringBuilder conn = new SqlConnectionStringBuilder();
-                conn.DataSource = "react-weatherapp.database.windows.net";
-                conn.UserID = "SSPENELOPE";
-                conn.Password = password;
-                conn.InitialCatalog = "weather_db";
-            
-         
-       
-            using(SqlConnection myConnection = new SqlConnection(conn.ConnectionString)) 
-            {
-
-                string query = @"
-                    select * from [dbo].[user]
-                ";
-                using(SqlCommand myCommand = new SqlCommand(query, myConnection)) 
-                {
-                myConnection.Open();
-                        using(SqlDataReader reader = myCommand.ExecuteReader()) 
-                        {
-                            table.Load(reader);
-                            reader.Close();
-                            myConnection.Close();
-                        }
-                }
-            }
-            } catch(Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return new JsonResult(table);
-        }
-        
-    }
-    
-    // Temporarily leaving this commented out until we can find users with a SQLdb query
     [ApiController]
     [Route("auth/[controller]")]
     public class LoginController : ControllerBase

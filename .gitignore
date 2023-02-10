@@ -230,3 +230,8 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# Appsettings because why wouldnt this be in there in the first place
+appsettings.json
+web.config
+.env

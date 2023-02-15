@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import Auth from "../utils/auth";
 
 
 
@@ -34,9 +35,15 @@ function Header() {
                         <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light"></input>
                         <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={showBtn}>Search</button>
                     </div>
-                    <div>
-                        <Link to="/login" className="btn bg-light border-dark">Login</Link>
-                    </div>
+                    {Auth.loggedIn() ? (
+                        <div>
+                            <button className="btn bg-light border-dark" onClick={() => Auth.logout()}>Logout</button>
+                        </div>
+                    ) : (
+                        <div>
+                            <Link to="/login" className="btn bg-light border-dark">Login</Link>
+                        </div>
+                    )}
                 </div>
                 <div className="row align-items-center justify-content-between">
                     <div className="row listDiv">

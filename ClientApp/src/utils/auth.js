@@ -20,16 +20,16 @@ class AuthService {
     }
   
     getToken() {
-      return localStorage.getItem('id_token');
+      return localStorage.getItem('token');
     }
   
-    login(idToken) {
-      localStorage.setItem('id_token', idToken);
+    login(token) {
+      localStorage.setItem('token', token);
       window.location.assign('/');
     }
   
     logout() {
-      localStorage.removeItem('id_token');
+      localStorage.removeItem('token');
       window.location.assign('/');
     }
     redirect() {

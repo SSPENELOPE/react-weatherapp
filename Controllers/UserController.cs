@@ -1,58 +1,43 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using react_weatherapp.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using react_weatherapp.Helpers;
 using react_weatherapp.Models;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace react_weatherapp.Controllers
 {
-    // Find all users, Will be updated to single user search later for login purposes
+
+    /**********************           FIND ALL USERS                  ***************************/
     [Route("api/[controller]")]
     [ApiController]
-
-    public class UserQuery : Controller
+    public class FindAllUsers : Controller
     {
-        private readonly IConfiguration _configuration;
-        public UserQuery(IConfiguration configuration)
+        Connection Conn;
+        public FindAllUsers(Connection _CONN)
         {
-            _configuration = configuration;
+            Conn = _CONN;
         }
+
 
         [HttpGet]
         public JsonResult Get()
         {
-            string password = _configuration["ConnString:Password"];
-            string userId = _configuration["ConnString:User"];
-            string source = _configuration["ConnString:Source"];
-            string catalog = _configuration["ConnString:Catalog"];
             DataTable table = new DataTable();
 
             try
             {
-                SqlConnectionStringBuilder conn = new SqlConnectionStringBuilder();
-                conn.DataSource = source;
-                conn.UserID = userId;
-                conn.Password = password;
-                conn.InitialCatalog = catalog;
-
-
-
-                using (SqlConnection myConnection = new SqlConnection(conn.ConnectionString))
-                {
-
-                    string query = @"
-                    select * from [dbo].[user]
-                ";
-                    using (SqlCommand myCommand = new SqlCommand(query, myConnection))
-                    {
-                        myConnection.Open();
-                        using (SqlDataReader reader = myCommand.ExecuteReader())
-                        {
-                            table.Load(reader);
-                            reader.Close();
-                            myConnection.Close();
-                        }
-                    }
-                }
+                string query = @"
+                          select * from [dbo].[user]
+                      ";
+                SqlConnection conn = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = conn.ConnectionString;
+                SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                table.Load(reader);
+                reader.Close();
+                conn.Close();
             }
             catch (Exception ex)
             {
@@ -60,108 +45,39 @@ namespace react_weatherapp.Controllers
             }
             return new JsonResult(table);
         }
-
     }
 
-    // Create User Route
-    [Route("api/[controller]")]
-    [ApiController]
-
-    public class CreateUser : Controller
-    {
-        private readonly IConfiguration _configuration;
-        public CreateUser(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        [HttpPost]
-        public JsonResult Post(User user)
-        {
-            string password = _configuration["ConnString:Password"];
-            string userId = _configuration["ConnString:User"];
-            string source = _configuration["ConnString:Source"];
-            string catalog = _configuration["ConnString:Catalog"];
-            DataTable table = new DataTable();
-            try
-            {
-
-                SqlConnectionStringBuilder conn = new SqlConnectionStringBuilder();
-                conn.DataSource = source;
-                conn.UserID = userId;
-                conn.Password = password;
-                conn.InitialCatalog = catalog;
 
 
 
-                using (SqlConnection myConnection = new SqlConnection(conn.ConnectionString))
-                {
-
-                    string query = @"
-                    insert into [dbo].[user]
-                    values(@Email,@Password)
-                ";
-                    using (SqlCommand myCommand = new SqlCommand(query, myConnection))
-                    {
-                        myCommand.Parameters.AddWithValue("@Email", user.Email);
-                        myCommand.Parameters.AddWithValue("@Password", user.Password);
-                        myConnection.Open();
-                        using (SqlDataReader reader = myCommand.ExecuteReader())
-                        {
-                            table.Load(reader);
-                            reader.Close();
-                            myConnection.Close();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return new JsonResult("User Created Sucessfuly!");
-        }
-    }
-
+    /**************************************************             Update User Information             *********************************/
     // Update User Route
     [Route("api/[controller]")]
     [ApiController]
     public class UpdateUser : Controller
     {
-        private readonly IConfiguration _configuration;
-        public UpdateUser(IConfiguration configuration)
+        Connection Conn;
+        public UpdateUser(Connection _CONN)
         {
-            _configuration = configuration;
+            Conn = _CONN;
         }
+
 
         [HttpPut]
         public JsonResult Put(User user)
         {
-            string password = _configuration["ConnString:Password"];
-            string userId = _configuration["ConnString:User"];
-            string source = _configuration["ConnString:Source"];
-            string catalog = _configuration["ConnString:Catalog"];
             DataTable table = new DataTable();
             try
             {
-
-                SqlConnectionStringBuilder conn = new SqlConnectionStringBuilder();
-                conn.DataSource = source;
-                conn.UserID = userId;
-                conn.Password = password;
-                conn.InitialCatalog = catalog;
-
-
-
-                using (SqlConnection myConnection = new SqlConnection(conn.ConnectionString))
+                using (SqlConnection myConnection = new SqlConnection(Conn.connectionstring))
                 {
 
                     string query = @"
-                    update [dbo].[user]
-                    set Email = @Email,
-                    Password = @Password
-                    where Id = @Id
-                ";
+                        update [dbo].[user]
+                        set Email = @Email,
+                        Password = @Password
+                        where Id = @Id
+                    ";
                     using (SqlCommand myCommand = new SqlCommand(query, myConnection))
                     {
                         myCommand.Parameters.AddWithValue("@Id", user.Id);
@@ -185,44 +101,30 @@ namespace react_weatherapp.Controllers
         }
     }
 
-
-    // Update User Route
+    /**************************************************             Delete User             *********************************/
+    // Delete User Route
     [Route("api/[controller]")]
     [ApiController]
     public class DeleteUser : Controller
     {
-        private readonly IConfiguration _configuration;
-        public DeleteUser(IConfiguration configuration)
+        Connection Conn;
+        public DeleteUser(Connection _CONN)
         {
-            _configuration = configuration;
+            Conn = _CONN;
         }
-
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
-            string password = _configuration["ConnString:Password"];
-            string userId = _configuration["ConnString:User"];
-            string source = _configuration["ConnString:Source"];
-            string catalog = _configuration["ConnString:Catalog"];
             DataTable table = new DataTable();
             try
             {
-
-                SqlConnectionStringBuilder conn = new SqlConnectionStringBuilder();
-                conn.DataSource = source;
-                conn.UserID = userId;
-                conn.Password = password;
-                conn.InitialCatalog = catalog;
-
-
-
-                using (SqlConnection myConnection = new SqlConnection(conn.ConnectionString))
+                using (SqlConnection myConnection = new SqlConnection(Conn.connectionstring))
                 {
 
                     string query = @"
-                    delete from [dbo].[user]
-                    where id = @id
-                ";
+                        delete from [dbo].[user]
+                        where id = @id
+                    ";
                     using (SqlCommand myCommand = new SqlCommand(query, myConnection))
                     {
                         myCommand.Parameters.AddWithValue("@Id", id);
@@ -243,5 +145,9 @@ namespace react_weatherapp.Controllers
             return new JsonResult("User Deleted Sucessfuly");
         }
     }
-
 }
+
+
+
+
+

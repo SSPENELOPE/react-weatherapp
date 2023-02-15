@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using react_weatherapp.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace react_weatherapp.Controllers
@@ -15,42 +16,63 @@ namespace react_weatherapp.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _config;
-        public LoginController(IConfiguration config) => _config = config;
+
+        private readonly AppDbContext _context;
+
+        public LoginController(AppDbContext context, IConfiguration config)
+        {
+            _context = context;
+            _config = config;
+        }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login([FromBody] UserLogin userLogin)
+        public ActionResult Login([FromBody] User user)
         {
-            var user = Authenticate(userLogin);
-            if (user != null)
-            {
-                var token = GenerateToken(user);
-                return Ok(token);
-            }
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-            return NotFound("user not found");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlServer(connectionString);
+
+            using (var context = new AppDbContext(optionsBuilder.Options))
+            {
+                var data = context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+
+                if (data != null)
+                {
+                    var token = GenerateToken(data);
+                    return Ok(token);
+                }
+
+                return NotFound("user not found");
+
+            }
         }
 
-        // To generate token
-        private string GenerateToken(User user)
+        // Generate Token for the user
+        private IActionResult GenerateToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-#pragma warning disable CS8604 // Possible null reference argument.
-            var claims = new[]
+            var tokenHandler = new JwtSecurityTokenHandler();
+           var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                new Claim(ClaimTypes.NameIdentifier,user.Email)
-               
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier,user.Email),
+                    new Claim(ClaimTypes.NameIdentifier, user.Password)
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-#pragma warning restore CS8604 // Possible null reference argument.
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Audience"],
-                claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: credentials);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = tokenHandler.WriteToken(token);
 
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            // Return JWT token in JSON format
+            return Ok(new { token = jwt });
         }
 
         //To authenticate user

@@ -52,10 +52,10 @@ function Registration() {
                     <Navigate to="/">back to the homepage.</Navigate>
                 </p>
             ) : (
-                <div>
-                    <h1>Registration</h1>
-                    <form onSubmit={handleFormSubmit}>
-                        <label htmlFor="inputEmail4">Email</label>
+                <div className="regDiv mt-5">
+                    <h1 className="text-light">Registration</h1>
+                    <form className="regForm" onSubmit={handleFormSubmit}>
+                        <label htmlFor="inputEmail4" className="align-self-start m-2">Email</label>
                         <input
                             type="email"
                             name="email"
@@ -64,7 +64,7 @@ function Registration() {
                             id="inputEmail4"
                         ></input>
 
-                        <label htmlFor="inputName4">Password</label>
+                        <label htmlFor="inputName4" className="align-self-start m-2">Username</label>
                         <input
                             type="name"
                             name="name"
@@ -73,7 +73,7 @@ function Registration() {
                             id="inputName4"
                         ></input>
 
-                        <label htmlFor="inputPassword4">Password</label>
+                        <label htmlFor="inputPassword4" className="align-self-start m-2">Password</label>
                         <input
                             type="password"
                             name="password"
@@ -81,7 +81,7 @@ function Registration() {
                             onChange={handleChange}
                             id="inputPassword4"
                         ></input>
-                        <button type="submit" className="btn btn-primary">Register</button>
+                        <button type="submit" className="btn regBtn p-2 m-2">Register</button>
                     </form>
                 </div>
             )}

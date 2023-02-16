@@ -43,7 +43,7 @@ function Login() {
         <div className="wrapper fadeInDown">
             <div id="formContent">
                 <div className="fadeIn first">
-                    <h2>Welcome Back</h2>
+                    <h2 className="font">Welcome Back</h2>
                 </div>
                 
                     <form onSubmit={handleFormSubmit}>

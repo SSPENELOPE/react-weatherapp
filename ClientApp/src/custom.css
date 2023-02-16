@@ -1,4 +1,16 @@
 /* Provide sufficient contrast against white background */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+ :root {
+  --primary: #17dcff;
+  --textshadow: .1vw 0vw .25vw #1e91f0, .2vw 0vw .25vw #1e3df0;
+  --boxshadow: 0 0 10px 0.4px #17dcff,
+  0 0 40px 0.6px #1e91f0,
+  0 0 20px 0.4px #1e3df0,
+  inset 0 0 1.5px 0.4px #1e3df0,
+  inset 0 0 0.4px 0.2px #1e91f0,
+  inset 0 0 0.5px 0.2px #17dcff;
+ }
+
 a {
   color: #0366d6;
 }
@@ -7,10 +19,19 @@ code {
   color: #E01A76;
 }
 
-.btn-primary {
+.font {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.cust-btn {
+  background-color: var(--primary);
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  text-shadow: var(--textshadow);
+}
+
+.cust-btn:hover {
+  color: #fff;
+  box-shadow: var(--boxshadow);
 }
 
 .showBtn {
@@ -40,6 +61,44 @@ code {
 }
 
 
+/*  Registration Page  */
+.regDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.regForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 50vw;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: var(--boxshadow);
+}
+
+.regForm label {
+  color: var(--primary);
+  text-shadow: var(--textshadow);
+  font-weight: bolder;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.regForm input {
+  max-width: 80%;
+  padding: 10px;
+}
+
+.regBtn {
+  background-color: var(--primary);
+  color: #fff;
+  text-shadow: var(--textshadow);
+}
+
+.regBtn:hover {
+  color: #fff;
+  box-shadow: var(--boxshadow);
+}
 
 /*  LOGIN START   */
 a {
@@ -83,13 +142,7 @@ h2 {
   position: relative;
   padding: 0px;
   -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  box-shadow:     
-  0 0 10px 0.4px #17dcff,
-  0 0 40px 0.6px #1e91f0,
-  0 0 20px 0.4px #1e3df0,
-  inset 0 0 1.5px 0.4px #1e3df0,
-  inset 0 0 0.4px 0.2px #1e91f0,
-  inset 0 0 0.5px 0.2px #17dcff;
+  box-shadow: var(--boxshadow);
   text-align: center;
 }
 
@@ -154,7 +207,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   transform: scale(0.95);
 }
 
-input[type=email],[type=password] {
+input[type=email],[type=password], [type=name] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
@@ -181,6 +234,11 @@ input[type=email]:focus {
 }
 
 input[type=password]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #5fbae9;
+}
+
+input[type=name]:focus {
   background-color: #fff;
   border-bottom: 2px solid #5fbae9;
 }

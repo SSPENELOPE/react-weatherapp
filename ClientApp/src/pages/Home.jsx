@@ -4,9 +4,9 @@ import CurrentWeather from '../components/CurrentWeather';
 import fetchWeather from "../utils/fetchWeather";
 
 function Home() {
-    const [weatherData, setWeatherData] = useState(null);
+    const [weatherData, setWeatherData] = useState("");
 
-    const getWeather = async () => {
+    const getWeather = async () => {  
       try {
         const response = await fetchWeather.getWeather();
         setWeatherData(response);
@@ -14,6 +14,7 @@ function Home() {
         console.log(error);
       }
     };
+
     return (
         <div>
             <Header onClick={getWeather} />

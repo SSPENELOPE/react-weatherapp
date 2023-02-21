@@ -12,11 +12,28 @@
  }
 
 a {
-  color: #0366d6;
+  color: var(--primary);
+  text-shadow: var(--textshadow);
 }
 
 code {
   color: #E01A76;
+}
+.cities-list {
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.cities {
+  border: none;
+  font-weight: 600;
+}
+
+.cities:hover {
+  color: #fff;
 }
 
 .font {
@@ -52,7 +69,7 @@ code {
     z-index: -9999;
 }
 
-/* Header */
+/************* Header **************/
 .custom-header {
   background-image: linear-gradient(rgba(104, 102, 236, 0.3) 0%,
           rgba(102, 176, 236, 0.6) 100%);
@@ -61,7 +78,29 @@ code {
 }
 
 
-/*  Registration Page  */
+/**************** Current Weather ***************/
+.currentWrapper {
+ /*  border: 3px solid var(--primary); */
+  box-shadow: var(--boxshadow);
+  min-height: 40vh;
+  display: flex;
+  flex-direction: row;
+  margin: 2px;
+  padding: 3em;
+}
+
+.currentWrapper h1 {
+  color: var(--primary);
+  text-shadow: var(--textshadow);
+}
+
+.currentWrapper ul li {
+  color: var(--primary);
+  text-shadow: var(--textshadow);
+}
+
+
+/*************  Registration Page  *************/
 .regDiv {
   display: flex;
   flex-direction: column;
@@ -100,7 +139,7 @@ code {
   box-shadow: var(--boxshadow);
 }
 
-/*  LOGIN START   */
+/**************  LOGIN START   ********************/
 a {
   color: #92badd;
   display:inline-block;

@@ -4,6 +4,7 @@ class FetchWeather {
     async getWeather() {
       const cityInput = document.getElementById("city");
       const city = cityInput.value.trim();
+
       const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&exclude=hourly,daily&appid='+process.env.REACT_APP_APPID+'';
       const response = await fetch(weatherUrl, { cache: 'reload' });
       if (!response.ok) {
@@ -21,6 +22,7 @@ class FetchWeather {
       const newData = await newResponse.json();
       return newData;
     }
+
 }
 
 export default new FetchWeather();

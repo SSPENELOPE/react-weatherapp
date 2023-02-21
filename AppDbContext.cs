@@ -10,12 +10,14 @@ namespace react_weatherapp
     {
 
         public DbSet<User>? Users { get; set; }
-        public AppDbContext() { }
+        public AppDbContext(System.Data.SqlClient.SqlConnection myConnection) { }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
-    
+        public AppDbContext(string? defaultConnection)
+        {
+        }
     }
 
 }

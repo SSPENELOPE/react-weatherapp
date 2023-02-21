@@ -16,19 +16,19 @@ namespace react_weatherapp
         public static void Main(string[] args)
         {
 
-           
-            //EnableCorsAttribute cors = new EnableCorsAttribute();
+            /* EnableCorsAttribute cors = new EnableCorsAttribute(); */
             var builder = WebApplication.CreateBuilder(args);
 
+            // Connection String From appsettings
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").AddUserSecrets<Program>().Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
+            // Dependacy injection for connection 
             builder.Services.AddSingleton<Connection>();
 
+            // This is incorporated into connection.cs file, will dig more later to minimize usage
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));
-
- 
 
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
@@ -49,10 +49,7 @@ namespace react_weatherapp
                 };
             });
 
-           
-
-
-
+    
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())

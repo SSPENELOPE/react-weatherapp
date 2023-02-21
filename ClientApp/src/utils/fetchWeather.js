@@ -1,55 +1,26 @@
 
 class FetchWeather {
-    GetWeather() {
-        const cityInput = document.getElementById("city");
-        var city = cityInput.value.trim();
+    
+    async getWeather() {
+      const cityInput = document.getElementById("city");
+      const city = cityInput.value.trim();
+      const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&exclude=hourly,daily&appid='+process.env.REACT_APP_APPID+'';
+      const response = await fetch(weatherUrl, { cache: 'reload' });
+      if (!response.ok) {
+        throw new Error('Error: ' + response.statusText);
+      }
+      const data = await response.json();
+      const lat = data.coord.lat;
+      const lon = data.coord.lon;
+      const newUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&lang=en&appid='+process.env.REACT_APP_APPID+'';
 
-        var weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&exclude=hourly,daily&appid=ec2870611b1a5011e09492842b353545';
-
-        fetch(weatherUrl, {
-            cache: 'reload',
-        })
-            .then(function (response) {
-                if (!response.ok) {
-                    alert("Error: " + response.statusText);
-                } else {
-                    return response.json().then(function (latLon) {
-                    
-                            var lat = latLon.coord.lat
-                            var lon = latLon.coord.lon
-                            // Get the weather using onecall
-                            var newWeatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&lang=en&appid=ec2870611b1a5011e09492842b353545';
-                    
-                            fetch(newWeatherUrl, {
-                                method: 'get',
-                                credentials: 'same-origin',
-                                redirect: 'follow',
-                                cache: 'reload',
-                            })
-                                .then(function (response) {
-                                    if (!response.ok) {
-                                        alert("OHSHIT: " + response.statusText);
-                                    } else {
-                                       return response.json().then(function (data) {
-                                            console.log(data);
-                                            return data;
-                                            
-                                        } );
-                                    }
-                                })
-                                .catch(function (error) {
-                                    alert(error)
-                                })
-                        
-                    });
-                }
-            })
-            .catch(function (error) {
-                alert(error)
-            })
+      const newResponse = await fetch(newUrl, { cache: 'reload' });
+      if(!newResponse.ok) {
+        throw new Error('Error: ' + newResponse.statusText);
+      }
+      const newData = await newResponse.json();
+      return newData;
     }
-
-
 }
 
 export default new FetchWeather();

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 
 
+function Header(props) {
 
-function Header() {
     // Set the button state
     const [btn, setBtn] = useState(false);
 
@@ -16,16 +16,6 @@ function Header() {
         setBtn(false);
     }
 
-    // Will fix this later to update the page based on the element having a list or not
-    // *TODO* is reading null for .hasChildNodes method
-    /*     const checkIfCities = () => {
-            while(!cityList.hasChildNodes) {
-                setBtn(false)
-            }
-        }
-        checkIfCities(); */
-
-
     return (
         <header className="custom-header text-center p-3">
             {Auth.loggedIn() ? (
@@ -35,7 +25,7 @@ function Header() {
                         <div className="d-flex flex-row justify-content-between">
                             <div>
                                 <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light"></input>
-                                <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={showBtn}>Search</button>
+                                <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={props.onClick}>Search</button>
                             </div>
                             <div>
                             <button className="btn cust-btn" onClick={() => Auth.logout()}>Logout</button>
@@ -64,7 +54,7 @@ function Header() {
                         <div className="d-flex flex-row justify-content-between">
                             <div>
                                 <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light"></input>
-                                <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={showBtn}>Search</button>
+                                <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={props.onClick}>Search</button>
                             </div>
                             <div>
                                 <Link to="/login" className="btn cust-btn">Login</Link>

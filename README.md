@@ -11,17 +11,13 @@
 - After I am finsihed creating this application I will give detailed instructions on how to clone and set the repository up for your own application
 
 # Usage
-- JWT is working but not yet added to the login portion of the backend.
-
 - The routes for updating and deleting are created and work but are not implemented yet
 
 - Create an account, and login and check your application local storage which should now include your jwt. You can see how I accomplished that in the Auth.cs, login.jsx and registration.jsx
 
+- Weather is now displayed upon city search. I will implement state usage on the weather component to maintain the cities weather data when the page refreshes. This will reduce the amount of api calls 
+
 - For all of your own testing purposes you will need to create your own appsettings.json file and include your "DefaultConnection" string to your own database. I will later be moving to microsofts built in Secrets.json and will re-include the appsettings.json in this repo
-
-- All changes are being published to azure, some routes may not work as I have stored variables set for a developoment enviroment right now.'
-
-- I was Somewhat unorthodox on commit frequency between my last commit and now, this was due to issues learning how to hide a connection string, along with breaking everything while learning how to use dependancy injection 
 
 - If you're feeling froggy and want to see what the site looks like in its current state, you can check it out at https://reactweatherapp.azurewebsites.net/. Or just look at the nifty screenshot in here
 

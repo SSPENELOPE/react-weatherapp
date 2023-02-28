@@ -19,6 +19,9 @@ a {
 code {
   color: #E01A76;
 }
+
+
+
 .cities-list {
   font-weight: 600;
   font-size: 15px;
@@ -38,6 +41,8 @@ code {
 
 .font {
   font-family: 'Orbitron', sans-serif;
+  color: var(--primary);
+  text-shadow: var(--textshadow);
 }
 
 .cust-btn {
@@ -97,6 +102,15 @@ code {
 .currentWrapper ul li {
   color: var(--primary);
   text-shadow: var(--textshadow);
+}
+
+.data {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.data-list {
+  list-style: none;
 }
 
 

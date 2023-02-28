@@ -65,7 +65,7 @@ function Header(props) {
                     <section className="d-flex flex-column">
                         <div className="d-flex flex-row justify-content-between">
                             <div>
-                                <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light"></input>
+                                <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light" onChange={props.onChange}></input>
                                 <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={() => {props.onClick(); handleCityStorage();}}>Search</button>
                             </div>
                             <div>
@@ -94,7 +94,7 @@ function Header(props) {
                     <section className="d-flex flex-column">
                         <div className="d-flex flex-row justify-content-between">
                             <div>
-                                <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light"></input>
+                                <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light" onChange={props.onChange}></input>
                                 <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={() => {props.onClick(); handleCityStorage();}}>Search</button>
                             </div>
                             <div>

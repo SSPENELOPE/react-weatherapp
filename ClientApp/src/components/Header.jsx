@@ -5,45 +5,50 @@ import Auth from "../utils/auth";
 
 
 function Header(props) {
+   
 
-    useEffect(() => {
-        const loadSavedCities = () => {
-            let storageArray = JSON.parse(localStorage.getItem('savedCities')) || [];
-            storageArray.forEach((cityNames) => {
-              var cityList = document.getElementById("city-list");
-              var cities = document.createElement("button");
-              cities.classList = "bg-transparent text-center cities m-3";
-              cities.textContent = cityNames;
-              cityList.appendChild(cities);
-              console.log(cityList);
-            });
-          };
-          loadSavedCities();
+    // Define a function that loads the saved cities from local storage and displays them
+    const loadSavedCities = () => {
+        // React likes to render things twice, so we can check here to see if its already been rendered, if it has, exit the function so we dont render it twice!
+        let cityList = document.getElementById("city-list");
+        if (cityList.children.length > 0) return; // return early if cities already loaded
+
+        // Else check storage and add the items
+        let storageArray = JSON.parse(localStorage.getItem('savedCities')) || [];
+        storageArray.forEach((cityNames) => {
+          var cityList = document.getElementById("city-list");
+          var cities = document.createElement("button");
+          cities.classList = "bg-transparent text-center cities m-3";
+          cities.textContent = cityNames;
+          cityList.appendChild(cities);
+        });
+      };
+    
+      // Call the function to load and display the saved cities when the component mounts
+      useEffect(() => {
+        loadSavedCities();
       }, []);
 
-    const handleCityStorage = () => {
+      const handleCityStorage = () => {
         const cityInput = document.getElementById("city");
-        const city = cityInput.value.trim();
-        let storageArray = [];
+        const city = cityInput.value.trim().toUpperCase();
+        let storageArray = JSON.parse(localStorage.getItem('savedCities')) || [];
         const cityList = document.getElementById("city-list");
+        
+        // Check if city already exists in storageArray
+        const cityExists = storageArray.includes(city);
+      
         const cities = document.createElement("button");
         cities.classList = "bg-transparent text-center cities m-3";
         cities.textContent = city;
-        if(!storageArray.includes(cities.textContent)) {
-            cityList.appendChild(cities)
-        };
-  
-        var savedCities = document.querySelectorAll(".cities");
-        console.log(savedCities)
-        savedCities.forEach((cities) => {
-            // Check whether they exist in storage 
-            if(!storageArray.includes(cities.textContent) && cities.textContent) {
-            storageArray.push(cities.textContent);
-            }    
-        });
-    
-        localStorage.setItem("savedCities", JSON.stringify(storageArray));
-    }
+      
+        // If city doesn't exist in storageArray, append it to the list and add it to the storageArray
+        if(!cityExists) {
+          cityList.appendChild(cities);
+          storageArray.push(city);
+          localStorage.setItem("savedCities", JSON.stringify(storageArray));
+        }
+      }
     
     // Set the button state
     const [btn, setBtn] = useState(false);

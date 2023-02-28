@@ -89,9 +89,15 @@ code {
   box-shadow: var(--boxshadow);
   min-height: 40vh;
   display: flex;
-  flex-direction: row;
-  margin: 2px;
+  flex-direction: column;
+  justify-content: center;
+  margin: 2em;
   padding: 3em;
+}
+
+.currentBox {
+  width:30%;
+  margin: 5px;
 }
 
 .currentWrapper h1 {
@@ -111,6 +117,36 @@ code {
 
 .data-list {
   list-style: none;
+}
+
+
+.table-cell {
+  padding: 10px 10px;
+}
+
+.table-rows {
+  border-top: 3px double yellow;
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tbody{
+  width: 70%;
+}
+
+/********************       5 day forcast      ************************/
+
+.fiveDayWrapper {
+ /*  border: 3px solid var(--primary); */
+ box-shadow: var(--boxshadow);
+ min-height: 40vh;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ margin: 2em;
+ padding: 3em;
 }
 
 

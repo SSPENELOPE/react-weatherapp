@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import CurrentWeather from '../components/CurrentWeather';
+import FiveDay from '../components/FiveDay';
 import fetchWeather from "../utils/fetchWeather";
 
 function Home() {
@@ -48,6 +49,7 @@ function Home() {
     <div>
       <Header onClick={getWeather} onChange={handleCityChange} />
       {weatherData && <CurrentWeather data={weatherData} city={city} />}
+      {weatherData && <FiveDay data={weatherData} city={city} />}
     </div>
   );
 }

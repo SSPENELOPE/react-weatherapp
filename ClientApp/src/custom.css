@@ -105,6 +105,7 @@ code {
   text-shadow: var(--textshadow);
 }
 
+
 .currentWrapper ul li {
   color: var(--primary);
   text-shadow: var(--textshadow);
@@ -147,6 +148,65 @@ code {
  justify-content: center;
  margin: 2em;
  padding: 3em;
+}
+
+.fiveDayWrapper .card ul li:first-child {
+  font-size: 2.5rem;
+  background-color: gray;
+}
+
+.forecast {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.test {
+  display: flex;
+  justify-content: center;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.test:first-child {
+  font-size: 40px;
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+.neon-row {
+  box-shadow:
+      0 0 0.1px 0.4px #17dcff,
+      0 0 0.4px 0.6px #1e91f0,
+      0 0 4px 0.4px #1e3df0,
+      inset 0 0 1.5px 0.4px #1e3df0,
+      inset 0 0 0.4px 0.2px #1e91f0,
+      inset 0 0 0.5px 0.2px #17dcff;
+  border-radius: 1.5rem;
+}
+
+.neon-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow:
+      0 0 0.1px 0.4px #17dcff,
+      0 0 0.4px 0.6px #1e91f0,
+      0 0 4px 0.4px #1e3df0,
+      inset 0 0 0.5px 0.2px #1e3df0,
+      inset 0 0 0.2px 0.1px #1e91f0,
+      inset 0 0 0.5px 0.2px #17dcff;
+  min-width: 20vw;
+  min-height: 30vh;
+}
+
+.neon {
+  text-align: center;
+  color: #17dcff;
+  font-size: 30px;
+  text-shadow:
+      .1vw 0vw .25vw #1e91f0, .2vw 0vw .25vw #1e3df0;
 }
 
 

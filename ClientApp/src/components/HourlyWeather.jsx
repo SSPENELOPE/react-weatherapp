@@ -14,6 +14,7 @@ function HourlyWeather(props) {
                             hour12: true
                         })}
                     </h6>
+                    <h6 className="font table-cell">{Math.round(item.temp)}<span>&#8457;</span></h6>
                     <h6 className="font table-cell">
                         {item.weather[0].description} 
                         <img src={`https://openweathermap.org/img/w/${item.weather[0].icon}.png`} />

@@ -12,7 +12,7 @@ function FiveDay(props) {
                     <div key={index} className="card bg-transparent neon-card m-5" style={{ width: "13rem" }}>
                         <ul className="list-group bg-dark list-group-flush test bg-transparent">
                             <li className="list-group-item item-1 bg-transparent neon">
-                                {new Date(item.dt * 1000).toDateString()}
+                            {new Date(item.dt * 1000).toLocaleString('en-US', { weekday: 'long' })}
                             </li>
                             <li className="list-group-item item-2 bg-transparent neon">
                                 {item.weather[0].description}

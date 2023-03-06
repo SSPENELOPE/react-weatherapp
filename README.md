@@ -11,11 +11,17 @@
 - After I am finsihed creating this application I will give detailed instructions on how to clone and set the repository up for your own application
 
 # Usage
+- PLEASE NOTE: If you go to the website and play with the login and registering features there will be delays intially if no one has been using the site. This is because my azure sql server goes to sleep if it is not being used. This saves me money being that I alone am not spending hundreds or even thousands of dollars on a website built for the purpose of showing employers what I can create.
+
+- If you click login and nothing happens, just be patient and try again. You may get errors, but it will work. Just wait for the server to wake up
+
 - The routes for updating and deleting are created and work but are not implemented yet
 
 - Create an account, login and check your applications local storage which should now include your jwt. You can see how I accomplished that in the Auth.cs, login.jsx and registration.jsx.
 
 - Weather is now displayed upon city search, the data for the city search is now persistent which should lower the API call usage
+
+- Media queries are non existent at this point so if you resize to smaller screens you eyes may fall out of their socket. Aside from that its starting to look better and contain content
 
 - For all of your own testing purposes you will need to create your own appsettings.json file and include your "DefaultConnection" string to your own database. I will later be moving to microsofts built in Secrets.json and will re-include the appsettings.json in this repo
 

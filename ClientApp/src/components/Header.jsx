@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
-/* import fetchWeather from "../utils/fetchWeather"; */
+
 
 
 function Header(props) {
    
-
     // Define a function that loads the saved cities from local storage and displays them
     const loadSavedCities = () => {
         // React likes to render things twice, so we can check here to see if its already been rendered, if it has, exit the function so we dont render it twice!
@@ -20,6 +19,7 @@ function Header(props) {
           var cities = document.createElement("button");
           cities.classList = "bg-transparent text-center cities m-3";
           cities.textContent = cityNames;
+          cities.addEventListener("click", () => props.onClickButton(cityNames));
           cityList.appendChild(cities);
         });
       };
@@ -29,6 +29,8 @@ function Header(props) {
         loadSavedCities();
       }, []);
 
+
+      // Here we define the function that is going to create and store the buttons
       const handleCityStorage = () => {
         const cityInput = document.getElementById("city");
         const city = cityInput.value.trim().toUpperCase();
@@ -41,6 +43,7 @@ function Header(props) {
         const cities = document.createElement("button");
         cities.classList = "bg-transparent text-center cities m-3";
         cities.textContent = city;
+        cities.addEventListener("click", props.onClickButton(city));
       
         // If city doesn't exist in storageArray, append it to the list and add it to the storageArray
         if(!cityExists) {
@@ -57,6 +60,8 @@ function Header(props) {
     const showBtn = () => {
         setBtn(true)
     }
+
+    // Later we will add content to clear the cities list 
     const hideBtn = () => {
         setBtn(false);
     }
@@ -71,7 +76,7 @@ function Header(props) {
                         <div className="d-flex flex-row justify-content-between">
                             <div>
                                 <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light" onChange={props.onChange}></input>
-                                <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={() => {props.onClick(); handleCityStorage();}}>Search</button>
+                                <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={() => {props.onClick(); handleCityStorage(); showBtn();}}>Search</button>
                             </div>
                             <div>
                             <button className="btn cust-btn" onClick={() => Auth.logout()}>Logout</button>
@@ -100,7 +105,7 @@ function Header(props) {
                         <div className="d-flex flex-row justify-content-between">
                             <div>
                                 <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light" onChange={props.onChange}></input>
-                                <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={() => {props.onClick(); handleCityStorage();}}>Search</button>
+                                <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={() => {props.onClick(); handleCityStorage(); showBtn();}}>Search</button>
                             </div>
                             <div>
                                 <Link to="/login" className="btn cust-btn">Login</Link>

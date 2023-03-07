@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import Header from '../components/Header';
 import CurrentWeather from '../components/CurrentWeather';
 import FiveDay from '../components/FiveDay';
@@ -27,12 +27,6 @@ function Home() {
     return storedData ? JSON.parse(storedData) : "";
   });
 
-  // If you wanted to enable a search immediatly on page load you can use this hook, this would require modifying the api call in fetchWeather.js
-  /*     useEffect(() => {
-          if (!weatherData) {
-              getWeather();
-          }
-      }, []); */
 
   // Func to get weather, passed as a prop to the header
   const getWeather = async () => {
@@ -45,9 +39,21 @@ function Home() {
     }
   };
 
+  const onClickButton = async (city) => {
+    try {
+      const response = await fetchWeather.getWeatherButton(city);
+      setWeatherData(response);
+      setCity(city);
+      localStorage.setItem('weatherData', JSON.stringify(response));
+      localStorage.setItem('currentCity', JSON.stringify(city));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
-      <Header onClick={getWeather} onChange={handleCityChange} />
+      <Header onClick={getWeather} onClickButton={onClickButton} onChange={handleCityChange} setWeatherData={setWeatherData} />
       {weatherData && <CurrentWeather data={weatherData} city={city} />}
       {weatherData && <FiveDay data={weatherData} city={city} />}
     </div>

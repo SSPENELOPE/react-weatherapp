@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Registration from './pages/Registration.jsx';
+import Profile from './pages/Profile.jsx';
 import videoBg from './assets/images/videoBg.mp4';
 import './custom.css';
 
@@ -14,6 +15,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registration" element={<Registration />} />
+                <Route path="/Profile" element={<Profile />} />
             </Routes>
         </Router>
     );

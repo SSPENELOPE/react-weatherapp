@@ -18,7 +18,7 @@
 - After I am finsihed creating this application I will give detailed instructions on how to clone and set the repository up for your own application
 
 # Usage
-- PLEASE NOTE: If you go to the website and play with the login and registering features there will be delays intially if no one has been using the site. This is because my azure sql server goes to sleep if it is not being used. This saves me money being that I alone am not spending hundreds or even thousands of dollars on a website built for the purpose of showing employers what I can create. 
+- PLEASE NOTE: If you go to the website and play with the login and registering features there will be delays intially if no one has been using the site. This is because my azureSQL server goes to sleep if it is not being used. This saves me money being that I alone am not spending hundreds or even thousands of dollars on a website built for the purpose of showing employers what I can create. 
 
 - If you click login and nothing happens, just be patient and try again. You may get errors, but it will work. Just wait for the server to wake up
 

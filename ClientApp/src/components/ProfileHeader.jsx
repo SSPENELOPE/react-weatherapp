@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 
 function ProfileHeader(props) {
@@ -9,8 +8,11 @@ function ProfileHeader(props) {
                 <h1 className="display-4 font">Welcome {props.userName}</h1>
                 <p className="lead font">To your personal weather dashboard</p>
             </div>
-            <div className="d-flex justify-content-end">
-                <Link to="/" className="btn cust-btn mx-1">Home</Link>
+            <div className="d-flex justify-content-between">
+                <div>
+                    <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light" onChange={props.onChange}></input>
+                    <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={() => { props.onClick(); }}>Search</button>
+                </div>
                 <button className="btn cust-btn mx-1" onClick={() => Auth.logout()}>Logout</button>
             </div>
         </div>

@@ -248,8 +248,16 @@ code {
 /********************   Profile Page      ********************/
 .custom-border {
   padding: 3px;
-  border-bottom: 2px double yellow;
+  border-bottom: 5px double yellow;
+  background-image: linear-gradient(rgba(104, 102, 236, 0.3) 0%,
+  rgba(102, 176, 236, 0.6) 100%);
 }
+
+/* .sideNav {
+  border: 3px solid limegreen;
+  min-height: 80vh;
+  width: 20vw;
+} */
 
 
 

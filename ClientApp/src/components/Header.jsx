@@ -68,6 +68,7 @@ function Header(props) {
     
 
     return (
+       // if we ARE logged in 
         <header className="custom-header text-center p-3">
             {Auth.loggedIn() ? (
                 <div>
@@ -79,7 +80,8 @@ function Header(props) {
                                 <button type="submit" className="m-1 bg-primary rounded custom-button" id="search" onClick={() => {props.onClick(); handleCityStorage(); showBtn();}}>Search</button>
                             </div>
                             <div>
-                            <button className="btn cust-btn" onClick={() => Auth.logout()}>Logout</button>
+                                <Link to={"/profile"} className="btn cust-btn mx-1">Profile</Link>
+                                <button className="btn cust-btn mx-1" onClick={() => Auth.logout()}>Logout</button>
                             </div>
                         </div>
                         <div className="row align-items-center justify-content-between">
@@ -99,6 +101,7 @@ function Header(props) {
                 </div>
 
             ) : (
+            // if we are NOT logged in
                 <div>
                     <h1 className="text-light font">Weather Dashboard</h1>
                     <section className="d-flex flex-column">

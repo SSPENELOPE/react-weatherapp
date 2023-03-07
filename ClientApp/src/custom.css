@@ -245,6 +245,17 @@ code {
   box-shadow: var(--boxshadow);
 }
 
+/********************   Profile Page      ********************/
+.custom-border {
+  padding: 3px;
+  border-bottom: 2px double yellow;
+}
+
+
+
+
+
+
 /**************  LOGIN START   ********************/
 a {
   color: #92badd;

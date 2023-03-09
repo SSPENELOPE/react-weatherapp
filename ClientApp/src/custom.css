@@ -260,8 +260,24 @@ code {
 } */
 
 
+/*************** CityList Component ****************/
+.offCanvasSearched {
+  display: flex;
+  flex-direction: column;
+}
 
+.offCanvasButton {
+  color: white;
+  border: none;
+  background-color: transparent;
+  transition: transform 0.2s ease-in-out;
+}
 
+.offCanvasButton:hover {
+  text-shadow: var(--textshadow);
+  color: var(--primary);
+  transform: scale(1.2);
+}
 
 
 /**************  LOGIN START   ********************/
@@ -533,3 +549,7 @@ input[type=text]:placeholder {
   .1vw 0vw .25vw #1e91f0, .2vw 0vw .25vw #1e3df0;
 }
 /*    LOGIN END     */
+
+
+
+/*****************      Media queries     *****************/

@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../utils/auth";
 import fetchWeather from "../utils/fetchWeather";
+import CityList from "../components/CityList";
 import ProfileHeader from "../components/ProfileHeader";
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import CurrentWeather from "../components/CurrentWeather";
+import FiveDay from "../components/FiveDay";
+import loadcities from "../utils/loadcities";
 
 function Profile() {
+
     // Ensure we have the right userId and Name, pass the name as a prop
-    const profileId = Auth.getProfile().userId;
-    const userName = Auth.getProfile().unique_name;
+    const profileId = Auth.getProfile()?.userId;
+    const userName = Auth.getProfile()?.unique_name;
 
     // The offcanvas list of the users saved cities
     const [show, setShow] = useState(false);
@@ -44,6 +49,9 @@ function Profile() {
             setCity(city);
             localStorage.setItem('weatherData', JSON.stringify(response));
             localStorage.setItem('currentCity', JSON.stringify(city));
+            if(show) {
+                setShow(false)
+            }
         } catch (error) {
             console.log(error);
         }
@@ -56,32 +64,35 @@ function Profile() {
 
     // We first will check to see if the user is logged in, if they are not we will direct them to the login page
     if (!Auth.loggedIn()) {
-        <h1>You need to be logged in to see this</h1>
+        document.location.replace("/login");
     }
-
     // If we are logged in this is what we will display
     if (Auth.loggedIn() && profileId) {
         return (
             <div>
                 {/* Render the header  */}
-                <ProfileHeader onClick={getWeather} userName={userName} />
+                <ProfileHeader onClick={getWeather} onClickButton={onClickButton} onChange={handleCityChange}userName={userName} />
 
-                <div className="d-flex flex-row">
+                <div className="d-flex flex-column">
                     <div className="sideNav">
-                        <Button variant="primary m-2" onClick={handleShow}>
-                            Change your city
+                        <Button className="btn cust-btn m-2" onClick={handleShow}>
+                            &#8592; More Options
                         </Button>
 
                         <Offcanvas show={show} onHide={handleClose}>
                             <Offcanvas.Header closeButton>
-                                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                                <Offcanvas.Title>Make Your Changes</Offcanvas.Title>
                             </Offcanvas.Header>
-                            <Offcanvas.Body>
+                            <Offcanvas.Body className="bg-dark">
                                 <div>
-                                    <h2>Hello World</h2>
+                                    <CityList onClickButton={onClickButton} />
                                 </div>
                             </Offcanvas.Body>
                         </Offcanvas>
+                    </div>
+                    <div>
+                        {weatherData && <CurrentWeather data={weatherData} city={city} />}
+                        {weatherData && <FiveDay data={weatherData} city={city} />}
                     </div>
                 </div>
 

@@ -53,7 +53,7 @@ function Home() {
 
   return (
     <div>
-      <Header onClick={getWeather} onClickButton={onClickButton} />
+      <Header onClick={getWeather} onClickButton={onClickButton} onChange={handleCityChange}  />
       {weatherData && <CurrentWeather data={weatherData} city={city} />}
       {weatherData && <FiveDay data={weatherData} city={city} />}
     </div>

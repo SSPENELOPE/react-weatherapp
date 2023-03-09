@@ -57,10 +57,6 @@ function Profile() {
         }
     };
 
-    const handleCityChange = (event) => {
-        let city = event.target.value.trim().toUpperCase();
-        localStorage.setItem("currentCity", JSON.stringify(city))
-    };
 
     // We first will check to see if the user is logged in, if they are not we will direct them to the login page
     if (!Auth.loggedIn()) {
@@ -71,7 +67,7 @@ function Profile() {
         return (
             <div>
                 {/* Render the header  */}
-                <ProfileHeader onClick={getWeather} onClickButton={onClickButton} onChange={handleCityChange}userName={userName} />
+                <ProfileHeader onClick={getWeather} onClickButton={onClickButton} userName={userName} />
 
                 <div className="d-flex flex-column">
                     <div className="sideNav">

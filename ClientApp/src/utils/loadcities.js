@@ -58,6 +58,7 @@ class LoadCities {
     loadProfileCities(props) {
           // React likes to render things twice, so we can check here to see if its already been rendered, if it has, exit the function so we dont render it twice!
           let cityList = document.getElementById("profileCityList");
+          if(!cityList) return;
           if (cityList.children.length > 0) return; // return early if cities already loaded
   
           // Else check storage and add the items
@@ -71,7 +72,6 @@ class LoadCities {
               cityList.appendChild(cities);
           });
     }
-
 }
 
 export default new LoadCities();

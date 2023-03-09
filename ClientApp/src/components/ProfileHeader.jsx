@@ -6,7 +6,7 @@ function ProfileHeader(props) {
     const [city, setCity] = useState("");
 
     const handleCityChange = (event) => {
-        setCity(event.target.value.trim().toUpperCase());
+        setCity(event.target.value.toUpperCase());
     };
 
     const handleSearch = () => {
@@ -23,20 +23,21 @@ function ProfileHeader(props) {
             </div>
             <div className="d-flex justify-content-between">
                 <div>
-                    <input
-                        type="text"
-                        placeholder="Find a City"
-                        id="profCity"
-                        value={city}
-                        className="p-1 m-1 bg-dark text-light"
-                        onChange={handleCityChange}
-                    ></input>
-                    <button
-                        type="submit"
-                        className="m-1 bg-primary rounded custom-button"
-                        id="search"
-                        onClick={ () => {props.onClick(); loadcities.profileCityStorage(props); handleSearch();} }
-                    >Search</button>
+                    <form onSubmit={ () => {props.onClick(); loadcities.profileCityStorage(props); handleSearch();} }>
+                        <input
+                            type="text"
+                            placeholder="Find a City"
+                            id="profCity"
+                            value={city}
+                            className="p-1 m-1 bg-dark text-light"
+                            onChange={handleCityChange}
+                        ></input>
+                        <button
+                            type="submit"
+                            className="m-1 bg-primary rounded custom-button"
+                            id="search"    
+                        >Search</button>
+                    </form>
                 </div>
                 <button className="btn cust-btn mx-1" onClick={() => Auth.logout()}>Logout</button>
             </div>

@@ -5,7 +5,7 @@
 
 - This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. Lots of implementations missing that will be added eventually. Read further to find out more. 
 
-- This is very different than anything I have yet to build so expect there to be a long delay between commits. As far as I know there are not many tutorials and demonstrations out there on how to build this specific application being that it incorporates React, ASP.NET and sql all in the same solution. It will take awhile for me to figure this out. If you have questions on why or how I did something, you can reach me at the - [Contribution/questons](#Contribution/Questions) portions of the page.
+- Lots of neat features have been added. If you are a potential employer I suggest hitting up the link below and checking it out. I highly suggest creating an account. It can be with random details. Mess around with the features. The offCanvas effect for your previously searched is really cool it thought. I put a lot of work into the suggestions as well. You can see how I did all that on the profile page. I will be adding that to the home page in the future, Many many updates to come. 
 
 
 # Table of Contents
@@ -40,6 +40,7 @@
 
 ## Bugs
 - No media queries yet, resizing the screen will not alter shapes and sizes yet. Will be fixed towards the end of the project
+- As of right now if you type in a city that openweathermap does not have data for, the current data will persist for whichever accurate city you previously searched that is stored. I will add prevention and error handling for this when I have time to retrace back to the calls. 
 
 ### Contribution/questions
 - For anything regarding this category you can email me at SSEPENLOPE23@gmail.com
@@ -49,6 +50,8 @@
 
 
 ## ChangeLog
+- 3/10/23: Added JSON file provided by openweathermap API that contains all major city names, locations, and coordinates. Added a function to call on the C# controller on the backend to return the data and provide suggestions to the user on the front end.
+
 - 3/9/23: Added offCanvas effect to hold all the users stored profile data in the future, I.E. favorited cities and currently holds the users previously searched cities
 
 - 3/6/23: Fixed issue where react would render the previously searched cities twice to the header bar. This was fixed by adding a "if" statement at the top of the function that rendered the componenet to see if the ciities had already been rendered. Check "Header.jsx: 12-13 " if you would like to see how that issue was resolved.

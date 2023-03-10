@@ -9,8 +9,8 @@ class LoadCities {
         // Else check storage and add the items
         let storageArray = JSON.parse(localStorage.getItem('savedCities')) || [];
         storageArray.forEach((cityNames) => {
-            var cityList = document.getElementById("city-list");
-            var cities = document.createElement("button");
+            const cityList = document.getElementById("city-list");
+            const cities = document.createElement("button");
             cities.classList = "bg-transparent text-center cities m-3";
             cities.textContent = cityNames;
             cities.addEventListener("click", () => props.onClickButton(cityNames));

@@ -15,7 +15,6 @@ using react_weatherapp.Helpers;
 namespace react_weatherapp.Controllers
 {
 
-
     /******************************         User Login           *****************************/
     [ApiController]
     [Route("auth/[controller]")]

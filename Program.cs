@@ -5,7 +5,6 @@ using System.Text;
 using Newtonsoft.Json.Serialization;
 using react_weatherapp.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 
 namespace react_weatherapp

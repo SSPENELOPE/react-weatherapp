@@ -39,6 +39,7 @@
 ![alt text](./ClientApp/src/assets/images/updated.png)
 
 ## Bugs
+- Seach time while querying the embedded json is taking quite awhile on the live web page, this was not the case for the development server. I will investigate further into this after I make more progress on main features fo the application
 - No media queries yet, resizing the screen will not alter shapes and sizes yet. Will be fixed towards the end of the project
 - As of right now if you type in a city that openweathermap does not have data for, the current data will persist for whichever accurate city you previously searched that is stored. I will add prevention and error handling for this when I have time to retrace back to the calls. 
 
@@ -50,6 +51,8 @@
 
 
 ## ChangeLog
+- 3/13/23: Made changes to nuget packages that were outdated, causing errors when publishing to azure
+
 - 3/10/23: Added JSON file provided by openweathermap API that contains all major city names, locations, and coordinates. Added a function to call on the C# controller on the backend to return the data and provide suggestions to the user on the front end.
 
 - 3/9/23: Added offCanvas effect to hold all the users stored profile data in the future, I.E. favorited cities and currently holds the users previously searched cities

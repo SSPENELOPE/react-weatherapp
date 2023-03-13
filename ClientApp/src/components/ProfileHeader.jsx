@@ -15,16 +15,13 @@ function ProfileHeader(props) {
     }
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (event) => {
+    event.preventDefault();
     localStorage.setItem("currentCity", JSON.stringify(city));
     setCity("");
+    setCitySuggestions([]);
     loadcities.profileCityStorage(props);
     props.onClick();
-
-    // Fetch data from Census API
-    const response = await fetch(`https://api.census.gov/data/2019/pep/population?get=POP,NAME&for=place:${city}&key=${process.env.REACT_APP_CENSUS_KEY}`);
-    const data = await response.json();
-    console.log(data);
   };
 
   const handleSuggestionClick = (value) => {
@@ -72,11 +69,7 @@ function ProfileHeader(props) {
         <div className="d-flex flex-column">
           <form
             className="d-flex flex-row"
-            onSubmit={() => {
-              props.onClick();
-              loadcities.profileCityStorage(props);
-              handleSearch();
-            }}
+            onSubmit={handleSearch}
           >
             <div className="d-flex flex-column position-relative">
               <div className="row">
@@ -95,6 +88,7 @@ function ProfileHeader(props) {
                     type="submit"
                     className="m-1 bg-primary rounded custom-button"
                     id="search"
+                    onClick={handleSearch}
                   >
                     Search
                   </button>

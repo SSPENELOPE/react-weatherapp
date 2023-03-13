@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import CurrentWeather from "../components/CurrentWeather";
 import FiveDay from "../components/FiveDay";
-import loadcities from "../utils/loadcities";
+
 
 function Profile() {
 
@@ -31,11 +31,13 @@ function Profile() {
         const storedData = localStorage.getItem('weatherData');
         return storedData ? JSON.parse(storedData) : "";
     });
+
     // Fetchweather funtion, we will pass this as a prop
     const getWeather = async () => {
         try {
             const response = await fetchWeather.getWeather();
             setWeatherData(response);
+            setCity(city);
             localStorage.setItem('weatherData', JSON.stringify(response));
         } catch (error) {
             console.log(error);
@@ -67,7 +69,11 @@ function Profile() {
         return (
             <div>
                 {/* Render the header  */}
-                <ProfileHeader onClick={getWeather} onClickButton={onClickButton} userName={userName} />
+                <ProfileHeader
+                 onClick={getWeather}
+                 onClickButton={onClickButton}
+                 userName={userName}
+                />
 
                 <div className="d-flex flex-column">
                     <div className="sideNav">
@@ -91,7 +97,7 @@ function Profile() {
                         {weatherData && <CurrentWeather data={weatherData} city={city} />}
 
                         {weatherData && <FiveDay data={weatherData} city={city} />}
-                        
+
                     </div>
                 </div>
             </div>

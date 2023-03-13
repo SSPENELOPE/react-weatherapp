@@ -32,6 +32,7 @@ function ProfileHeader(props) {
     setCitySuggestions([]);
   };
 
+  // When there is a changet to the "city" state we will initiate a search of the city json file to filter through and provide suggestions to the user, being that open weather map is specific about the city names
   useEffect(() => {
     const fetchSuggestions = async () => {
       console.log('Fetching suggestions...');

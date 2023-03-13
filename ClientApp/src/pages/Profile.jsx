@@ -24,7 +24,7 @@ function Profile() {
     const [city, setCity] = useState(() => {
         const currentCity = localStorage.getItem("currentCity");
         return currentCity ? JSON.parse(currentCity) : "";
-    })
+    });
 
     // Same setWeatherData to verify we have weather data
     const [weatherData, setWeatherData] = useState(() => {
@@ -87,11 +87,13 @@ function Profile() {
                         </Offcanvas>
                     </div>
                     <div>
+
                         {weatherData && <CurrentWeather data={weatherData} city={city} />}
+
                         {weatherData && <FiveDay data={weatherData} city={city} />}
+                        
                     </div>
                 </div>
-
             </div>
         )
     }

@@ -51,7 +51,7 @@
 
 
 # ChangeLog
-- 3/13/23: Made changes to nuget packages that were outdated, causing errors when publishing to azure
+- 3/13/23: Made changes to nuget packages that were outdated, causing errors when publishing to azure. Added suggestions to homepage when a user is not logged in, still need to clear the suggestions and search bar after the form has been submited.
 
 - 3/10/23: Added JSON file provided by openweathermap API that contains all major city names, locations, and coordinates. Added a function to call on the C# controller on the backend to return the data and provide suggestions to the user on the front end.
 

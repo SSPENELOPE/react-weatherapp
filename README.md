@@ -56,8 +56,12 @@
 * Added suggestions to homepage when a user is not logged in, still need to clear the suggestions and search bar after the form has been submited 
 * fixed error where input was not fethcing cities, cleared user input and suggestions upon submission of search form
 
-- 3/10/23: Added JSON file provided by openweathermap API that contains all major city names, locations, and coordinates. Added a function to call on the C# controller on the backend to return the data and provide suggestions to the user on the front end.
+3/10/23 : 
+* Added JSON file provided by openweathermap API that contains all major city names, locations, and coordinates. 
+* Added a function to call on the C# controller on the backend to return the data and provide suggestions to the user on the front end.
 
-- 3/9/23: Added offCanvas effect to hold all the users stored profile data in the future, I.E. favorited cities and currently holds the users previously searched cities
+3/9/23 : 
+* Added offCanvas effect to hold all the users stored profile data in the future, I.E. favorited cities and currently holds the users previously searched cities
 
-- 3/6/23: Fixed issue where react would render the previously searched cities twice to the header bar. This was fixed by adding a "if" statement at the top of the function that rendered the componenet to see if the ciities had already been rendered. Check "Header.jsx: 12-13 " if you would like to see how that issue was resolved.
+3/6/23 : 
+* Fixed issue where react would render the previously searched cities twice to the header bar. This was fixed by adding a "if" statement at the top of the function that rendered the componenet to see if the ciities had already been rendered. Check "Header.jsx: 12-13 " if you would like to see how that issue was resolved.

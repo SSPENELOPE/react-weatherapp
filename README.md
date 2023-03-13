@@ -1,6 +1,6 @@
-# react-weatherapp
+# Weather Dashboard
 
-# Description
+# What is this?
 - This is a recreation of my school project (Weather Dashboard) using many different technologies. The front end of this application will be built using React. The back end of this application will be built using ASP.NET Core. The database for this application will be a azureSQL database and the application will be deployed using azure web services.
 
 - This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. Lots of implementations missing that will be added eventually. Read further to find out more. 
@@ -46,11 +46,11 @@
 ### Contribution/questions
 - For anything regarding this category you can email me at SSEPENLOPE23@gmail.com
 
-# Credits
+### Credits
 - The UofM Coding Bootcamp for providing follow on courses on C# and .NET which was the baseline for the knowledge I needed to build this
 
 
-## ChangeLog
+# ChangeLog
 - 3/13/23: Made changes to nuget packages that were outdated, causing errors when publishing to azure
 
 - 3/10/23: Added JSON file provided by openweathermap API that contains all major city names, locations, and coordinates. Added a function to call on the C# controller on the backend to return the data and provide suggestions to the user on the front end.

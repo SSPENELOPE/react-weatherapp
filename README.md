@@ -36,7 +36,7 @@
 
 - If you're feeling froggy and want to see what the site looks like in its current state, you can check it out at https://reactweatherapp.azurewebsites.net/. Or just look at the nifty screenshot in here
 
-![alt text](./ClientApp/src/assets/images/updated.png)
+![alt text](./ClientApp/src/assets/images/loggedin.png)
 
 ## Bugs
 - Seach time while querying the embedded json is taking quite awhile on the live web page, this was not the case for the development server. I will investigate further into this after I make more progress on main features fo the application

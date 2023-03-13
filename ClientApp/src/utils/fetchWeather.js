@@ -1,12 +1,13 @@
 class FetchWeather {
     
     async getWeather() {
-      const cityInput = document.getElementById("profCity");
-      const city = cityInput.value.trim();
+      const cityInput = document.getElementById("profCity") || document.getElementById("city");
+      const city = cityInput.value;
 
       const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&exclude=hourly,daily&appid='+process.env.REACT_APP_APPID+'';
       const response = await fetch(weatherUrl, { cache: 'reload' });
       if (!response.ok) {
+        alert("Sorry we can't find a city with that name, you may consider checking your spelling")
         throw new Error('Error: ' + response.statusText);
       }
       const data = await response.json();

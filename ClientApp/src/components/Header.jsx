@@ -28,12 +28,12 @@ function Header(props) {
         setCitySuggestions([]);
     };
 
-    const handleSearch = async () => {
+    const handleSearch = async (event) => {
+        event.preventDefault();
         localStorage.setItem("currentCity", JSON.stringify(city));
         setCity("");
-        loadcities.profileCityStorage(props);
+        setCitySuggestions([]);
         props.onClick();
-    
       };
 
     useEffect(() => {
@@ -94,13 +94,20 @@ function Header(props) {
                     <section className="d-flex flex-column">
                         <div className="d-flex flex-row justify-content-between">
                             <div className="d-flex flex-column">
-                                <form onSubmit={() => {
-                                     props.onClick();
-                                      loadcities.handleCityStorage(props);
-                                      handleSearch();
-                                       }}>
-                                    <input type="text" placeholder="Find a City" id="city" className="p-1 m-1 bg-dark text-light" onChange={handleCityChange}></input>
-                                    <button type="submit" className="m-1 bg-primary rounded custom-button" id="search">Search</button>
+                                <form onSubmit={handleSearch}>
+                                    <input
+                                     type="text" 
+                                     placeholder="Find a City" 
+                                     id="city" 
+                                     value={city}
+                                     className="p-1 m-1 bg-dark text-light" 
+                                     onChange={handleCityChange}
+                                     ></input>
+                                    <button 
+                                    type="submit" 
+                                    className="m-1 bg-primary rounded custom-button" 
+                                    id="search"
+                                    >Search</button>
                                 </form>
                                 <div>
                                     {citySuggestions.length > 0 && (

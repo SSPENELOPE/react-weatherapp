@@ -18,9 +18,6 @@ namespace react_weatherapp
             /* EnableCorsAttribute cors = new EnableCorsAttribute(); */
             var builder = WebApplication.CreateBuilder(args);
 
-            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            json.UseDataContractJsonSerializer = true;
-
             // Connection String From appsettings
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").AddUserSecrets<Program>().Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import Auth from "../utils/auth";
 import loadcities from "../utils/loadcities";
 const DEBOUNCE_DELAY = 300;
@@ -7,7 +7,10 @@ function ProfileHeader(props) {
 
   const [city, setCity] = useState("");
   const [citySuggestions, setCitySuggestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const debounceTimerRef = useRef(null);
 
+  /* Function to update the state of the city name as the user is typing */
   const handleCityChange = (event) => {
     const value = event.target.value;
     setCity(value.toUpperCase());
@@ -16,6 +19,7 @@ function ProfileHeader(props) {
     }
   };
 
+  // Search handler, clears states and sets storage when the user submits the search
   const handleSearch = async (event) => {
     event.preventDefault();
     localStorage.setItem("currentCity", JSON.stringify(city));
@@ -25,6 +29,7 @@ function ProfileHeader(props) {
     props.onClick();
   };
 
+  // Function to handle what happens when the user clicks a suggestion
   const handleSuggestionClick = (value) => {
     setCity(value.name);
     setCitySuggestions([]);
@@ -34,6 +39,7 @@ function ProfileHeader(props) {
   Its not like im paying for super expensive servers on azure      */
   // Memoize the fetchSuggestions function
   const fetchSuggestions = useMemo(() => async () => {
+    setIsLoading(true);
     console.log('Fetching suggestions...');
     const response = await fetch(`api/GetJson?search=${city}`, {
       method: 'GET',
@@ -45,17 +51,19 @@ function ProfileHeader(props) {
     const data = await response.json();
     const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().startsWith(city.toUpperCase()));
     setCitySuggestions(filteredSuggestions);
+    setIsLoading(false);
   }, [city]);
 
   // Debounce the fetchSuggestions function
+  // Updated this with the useRef hook, another attempt to fix the long render time from the suggestion box. This will now only call the api after the user has stopped typing for a second in the event they are a fast typer.
   useEffect(() => {
-    let debounceTimer;
     if (city) {
-      debounceTimer = setTimeout(() => {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = setTimeout(() => {
         fetchSuggestions();
       }, DEBOUNCE_DELAY);
     }
-    return () => clearTimeout(debounceTimer);
+    return () => clearTimeout(debounceTimerRef.current);
   }, [city, fetchSuggestions]);
 
   return (
@@ -93,19 +101,30 @@ function ProfileHeader(props) {
                   </button>
                 </div>
               </div>
-              {citySuggestions.length > 0 && (
+              {isLoading ? (
                 <div className="suggestions-container">
-                  <ul className="suggestions">
-                    {citySuggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                      >
-                        {suggestion.name}
-                      </li>
-                    ))}
-                  </ul>
+                  <div>
+                    <span>Loading...</span>
+                  </div>
+                  <div className="spinner-border" role="status">
+                    <span className="sr-only"></span>
+                  </div>
                 </div>
+              ) : (
+                citySuggestions.length > 0 && (
+                  <div className="suggestions-container">
+                    <ul className="suggestions">
+                      {citySuggestions.map((suggestion, index) => (
+                        <li
+                          key={index}
+                          onClick={() => handleSuggestionClick(suggestion)}
+                        >
+                          {suggestion.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
               )}
             </div>
           </form>

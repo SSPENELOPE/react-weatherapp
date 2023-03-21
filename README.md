@@ -58,7 +58,7 @@
 
 * Modified the filter method on the suggestion fetch function to only return suggestions that match the exact user input. This will reduce the longer render times being seen on the live environment.
 
-* Added the useRef hook to the debounce_delay useEffect call in the profileHeader component. This should help with user's typing fast and creating alot of API calls. It should now instead, create a memory of the timer rather than create a new one every time the component renders
+* Added the useRef hook to the debounce_delay useEffect call in the profileHeader component. This should help with user's typing fast and creating alot of API calls. It should now instead, create a memory of the timer rather than create a new one every time the component renders.
 
 3/13/23 :  
 * Made changes to nuget packages that were outdated, causing errors when publishing to azure. 

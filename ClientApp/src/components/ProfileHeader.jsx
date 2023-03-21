@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import Auth from "../utils/auth";
 import loadcities from "../utils/loadcities";
+import loadSuggestions from "../utils/loadSuggestions"
 const DEBOUNCE_DELAY = 300;
 
 function ProfileHeader(props) {
@@ -10,7 +11,12 @@ function ProfileHeader(props) {
   const [isLoading, setIsLoading] = useState(false);
   const debounceTimerRef = useRef(null);
 
-  /* Function to update the state of the city name as the user is typing */
+  // On page load we will pre cache the user's local storage with the city names
+  useEffect(() => {
+    loadSuggestions.cacheCitySuggestions();
+  }, []);
+  
+  // Function to update the state of the city name as the user is typing 
   const handleCityChange = (event) => {
     const value = event.target.value;
     setCity(value.toUpperCase());
@@ -35,27 +41,19 @@ function ProfileHeader(props) {
     setCitySuggestions([]);
   };
 
-  /*      Due to long render times caused by scripting time on the live page, we will implement the useMemo hook to reduce the amount of times the filter is run to speed up the process. This could also be an issue due to my server itself.
-  Its not like im paying for super expensive servers on azure      */
+
   // Memoize the fetchSuggestions function
   const fetchSuggestions = useMemo(() => async () => {
     setIsLoading(true);
     console.log('Fetching suggestions...');
-    const response = await fetch(`api/GetJson?search=${city}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-    });
-    const data = await response.json();
+    const data = await loadSuggestions.getCachedCitySuggestions();
     const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().startsWith(city.toUpperCase()));
     setCitySuggestions(filteredSuggestions);
     setIsLoading(false);
   }, [city]);
 
-  // Debounce the fetchSuggestions function
-  // Updated this with the useRef hook, another attempt to fix the long render time from the suggestion box. This will now only call the api after the user has stopped typing for a second in the event they are a fast typer.
+
+  // Debounce the fetchSuggestions function, this helps for fast typers we will only render data once the user has paused typing in the input
   useEffect(() => {
     if (city) {
       clearTimeout(debounceTimerRef.current);
@@ -65,6 +63,9 @@ function ProfileHeader(props) {
     }
     return () => clearTimeout(debounceTimerRef.current);
   }, [city, fetchSuggestions]);
+
+
+
 
   return (
     <div className="jumbotron jumbotron-fluid custom-border">

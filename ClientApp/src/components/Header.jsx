@@ -1,7 +1,8 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import loadcities from "../utils/loadcities";
+import loadSuggestions from "../utils/loadSuggestions"
 const DEBOUNCE_DELAY = 300;
 
 
@@ -10,6 +11,8 @@ function Header(props) {
     const [city, setCity] = useState("");
     const [citySuggestions, setCitySuggestions] = useState([]);
     const [btn, setBtn] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const debounceTimerRef = useRef(null);
 
     // Call the function to load and display the saved cities when the component mounts
     useEffect(() => {
@@ -25,33 +28,26 @@ function Header(props) {
         }
     });
 
-    /*      Due to long render times caused by scripting time on the live page, we will implement the useMemo hook to reduce the amount of times the filter is run to speed up the process. This could also be an issue due to my server itself.
-    Its not like im paying for super expensive servers on azure      */
     // Memoize the fetchSuggestions function
     const fetchSuggestions = useMemo(() => async () => {
+        setIsLoading(true);
         console.log('Fetching suggestions...');
-        const response = await fetch(`api/GetJson?search=${city}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-        });
-        const data = await response.json();
+        const data = await loadSuggestions.getCachedCitySuggestions();
         const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().startsWith(city.toUpperCase()));
         setCitySuggestions(filteredSuggestions);
+        setIsLoading(false);
     }, [city]);
 
-    // Debounce the fetchSuggestions function
-    useEffect(() => {
-        let debounceTimer;
-        if (city) {
-            debounceTimer = setTimeout(() => {
-                fetchSuggestions();
-            }, DEBOUNCE_DELAY);
-        }
-        return () => clearTimeout(debounceTimer);
-    }, [city, fetchSuggestions]);
+  // Debounce the fetchSuggestions function, this helps for fast typers we will only render data once the user has paused typing in the input
+  useEffect(() => {
+    if (city) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = setTimeout(() => {
+        fetchSuggestions();
+      }, DEBOUNCE_DELAY);
+    }
+    return () => clearTimeout(debounceTimerRef.current);
+  }, [city, fetchSuggestions]);
 
     const handleCityChange = (event) => {
         const value = event.target.value;

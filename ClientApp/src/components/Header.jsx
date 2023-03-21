@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import loadcities from "../utils/loadcities";
+const DEBOUNCE_DELAY = 300;
 
 
 
@@ -15,13 +16,50 @@ function Header(props) {
         loadcities.loadSavedCities(props)
     }, []);
 
+    useEffect(() => {
+        const storedCities = localStorage.getItem("savedCities") || [];
+        if (storedCities.length > 0) {
+            setBtn(true);
+        } else {
+            setBtn(false);
+        }
+    });
+
+    /*      Due to long render times caused by scripting time on the live page, we will implement the useMemo hook to reduce the amount of times the filter is run to speed up the process. This could also be an issue due to my server itself.
+    Its not like im paying for super expensive servers on azure      */
+    // Memoize the fetchSuggestions function
+    const fetchSuggestions = useMemo(() => async () => {
+        console.log('Fetching suggestions...');
+        const response = await fetch(`api/GetJson?search=${city}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        });
+        const data = await response.json();
+        const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().startsWith(city.toUpperCase()));
+        setCitySuggestions(filteredSuggestions);
+    }, [city]);
+
+    // Debounce the fetchSuggestions function
+    useEffect(() => {
+        let debounceTimer;
+        if (city) {
+            debounceTimer = setTimeout(() => {
+                fetchSuggestions();
+            }, DEBOUNCE_DELAY);
+        }
+        return () => clearTimeout(debounceTimer);
+    }, [city, fetchSuggestions]);
+
     const handleCityChange = (event) => {
         const value = event.target.value;
         setCity(value.toUpperCase());
         if (value.trim() === "") {
-          setCitySuggestions([]);
+            setCitySuggestions([]);
         }
-      };
+    };
 
     const handleSuggestionClick = (value) => {
         setCity(value.name);
@@ -34,46 +72,11 @@ function Header(props) {
         setCity("");
         setCitySuggestions([]);
         props.onClick();
-      };
+    };
 
-    useEffect(() => {
-        const storedCities = localStorage.getItem("savedCities") || [];
-        if(storedCities.length > 0) {
-            setBtn(true);
-        } else {
-            setBtn(false);
-        }
-    })
 
-    // When there is a changet to the "city" state we will initiate a search of the city json file to filter through and provide suggestions to the user, being that open weather map is specific about the city names
-    useEffect(() => {
-        const fetchSuggestions = async () => {
-            console.log('Fetching suggestions...');
-            await fetch("api/GetJson", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    const filteredSuggestions = data.filter((suggestion) => {
-                        if (suggestion.hasOwnProperty('name') && city !== '') {
-                            return suggestion.name.toUpperCase().includes(city.toUpperCase());
-                        }
-                        return false;
-                    });
-                    setCitySuggestions(filteredSuggestions);
-                })
-                .catch(error => console.error(error));
-        };
 
-        if (city) {
-            fetchSuggestions();
-        }
-    }, [city]);
+
 
     // clear the previously viewed bar
     const clear = () => {
@@ -96,37 +99,37 @@ function Header(props) {
                             <div className="d-flex flex-column">
                                 <form onSubmit={handleSearch}>
                                     <input
-                                     type="text" 
-                                     placeholder="Find a City" 
-                                     id="city" 
-                                     value={city}
-                                     className="p-1 m-1 bg-dark text-light" 
-                                     onChange={handleCityChange}
-                                     ></input>
-                                    <button 
-                                    type="submit" 
-                                    className="m-1 bg-primary rounded custom-button" 
-                                    id="search"
+                                        type="text"
+                                        placeholder="Find a City"
+                                        id="city"
+                                        value={city}
+                                        className="p-1 m-1 bg-dark text-light"
+                                        onChange={handleCityChange}
+                                    ></input>
+                                    <button
+                                        type="submit"
+                                        className="m-1 bg-primary rounded custom-button"
+                                        id="search"
                                     >Search</button>
                                 </form>
                                 <div>
                                     {citySuggestions.length > 0 && (
-                                    <div className="suggestions-container-notLogged">
-                                        <ul className="suggestions">
-                                            {citySuggestions.map((suggestion, index) => (
-                                                <li
-                                                    key={index}
-                                                    onClick={() => handleSuggestionClick(suggestion)}
-                                                >
-                                                    {suggestion.name}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                                        <div className="suggestions-container-notLogged">
+                                            <ul className="suggestions">
+                                                {citySuggestions.map((suggestion, index) => (
+                                                    <li
+                                                        key={index}
+                                                        onClick={() => handleSuggestionClick(suggestion)}
+                                                    >
+                                                        {suggestion.name}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     )}
                                 </div>
                             </div>
-                    
+
                             <div>
                                 <Link to="/login" className="btn cust-btn">Login</Link>
                             </div>

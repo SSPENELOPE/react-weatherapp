@@ -1,4 +1,4 @@
-import React, { useMemo,useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Auth from "../utils/auth";
 import loadcities from "../utils/loadcities";
 const DEBOUNCE_DELAY = 300;
@@ -11,7 +11,7 @@ function ProfileHeader(props) {
   const handleCityChange = (event) => {
     const value = event.target.value;
     setCity(value.toUpperCase());
-    if (value.trim() === "") {
+    if (value === "") {
       setCitySuggestions([]);
     }
   };
@@ -43,7 +43,7 @@ function ProfileHeader(props) {
       },
     });
     const data = await response.json();
-    const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().includes(city.toUpperCase()));
+    const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().startsWith(city.toUpperCase()));
     setCitySuggestions(filteredSuggestions);
   }, [city]);
 

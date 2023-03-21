@@ -5,8 +5,7 @@
 
 - This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. Lots of implementations missing that will be added eventually. Read further to find out more. 
 
-- Lots of neat features have been added. If you are a potential employer I suggest hitting up the link below and checking it out. I highly suggest creating an account. It can be with random details. Mess around with the features. The offCanvas effect for your previously searched is really cool it thought. I put a lot of work into the suggestions as well. You can see how I did all that on the profile page. I will be adding that to the home page in the future, Many many updates to come. 
-
+- Lots of neat features have been added. I highly suggest creating an account. It can be with random details. Mess around with the features. The offCanvas effect for your previously searched is really cool I thought. I put a lot of work into the suggestions as well. You can see how I did all that on the profileHeader component and header component.
 
 # Table of Contents
 - [Installation](#installation)
@@ -21,6 +20,8 @@
 - PLEASE NOTE: If you go to the website and play with the login and registering features there will be delays intially if no one has been using the site. This is because my azureSQL server goes to sleep if it is not being used. This saves me money being that I alone am not spending hundreds or even thousands of dollars on a website built for the purpose of showing employers what I can create. 
 
 - If you click login and nothing happens, just be patient and try again. You may get errors, but it will work. Just wait for the server to wake up
+
+- If the City you are looking for does not appear in the suggestions then it probably does not exist within the openweathermap API. I have a JSON provided by them with thousands of the cities they collect data for and that is where the suggestions come from
 
 - The routes for updating and deleting are created and work but are not implemented yet
 
@@ -41,7 +42,8 @@
 ## Bugs
 - Seach time while querying the embedded json is taking quite awhile on the live web page, this was not the case for the development server. I will investigate further into this after I make more progress on main features fo the application
 - No media queries yet, resizing the screen will not alter shapes and sizes yet. Will be fixed towards the end of the project
-- As of right now if you type in a city that openweathermap does not have data for, the current data will persist for whichever accurate city you previously searched that is stored. I will add prevention and error handling for this when I have time to retrace back to the calls. 
+- Error handeling for the improper city search has been implemented. Still refining it
+- Sometimes when a user submits the search for a city, the suggestions array will not be cleared and the suggestions list will persist. Im not sure what is causing it, I will look into at a later date.
 
 ### Contribution/questions
 - For anything regarding this category you can email me at SSEPENLOPE23@gmail.com
@@ -53,6 +55,8 @@
 # ChangeLog
 3/21/23 : 
 * Added the useMemo hook to the profile header page which hopefully will help with the suggestion filtering. The scripting time is low in the devlopment environment. If it does not help in the live enviromnment then I will need to evaluate if there is anything I can do with my servers without spending to much money.
+
+* Modified the filter method on the suggestion fetch function to only return suggestions that match the exact user input. This will reduce the longer render times being seen on the live environment.
 
 3/13/23 :  
 * Made changes to nuget packages that were outdated, causing errors when publishing to azure. 

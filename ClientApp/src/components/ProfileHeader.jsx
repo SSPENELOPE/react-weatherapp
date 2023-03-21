@@ -83,12 +83,14 @@ function ProfileHeader(props) {
               <div className="row">
                 <div className="col">
                   <input
+                    autoComplete="off"
                     type="text"
                     placeholder="Find a City"
                     id="profCity"
                     value={city}
                     className="p-1 m-1 bg-dark text-light"
                     onChange={handleCityChange}
+                    aria-autocomplete="list"
                   ></input>
                 </div>
                 <div className="col-auto">

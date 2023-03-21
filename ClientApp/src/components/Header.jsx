@@ -19,43 +19,13 @@ function Header(props) {
         loadcities.loadSavedCities(props)
     }, []);
 
-    useEffect(() => {
-        const storedCities = localStorage.getItem("savedCities") || [];
-        if (storedCities.length > 0) {
-            setBtn(true);
-        } else {
-            setBtn(false);
-        }
-    });
-
-    // Memoize the fetchSuggestions function
-    const fetchSuggestions = useMemo(() => async () => {
-        setIsLoading(true);
-        console.log('Fetching suggestions...');
-        const data = await loadSuggestions.getCachedCitySuggestions();
-        const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().startsWith(city.toUpperCase()));
-        setCitySuggestions(filteredSuggestions);
-        setIsLoading(false);
-    }, [city]);
-
-  // Debounce the fetchSuggestions function, this helps for fast typers we will only render data once the user has paused typing in the input
-  useEffect(() => {
-    if (city) {
-      clearTimeout(debounceTimerRef.current);
-      debounceTimerRef.current = setTimeout(() => {
-        fetchSuggestions();
-      }, DEBOUNCE_DELAY);
-    }
-    return () => clearTimeout(debounceTimerRef.current);
-  }, [city, fetchSuggestions]);
-
     const handleCityChange = (event) => {
         const value = event.target.value;
         setCity(value.toUpperCase());
         if (value.trim() === "") {
-            setCitySuggestions([]);
+          setCitySuggestions([]);
         }
-    };
+      };
 
     const handleSuggestionClick = (value) => {
         setCity(value.name);
@@ -65,14 +35,41 @@ function Header(props) {
     const handleSearch = async (event) => {
         event.preventDefault();
         localStorage.setItem("currentCity", JSON.stringify(city));
+        loadcities.handleCityStorage(props);
         setCity("");
         setCitySuggestions([]);
         props.onClick();
-    };
+      };
 
+    useEffect(() => {
+        const storedCities = localStorage.getItem("savedCities") || [];
+        if(storedCities.length > 0) {
+            setBtn(true);
+        } else {
+            setBtn(false);
+        }
+    })
 
+  // Memoize the fetchSuggestions function
+  const fetchSuggestions = useMemo(() => async () => {
+    setIsLoading(true);
+    console.log('Fetching suggestions...');
+    const data = await loadSuggestions.getCachedCitySuggestions();
+    const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().startsWith(city.toUpperCase()));
+    setCitySuggestions(filteredSuggestions);
+    setIsLoading(false);
+  }, [city]);
 
-
+    // Debounce the fetchSuggestions function, this helps for fast typers we will only render data once the user has paused typing in the input
+  useEffect(() => {
+    if (city) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = setTimeout(() => {
+        fetchSuggestions();
+      }, DEBOUNCE_DELAY);
+    }
+    return () => clearTimeout(debounceTimerRef.current);
+  }, [city, fetchSuggestions]);
 
     // clear the previously viewed bar
     const clear = () => {
@@ -95,37 +92,39 @@ function Header(props) {
                             <div className="d-flex flex-column">
                                 <form onSubmit={handleSearch}>
                                     <input
-                                        type="text"
-                                        placeholder="Find a City"
-                                        id="city"
-                                        value={city}
-                                        className="p-1 m-1 bg-dark text-light"
-                                        onChange={handleCityChange}
-                                    ></input>
-                                    <button
-                                        type="submit"
-                                        className="m-1 bg-primary rounded custom-button"
-                                        id="search"
+                                    autoComplete="off"
+                                     type="text" 
+                                     placeholder="Find a City" 
+                                     id="city" 
+                                     value={city}
+                                     className="p-1 m-1 bg-dark text-light" 
+                                     onChange={handleCityChange}
+                                     aria-autocomplete="list"
+                                     ></input>
+                                    <button 
+                                    type="submit" 
+                                    className="m-1 bg-primary rounded custom-button" 
+                                    id="search"
                                     >Search</button>
                                 </form>
                                 <div>
                                     {citySuggestions.length > 0 && (
-                                        <div className="suggestions-container-notLogged">
-                                            <ul className="suggestions">
-                                                {citySuggestions.map((suggestion, index) => (
-                                                    <li
-                                                        key={index}
-                                                        onClick={() => handleSuggestionClick(suggestion)}
-                                                    >
-                                                        {suggestion.name}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
+                                    <div className="suggestions-container-notLogged">
+                                        <ul className="suggestions">
+                                            {citySuggestions.map((suggestion, index) => (
+                                                <li
+                                                    key={index}
+                                                    onClick={() => handleSuggestionClick(suggestion)}
+                                                >
+                                                    {suggestion.name}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                     )}
                                 </div>
                             </div>
-
+                    
                             <div>
                                 <Link to="/login" className="btn cust-btn">Login</Link>
                             </div>

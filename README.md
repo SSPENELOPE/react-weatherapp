@@ -37,7 +37,7 @@
 
 - If you're feeling froggy and want to see what the site looks like in its current state, you can check it out at https://reactweatherapp.azurewebsites.net/. Or just look at the nifty screenshot in here
 
-![alt text](./ClientApp/src/assets/images/loggedin.png)
+![alt text](./ClientApp/src/assets/images/dashboard.gif)
 
 ## Bugs
 - Seach time while querying the embedded json is taking quite awhile on the live web page, this was not the case for the development server. I will investigate further into this after I make more progress on main features fo the application
@@ -61,6 +61,8 @@
 * Added the useRef hook to the debounce_delay useEffect call in the profileHeader component. This should help with user's typing fast and creating alot of API calls. It should now instead, create a memory of the timer rather than create a new one every time the component renders.
 
 * Moved the suggestion fetch API call to the util folder. Request is now made in the useEffect hook at the top of both header components. This stores the city data into the users local storage imediately on page load and should reduce almost all network latency issues rendering suggestions when the user is inputing the name of a city.
+
+* Fixed homepage not saving previously viewed, added gif to readme
 
 3/13/23 :  
 * Made changes to nuget packages that were outdated, causing errors when publishing to azure. 

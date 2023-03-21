@@ -31,8 +31,6 @@
 
 - Weather is now displayed upon city search, the data for the city search is now persistent which should lower the API call usage
 
-- Media queries are non existent at this point so if you resize to smaller screens your eyes may fall out of their socket. Aside from that its starting to look better and contain content
-
 - For all of your own testing purposes you will need to create your own appsettings.json file and include your "DefaultConnection" string to your own database. I will later be moving to microsofts built in Secrets.json and will re-include the appsettings.json in this repo
 
 - If you're feeling froggy and want to see what the site looks like in its current state, you can check it out at https://reactweatherapp.azurewebsites.net/. Or just look at the nifty screenshot in here
@@ -40,10 +38,12 @@
 ![alt text](./ClientApp/src/assets/images/dashboard.gif)
 
 ## Bugs
-- Seach time while querying the embedded json is taking quite awhile on the live web page, this was not the case for the development server. I will investigate further into this after I make more progress on main features fo the application
 - No media queries yet, resizing the screen will not alter shapes and sizes yet. Will be fixed towards the end of the project
+
 - Error handeling for the improper city search has been implemented. Still refining it
-- Sometimes when a user submits the search for a city, the suggestions array will not be cleared and the suggestions list will persist. Im not sure what is causing it, I will look into at a later date.
+
+- Need to implement suggestion hidding when there is an exact match, I see that it can be quite annoying seeing the city name underneath the proper one
+
 
 ### Contribution/questions
 - For anything regarding this category you can email me at SSEPENLOPE23@gmail.com
@@ -53,7 +53,7 @@
 
 
 # ChangeLog
-3/21/23 : 
+### 3/21/23 : 
 * Added the useMemo hook to the profile header page which hopefully will help with the suggestion filtering. The scripting time is low in the devlopment environment. If it does not help in the live enviromnment then I will need to evaluate if there is anything I can do with my servers without spending to much money.
 
 * Modified the filter method on the suggestion fetch function to only return suggestions that match the exact user input. This will reduce the longer render times being seen on the live environment.
@@ -64,18 +64,20 @@
 
 * Fixed homepage not saving previously viewed, added gif to readme
 
-3/13/23 :  
+* I am aware the previously viewed buttons are not working on the homepage. I will get to this tomorrow.
+
+### 3/13/23 :  
 * Made changes to nuget packages that were outdated, causing errors when publishing to azure. 
 * Added suggestions to homepage when a user is not logged in, still need to clear the suggestions and search bar after the form has been submited 
 * fixed error where input was not fethcing cities, cleared user input and suggestions upon submission of search form
 * Added error handling alert for incorrect city searches on the hompage, this needs to be added to the profile page as well. As of right even if the city doesnt exist, whatever city name the user types in is still displayed on the page, I will be adding a method to mitigate the state being update upon a incorrect search in the future
 
-3/10/23 : 
+### 3/10/23 : 
 * Added JSON file provided by openweathermap API that contains all major city names, locations, and coordinates. 
 * Added a function to call on the C# controller on the backend to return the data and provide suggestions to the user on the front end.
 
-3/9/23 : 
+### 3/9/23 : 
 * Added offCanvas effect to hold all the users stored profile data in the future, I.E. favorited cities and currently holds the users previously searched cities
 
-3/6/23 : 
+### 3/6/23 : 
 * Fixed issue where react would render the previously searched cities twice to the header bar. This was fixed by adding a "if" statement at the top of the function that rendered the componenet to see if the ciities had already been rendered. Check "Header.jsx: 12-13 " if you would like to see how that issue was resolved.

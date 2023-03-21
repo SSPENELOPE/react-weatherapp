@@ -65,19 +65,23 @@
 * Fixed homepage not saving previously viewed, added gif to readme
 
 * I am aware the previously viewed buttons are not working on the homepage. I will get to this tomorrow.
+---
 
 ### 3/13/23 :  
 * Made changes to nuget packages that were outdated, causing errors when publishing to azure. 
 * Added suggestions to homepage when a user is not logged in, still need to clear the suggestions and search bar after the form has been submited 
 * fixed error where input was not fethcing cities, cleared user input and suggestions upon submission of search form
 * Added error handling alert for incorrect city searches on the hompage, this needs to be added to the profile page as well. As of right even if the city doesnt exist, whatever city name the user types in is still displayed on the page, I will be adding a method to mitigate the state being update upon a incorrect search in the future
+---
 
 ### 3/10/23 : 
 * Added JSON file provided by openweathermap API that contains all major city names, locations, and coordinates. 
 * Added a function to call on the C# controller on the backend to return the data and provide suggestions to the user on the front end.
+---
 
 ### 3/9/23 : 
 * Added offCanvas effect to hold all the users stored profile data in the future, I.E. favorited cities and currently holds the users previously searched cities
+---
 
 ### 3/6/23 : 
 * Fixed issue where react would render the previously searched cities twice to the header bar. This was fixed by adding a "if" statement at the top of the function that rendered the componenet to see if the ciities had already been rendered. Check "Header.jsx: 12-13 " if you would like to see how that issue was resolved.

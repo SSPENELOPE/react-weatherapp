@@ -51,6 +51,9 @@
 
 
 # ChangeLog
+3/21/23 : 
+* Added the useMemo hook to the profile header page which hopefully will help with the suggestion filtering. The scripting time is low in the devlopment environment. If it does not help in the live enviromnment then I will need to evaluate if there is anything I can do with my servers without spending to much money.
+
 3/13/23 :  
 * Made changes to nuget packages that were outdated, causing errors when publishing to azure. 
 * Added suggestions to homepage when a user is not logged in, still need to clear the suggestions and search bar after the form has been submited 

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo,useState, useEffect } from "react";
 import Auth from "../utils/auth";
 import loadcities from "../utils/loadcities";
+const DEBOUNCE_DELAY = 300;
 
 function ProfileHeader(props) {
 
@@ -29,35 +30,33 @@ function ProfileHeader(props) {
     setCitySuggestions([]);
   };
 
-  // When there is a changet to the "city" state we will initiate a search of the city json file to filter through and provide suggestions to the user, being that open weather map is specific about the city names
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      console.log('Fetching suggestions...');
-      await fetch("api/GetJson", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          const filteredSuggestions = data.filter((suggestion) => {
-            if (suggestion.hasOwnProperty('name') && city !== '') {
-              return suggestion.name.toUpperCase().includes(city.toUpperCase());
-            }
-            return false;
-          });
-          setCitySuggestions(filteredSuggestions);
-        })
-        .catch(error => console.error(error));
-    };
-
-    if (city) {
-      fetchSuggestions();
-    }
+  /*      Due to long render times caused by scripting time on the live page, we will implement the useMemo hook to reduce the amount of times the filter is run to speed up the process. This could also be an issue due to my server itself.
+  Its not like im paying for super expensive servers on azure      */
+  // Memoize the fetchSuggestions function
+  const fetchSuggestions = useMemo(() => async () => {
+    console.log('Fetching suggestions...');
+    const response = await fetch(`api/GetJson?search=${city}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    });
+    const data = await response.json();
+    const filteredSuggestions = data.filter((suggestion) => suggestion.name.toUpperCase().includes(city.toUpperCase()));
+    setCitySuggestions(filteredSuggestions);
   }, [city]);
+
+  // Debounce the fetchSuggestions function
+  useEffect(() => {
+    let debounceTimer;
+    if (city) {
+      debounceTimer = setTimeout(() => {
+        fetchSuggestions();
+      }, DEBOUNCE_DELAY);
+    }
+    return () => clearTimeout(debounceTimer);
+  }, [city, fetchSuggestions]);
 
   return (
     <div className="jumbotron jumbotron-fluid custom-border">

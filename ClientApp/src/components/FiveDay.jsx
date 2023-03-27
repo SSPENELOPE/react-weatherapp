@@ -2,7 +2,6 @@ import React from "react";
 
 function FiveDay(props) {
     const forecast = props.data.daily.slice(0, 5);
-    console.log(forecast)
 
     return (
         <div className="fiveDayWrapper">

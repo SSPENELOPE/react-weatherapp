@@ -1,10 +1,5 @@
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using react_weatherapp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
@@ -16,6 +11,7 @@ namespace react_weatherapp.Controllers
 {
 
     /******************************         User Login           *****************************/
+    // This uses EF 
     [ApiController]
     [Route("auth/[controller]")]
     public class LoginController : ControllerBase
@@ -49,6 +45,7 @@ namespace react_weatherapp.Controllers
 
 
     /******************************         User Registration           *****************************/
+    // This uses vanilla C# with EF to use our generate token function
     [Route("auth/[controller]")]
     [ApiController]
     public class Registration : Controller

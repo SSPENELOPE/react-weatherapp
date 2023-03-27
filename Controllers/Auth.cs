@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using react_weatherapp.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Data;
 using react_weatherapp.Helpers;
 
@@ -20,12 +20,10 @@ namespace react_weatherapp.Controllers
     [Route("auth/[controller]")]
     public class LoginController : ControllerBase
     {
-        Connection Conn;
         private readonly IConfiguration _config;
         private readonly AppDbContext _context;
-        public LoginController(AppDbContext context, IConfiguration config, Connection _CONN)
+        public LoginController(AppDbContext context, IConfiguration config)
         {
-            Conn = _CONN;
             _context = context;
             _config = config;
         }
@@ -35,14 +33,7 @@ namespace react_weatherapp.Controllers
         [HttpPost]
         public ActionResult Login([FromBody] User user)
         {
-            // Configure options we need to connect to our DB
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlServer(Conn.connectionstring);
-            
-            // Instantiate an instace of our AppDbContext, pass it the arguements from the body
-            using (var context = new AppDbContext(optionsBuilder.Options))
-            {
-                var data = context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+                var data = _context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
 
                  /* If the arguements from the body exist in the DB,
                  we will log the user in by generating a token with the users data attached to it */
@@ -51,10 +42,7 @@ namespace react_weatherapp.Controllers
                     var token = GenerateToken(data);
                     return Ok(token);
                 }
-
-                return NotFound("user not found");
-
-            }
+                return NotFound("user not found");    
         }
 
         // function to Generate Token for the user

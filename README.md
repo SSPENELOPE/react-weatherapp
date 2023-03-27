@@ -53,6 +53,10 @@
 
 
 # ChangeLog
+### 3/27/23 :
+* Added routes to save user's favorited cities to the DB, added route to retrieve users favorited cities
+
+* Added relations to SQL database to link userId to the favorites table.
 ### 3/21/23 : 
 * Added the useMemo hook to the profile header page which hopefully will help with the suggestion filtering. The scripting time is low in the devlopment environment. If it does not help in the live enviromnment then I will need to evaluate if there is anything I can do with my servers without spending to much money.
 

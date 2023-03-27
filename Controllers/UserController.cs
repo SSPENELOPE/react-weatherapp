@@ -1,15 +1,16 @@
-﻿using react_weatherapp.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using react_weatherapp.Helpers;
 using react_weatherapp.Models;
 using System.Data;
-using System.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore; // Will use EF later
 
 namespace react_weatherapp.Controllers
 {
 
-    /**********************           FIND ALL USERS                  ***************************/
+    // TODO: Refactor All the routes that can be merged into one [ApiController] class using EF.
+
+    /**********************      FIND ALL USERS     ***************************/
     [Route("api/[controller]")]
     [ApiController]
     public class FindAllUsers : Controller
@@ -48,48 +49,6 @@ namespace react_weatherapp.Controllers
         }
     }
 
-    /**************************************************         GET INDIVIDUAL USER BY ID            **************************************/
-    // May be needed later for favorited items etc.. All need userinformation is stored in the Jwt
-    [Route("api/[controller]")]
-    [ApiController]
-    public class GetUser : Controller
-    {
-        Connection Conn;
-        public GetUser(Connection _CONN)
-        {
-            Conn = _CONN;
-        }
-
-
-        [HttpPost]
-        public JsonResult Get(User user)
-        {
-            DataTable table = new DataTable();
-
-            try
-            {
-                string query = @"
-                        SELECT * FROM [dbo].[user]
-                          where Id = @Id
-                      ";
-                SqlConnection conn = new SqlConnection(Conn.connectionstring);
-                Conn.connectionstring = conn.ConnectionString;
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Id", user.Id);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                table.Load(reader);
-                reader.Close();
-                conn.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return new JsonResult(table);
-        }
-    }
 
     /**************************************************             Update User Information             *********************************/
     // Update User Route
@@ -102,7 +61,6 @@ namespace react_weatherapp.Controllers
         {
             Conn = _CONN;
         }
-
 
         [HttpPut]
         public JsonResult Put(User user)
@@ -184,6 +142,110 @@ namespace react_weatherapp.Controllers
                 Console.WriteLine(ex.ToString());
             }
             return new JsonResult("User Deleted Sucessfuly");
+        }
+    }
+
+
+    /**************************************************          Get/Add User Favorited Cities        *********************************/
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class Favorites : Controller
+    {
+        Connection Conn;
+       
+        public Favorites(Connection _CONN)
+        {
+            Conn = _CONN;
+        }
+
+        DataTable table = new DataTable();
+
+        [HttpGet]
+        public JsonResult GetFavorite([FromBody] Favorite favorite)
+        {
+            // Try and retreive users saved favorites
+            try
+            {
+                // Create SQL connection
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+    
+                // Create command, we tell it that its a stored procedure, then add the values
+                SqlCommand cmd = new SqlCommand("GetFavoritesByUserId", myConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", favorite.UserId);
+
+                // Open our connection
+                myConnection.Open();
+
+                // Use an instance of SqlDataReader
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    table.Load(reader);
+                    reader.Close();
+                    myConnection.Close();
+                }
+
+            }
+
+            // Catch any errors
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            // If the user does not have a saved data table
+            if (table == null)
+            {
+                return new JsonResult("No data");
+            }
+            // If they do, we return the data
+            else
+            {
+                return new JsonResult(table);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult AddFavoriteCity([FromBody] Favorite favorite)
+        {
+
+            try
+            {
+                // Create SQL connection
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+
+                // Create command, we tell it that its a stored procedure, then add the values
+                SqlCommand myCommand = new SqlCommand("AddFavoriteCity", myConnection);
+                myCommand.CommandType = CommandType.StoredProcedure;
+                myCommand.Parameters.AddWithValue("@UserId", favorite.UserId);
+                myCommand.Parameters.AddWithValue("@City", favorite.FavCity);
+
+                // This is where we make it happen cap'n
+                myConnection.Open();
+                int i = myCommand.ExecuteNonQuery();
+                myConnection.Close();
+
+
+                if (i <= 0)
+                {
+                    return new NotFoundObjectResult("Something went wrong");
+                }
+              
+                    // Call GetFavorite method after data insertion
+                    return Ok(GetFavorite(favorite));
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return new BadRequestObjectResult("An error occurred while adding favorite city");
+            }
         }
     }
 }

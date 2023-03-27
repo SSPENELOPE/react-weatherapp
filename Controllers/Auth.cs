@@ -39,37 +39,11 @@ namespace react_weatherapp.Controllers
                  we will log the user in by generating a token with the users data attached to it */
                 if (data != null)
                 {
-                    var token = GenerateToken(data);
-                    return Ok(token);
+                      var token = TokenHelper.GenerateToken(data, _config);
+                      return Ok(token);
                 }
                 return NotFound("user not found");    
         }
-
-        // function to Generate Token for the user
-        private IActionResult GenerateToken(User user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
-            var userIdClaim = new Claim("userId", user.UserId.ToString());
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                // This is where we can attach any "user data" or adjust the "payload" of the jwt
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email,user.Email),
-                    new Claim(ClaimTypes.Name,user.Name),
-                    userIdClaim
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var jwt = tokenHandler.WriteToken(token);
-
-            // Return JWT token in JSON format
-            return Ok(new { token = jwt });
-        }
-
     }
 
 
@@ -91,7 +65,7 @@ namespace react_weatherapp.Controllers
 
         // Create the post route for registering
         [HttpPost]
-        public ActionResult Register([FromBody] User user)
+        public IActionResult Register([FromBody] User user)
         {
 
             // Create sql connection and store the data into the DB using a stored procedure
@@ -123,38 +97,13 @@ namespace react_weatherapp.Controllers
                  we log the user in here */
                 if (data != null)
                 {
-                    var token = GenerateToken(data);
-                    return Ok(token);
+                   var token = TokenHelper.GenerateToken(data, _config);
+                   return Ok(token);
                 }
 
                 return NotFound("user not found");
 
             }
-        }
-
-        // Function to Generate Token for the user
-        private IActionResult GenerateToken(User user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
-            var userIdClaim = new Claim("userId", user.UserId.ToString());
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                // This is where we can attach any "user data" or adjust the "payload" of the jwt
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email,user.Email),
-                    new Claim(ClaimTypes.Name,user.Name),
-                    userIdClaim
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var jwt = tokenHandler.WriteToken(token);
-
-            // Return JWT token in JSON format
-            return Ok(new { token = jwt });
         }
     }
 }

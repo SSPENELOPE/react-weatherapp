@@ -79,7 +79,7 @@ namespace react_weatherapp.Controllers
                     ";
                     using (SqlCommand myCommand = new SqlCommand(query, myConnection))
                     {
-                        myCommand.Parameters.AddWithValue("@Id", user.Id);
+                        myCommand.Parameters.AddWithValue("@Id", user.UserId);
                         myCommand.Parameters.AddWithValue("@Email", user.Email);
                         myCommand.Parameters.AddWithValue("@Password", user.Password);
                         myConnection.Open();

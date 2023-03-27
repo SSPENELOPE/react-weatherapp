@@ -50,7 +50,7 @@ namespace react_weatherapp.Controllers
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
-            var userIdClaim = new Claim("userId", user.Id.ToString());
+            var userIdClaim = new Claim("userId", user.UserId.ToString());
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 // This is where we can attach any "user data" or adjust the "payload" of the jwt
@@ -137,7 +137,7 @@ namespace react_weatherapp.Controllers
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
-            var userIdClaim = new Claim("userId", user.Id.ToString());
+            var userIdClaim = new Claim("userId", user.UserId.ToString());
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 // This is where we can attach any "user data" or adjust the "payload" of the jwt
@@ -157,5 +157,4 @@ namespace react_weatherapp.Controllers
             return Ok(new { token = jwt });
         }
     }
-
 }

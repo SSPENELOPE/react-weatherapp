@@ -226,7 +226,7 @@ namespace react_weatherapp.Controllers
 
                 // This is where we make it happen cap'n
                 myConnection.Open();
-                int i = myCommand.ExecuteNonQuery();
+                int i = Convert.ToInt32(myCommand.ExecuteScalar());
                 myConnection.Close();
 
 

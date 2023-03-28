@@ -7,6 +7,7 @@ import Profile from './pages/Profile.jsx';
 import videoBg from './assets/images/videoBg.mp4';
 import './custom.css';
 
+
 function App() {
     return (
         <Router>

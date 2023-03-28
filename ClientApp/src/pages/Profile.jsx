@@ -7,6 +7,9 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import CurrentWeather from "../components/CurrentWeather";
 import FiveDay from "../components/FiveDay";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as fasFaStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons';
 
 
 function Profile() {
@@ -60,6 +63,40 @@ function Profile() {
     };
 
 
+        // FontAwesome Icons and the state to manage it
+        const solidStar = <FontAwesomeIcon icon={fasFaStar} size="2x"/>;
+        const regularStar =  <FontAwesomeIcon icon={farFaStar} size="2x"/>;
+        const [favorite, setFavorite] = useState(regularStar);
+        
+        useEffect(() => {
+            fetch(`/api/Favorites/${profileId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Creating an empty array to store the city names
+                const favList = []
+                // Looping through the cities and add them to the array
+                for(var i = 0; i < data.length; i++) {
+                    favList.push(data[i].FavCity)
+                }
+    
+                // Self explanitory
+                if (favList.includes(city)) {
+                    setFavorite(solidStar)
+                } else {
+                    setFavorite(regularStar);
+                }
+            })
+            .catch(error => {
+                alert(error + "Sorry there was an error retrieving your favorites");
+            });
+        }, []);
+
+
     // We first will check to see if the user is logged in, if they are not we will direct them to the login page
     if (!Auth.loggedIn()) {
         document.location.replace("/login");
@@ -94,7 +131,7 @@ function Profile() {
                     </div>
                     <div>
 
-                        {weatherData && <CurrentWeather data={weatherData} city={city} />}
+                        {weatherData && <CurrentWeather data={weatherData} city={city} favorite={favorite} />}
 
                         {weatherData && <FiveDay data={weatherData} city={city} />}
 

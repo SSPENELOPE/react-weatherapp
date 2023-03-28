@@ -153,7 +153,7 @@ namespace react_weatherapp.Controllers
     public class Favorites : Controller
     {
         Connection Conn;
-       
+
         public Favorites(Connection _CONN)
         {
             Conn = _CONN;
@@ -161,8 +161,8 @@ namespace react_weatherapp.Controllers
 
         DataTable table = new DataTable();
 
-        [HttpGet]
-        public JsonResult GetFavorite([FromBody] Favorite favorite)
+        [HttpGet("{userId}")]
+        public IActionResult GetFavorites(int userId)
         {
             // Try and retreive users saved favorites
             try
@@ -170,11 +170,11 @@ namespace react_weatherapp.Controllers
                 // Create SQL connection
                 SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
                 Conn.connectionstring = myConnection.ConnectionString;
-    
+
                 // Create command, we tell it that its a stored procedure, then add the values
                 SqlCommand cmd = new SqlCommand("GetFavoritesByUserId", myConnection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", favorite.UserId);
+                cmd.Parameters.AddWithValue("@UserId", userId);
 
                 // Open our connection
                 myConnection.Open();
@@ -186,6 +186,16 @@ namespace react_weatherapp.Controllers
                     reader.Close();
                     myConnection.Close();
                 }
+                // If the user does not have a saved data table
+                if (table.Rows.Count == 0)
+                {
+                    return new JsonResult("No data");
+                }
+                // If they do, we return the data
+                else
+                {
+                    return new JsonResult(table);
+                }
 
             }
 
@@ -193,18 +203,10 @@ namespace react_weatherapp.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occurred while fetching favorites");
             }
 
-            // If the user does not have a saved data table
-            if (table == null)
-            {
-                return new JsonResult("No data");
-            }
-            // If they do, we return the data
-            else
-            {
-                return new JsonResult(table);
-            }
+
         }
 
 
@@ -234,11 +236,10 @@ namespace react_weatherapp.Controllers
                 {
                     return new NotFoundObjectResult("Something went wrong");
                 }
-              
-                    // Call GetFavorite method after data insertion
-                    return Ok(GetFavorite(favorite));
-
-
+                else
+                {
+                    return CreatedAtAction(nameof(GetFavorites), new { userId = favorite.UserId }, favorite);
+                }
 
             }
             catch (Exception ex)

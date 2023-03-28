@@ -78,7 +78,7 @@ namespace react_weatherapp.Controllers
 
             // This is where we make it happen cap'n
             myConnection.Open();
-            int i = myCommand.ExecuteNonQuery();
+            myCommand.ExecuteNonQuery();
             myConnection.Close();
 
             // Create the options we will need to connect to our db

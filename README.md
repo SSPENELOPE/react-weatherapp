@@ -1,5 +1,7 @@
 # Weather Dashboard
 
+## NOTE
+- Site is currently down right now, I've racked up more than id like to spend on azure services this month. Will bring back online soon
 # What is this?
 - This is a recreation of my school project (Weather Dashboard) using many different technologies. The front end of this application will be built using React. The back end of this application will be built using ASP.NET Core. The database for this application will be a azureSQL database and the application will be deployed using azure web services.
 

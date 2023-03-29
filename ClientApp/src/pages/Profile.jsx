@@ -18,7 +18,7 @@ function Profile() {
     const profileId = Auth.getProfile()?.userId;
     const userName = Auth.getProfile()?.unique_name;
 
-    // The offcanvas list of the users saved cities
+    // This is how we will open and close the offCanvas
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -29,13 +29,14 @@ function Profile() {
         return currentCity ? JSON.parse(currentCity) : "";
     });
 
-    // Same setWeatherData to verify we have weather data
+   /*  This will check to see if we the stored weather data exist,
+    if it does not we will set state equal to an empty string */
     const [weatherData, setWeatherData] = useState(() => {
         const storedData = localStorage.getItem('weatherData');
         return storedData ? JSON.parse(storedData) : "";
     });
 
-    // Fetchweather funtion, we will pass this as a prop
+    // Function to fetch the weather and store it, we will pass this as a prop
     const getWeather = async () => {
         try {
             const response = await fetchWeather.getWeather();
@@ -47,6 +48,7 @@ function Profile() {
         }
     };
 
+    // Function specifically for the previously viewed buttons to recall a city search
     const onClickButton = async (city) => {
         try {
             const response = await fetchWeather.getWeatherButton(city);
@@ -62,45 +64,55 @@ function Profile() {
         }
     };
 
-
         // FontAwesome Icons and the state to manage it
         const solidStar = <FontAwesomeIcon icon={fasFaStar} size="2x"/>;
         const regularStar =  <FontAwesomeIcon icon={farFaStar} size="2x"/>;
         const [favorite, setFavorite] = useState(regularStar);
+
+        // We will pass everything we need for the favorite indicator to the currentweather component in an object
+        const favoriteItems = {
+            solidStar,
+            regularStar,
+            favorite,
+            setFavorite,
+            profileId
+        }
         
+        // Run a check against or database and determine if the user has favorited cities
         useEffect(() => {
-            fetch(`/api/Favorites/${profileId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Creating an empty array to store the city names
-                const favList = []
-                // Looping through the cities and add them to the array
-                for(var i = 0; i < data.length; i++) {
-                    favList.push(data[i].FavCity)
-                }
-    
-                // Self explanitory
-                if (favList.includes(city)) {
-                    setFavorite(solidStar)
-                } else {
-                    setFavorite(regularStar);
-                }
-            })
-            .catch(error => {
-                alert(error + "Sorry there was an error retrieving your favorites");
-            });
+            // We will again check here to ensure the user is logged in, extra security measure
+            if (profileId) {
+                fetch(`/api/Favorites/${profileId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Creating an empty array to store the city names
+                    const favList = []
+                    // Looping through the cities and adding them to the "favList" array
+                    data.forEach((item) => {
+                        favList.push(item.FavCity);
+                      });
+                    // We are going to save it to localstorage so we dont have to keep checking our DB every page render
+                    localStorage.setItem("favList", JSON.stringify(favList));  
+                })
+                .catch(error => {
+                    alert(error + "Sorry there was an error retrieving your favorites");
+                });
+            }
         }, []);
 
 
-    // We first will check to see if the user is logged in, if they are not we will direct them to the login page
+    /*****************   PROFILE PAGE BELOW   ***********************/
+
+    // We first will check to see if the user is logged in, if they are NOT we will direct them to the login page
     if (!Auth.loggedIn()) {
         document.location.replace("/login");
     }
+
     // If we are logged in this is what we will display
     if (Auth.loggedIn() && profileId) {
         return (
@@ -113,11 +125,13 @@ function Profile() {
                 />
 
                 <div className="d-flex flex-column">
-                    <div className="sideNav">
+
+                    <div className="sideNav"> 
+                        {/* This is how we open the offcanvas */}
                         <Button className="btn cust-btn m-2" onClick={handleShow}>
                             &#8592; More Options
                         </Button>
-
+                        {/* This is the offcanvas with the user's saved information */}
                         <Offcanvas show={show} onHide={handleClose}>
                             <Offcanvas.Header closeButton>
                                 <Offcanvas.Title>Make Your Changes</Offcanvas.Title>
@@ -129,13 +143,13 @@ function Profile() {
                             </Offcanvas.Body>
                         </Offcanvas>
                     </div>
+
                     <div>
-
-                        {weatherData && <CurrentWeather data={weatherData} city={city} favorite={favorite} />}
-
+                        {/* Here we will only render the information onto the page if it exist */}
+                        {weatherData && <CurrentWeather data={weatherData} city={city} favorite={favoriteItems} />}
                         {weatherData && <FiveDay data={weatherData} city={city} />}
-
                     </div>
+
                 </div>
             </div>
         )

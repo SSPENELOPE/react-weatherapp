@@ -8,6 +8,8 @@
 
 - Lots of neat features have been added. I highly suggest creating an account. It can be with random details. Mess around with the features. The offCanvas effect for your previously searched is really cool I thought. I put a lot of work into the suggestions as well. You can see how I did all that on the profileHeader component and header component.
 
+- In the works is an admin account that can manage and users on the site. I will give the deet for the admin account creation once it is finished
+
 # Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
@@ -18,21 +20,19 @@
 - After I am finsihed creating this application I will give detailed instructions on how to clone and set the repository up for your own application
 
 # Usage
-- PLEASE NOTE: If you go to the website and play with the login and registering features there will be delays intially if no one has been using the site. This is because my azureSQL server goes to sleep if it is not being used. This saves me money being that I alone am not spending hundreds or even thousands of dollars on a website built for the purpose of showing employers what I can create. 
-
-- If you click login and nothing happens, just be patient and try again. You may get errors, but it will work. Just wait for the server to wake up
+- UPDATE: I have migrated to a different azure resource group with provisional database, there should no longer be delays when trying to log in
 
 - If the City you are looking for does not appear in the suggestions then it probably does not exist within the openweathermap API. I have a JSON provided by them with thousands of the cities they collect data for and that is where the suggestions come from
 
 - The routes for updating and deleting are created and work but are not implemented yet
 
-- Jwt delivery is now possible between the front and backend. When a user signs in then a jwt is returned to the user and stored. This token is then used to determine if a user is logged into the application or not which allows for the alteration of the user's experience. The stored user data is very miniscule right now but will be scaled up later once I have more working features and working calls to retrieve the weather. As of right now you can  create an account, login and logout. As far as the regesitration I will need to modify it so there can be no duplicates and minimum password requirements will be set. I will also be including bcrypt into the .NET API for extended security. I've achieved this easily in javascript but never in C# so it may take awhile before I get to that.
-
 - Create an account, login and check your applications local storage which should now include your jwt. You can see how I accomplished that in the Auth.cs, login.jsx and registration.jsx.
 
-- Weather is now displayed upon city search, the data for the city search is now persistent which should lower the API call usage
+- Logged in users can favorite their cities. However it is not yet displayed in the offCanvas. I am still working out kinks with the saving and rendering method between the front and backend. As of right now the star should change to solid if you favorite it and your localStorage should include your favorites
 
-- For all of your own testing purposes you will need to create your own appsettings.json file and include your "DefaultConnection" string to your own database. I will later be moving to microsofts built in Secrets.json and will re-include the appsettings.json in this repo
+- Logged in or not, search for a city and the current weather and five day forecast will be displayed
+
+- For all of your own testing purposes you will need to create your own appsettings.json file and include your "DefaultConnection" string to your own database or use secrets.json is VS.  I will later be moving to microsofts built in Secrets.json and will re-include the appsettings.json in this repo after I have removed all sensitive data from it.
 
 - If you're feeling froggy and want to see what the site looks like in its current state, you can check it out at https://starweather.azurewebsites.net. Or just look at the nifty screenshot in here
 
@@ -43,7 +43,9 @@
 
 - Error handeling for the improper city search has been implemented. Still refining it
 
-- Need to implement suggestion hidding when there is an exact match, I see that it can be quite annoying seeing the city name underneath the proper one
+- Need to implement suggestion hidding when there is an exact match, I see that it can be quite annoying seeing the city name underneath the proper one.
+
+- Favorites are still finicky, the start may go back to open even after you favorite a city but will reappear solid after page refresh. I am currently working through that.
 
 
 ### Contribution/questions
@@ -54,6 +56,9 @@
 
 
 # ChangeLog
+### 3/29/23 :
+* Added a if statement to the use effect on the currentweather page, this should fix the issue where the entirety of the page was not working when it could not find the users data.
+
 ### 3/28/23 : 
 * Migrated to an alternative azure resource group as my previous one costed to much, DB was recreated and reworked so bugs are likely as I have not had time to trouble shoot and or find all of them. 
 

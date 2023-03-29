@@ -206,7 +206,6 @@ namespace react_weatherapp.Controllers
                 return StatusCode(500, "An error occurred while fetching favorites");
             }
 
-
         }
 
 

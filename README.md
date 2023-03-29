@@ -1,7 +1,6 @@
 # Weather Dashboard
 
-## NOTE
-- Site is currently down right now, I've racked up more than id like to spend on azure services this month. Will bring back online soon
+
 # What is this?
 - This is a recreation of my school project (Weather Dashboard) using many different technologies. The front end of this application will be built using React. The back end of this application will be built using ASP.NET Core. The database for this application will be a azureSQL database and the application will be deployed using azure web services.
 
@@ -35,7 +34,7 @@
 
 - For all of your own testing purposes you will need to create your own appsettings.json file and include your "DefaultConnection" string to your own database. I will later be moving to microsofts built in Secrets.json and will re-include the appsettings.json in this repo
 
-- If you're feeling froggy and want to see what the site looks like in its current state, you can check it out at https://reactweatherapp.azurewebsites.net/. Or just look at the nifty screenshot in here
+- If you're feeling froggy and want to see what the site looks like in its current state, you can check it out at https://starweather.azurewebsites.net. Or just look at the nifty screenshot in here
 
 ![alt text](./ClientApp/src/assets/images/dashboard.gif)
 
@@ -55,6 +54,11 @@
 
 
 # ChangeLog
+### 3/28/23 : 
+* Migrated to an alternative azure resource group as my previous one costed to much, DB was recreated and reworked so bugs are likely as I have not had time to trouble shoot and or find all of them. 
+
+* Implemented a favorite button. Will currently save to your favorites list in the DB, however it is not displayed at this time. I will implement that soon
+
 ### 3/27/23 :
 * Added routes to save user's favorited cities to the DB, added route to retrieve users favorited cities
 

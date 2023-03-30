@@ -1,4 +1,5 @@
 import decode from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 class AuthService {
   getProfile() {
@@ -29,12 +30,13 @@ class AuthService {
   
     login(token) {
       localStorage.setItem('token', token);
-      window.location.assign('/');
+      window.location.assign('/Profile');
     }
   
     logout() {
       localStorage.removeItem('token');
       window.location.assign('/');
+      Cookies.remove('favoriteCities');
     }
     redirect() {
       window.location.assign('/login');

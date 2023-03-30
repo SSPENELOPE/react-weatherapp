@@ -7,8 +7,8 @@ import Profile from './pages/Profile.jsx';
 import videoBg from './assets/images/videoBg.mp4';
 import './custom.css';
 
-
 function App() {
+
     return (
         <Router>
                 <video className="video-1" src={videoBg} autoPlay loop muted />
@@ -21,5 +21,6 @@ function App() {
         </Router>
     );
 }
+
 
 export default App;

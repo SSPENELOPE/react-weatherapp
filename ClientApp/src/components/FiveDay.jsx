@@ -5,7 +5,7 @@ function FiveDay(props) {
 
     return (
         <div className="fiveDayWrapper">
-            <h1 className="display-5 font text-end"><u>Your 5 day forcast</u></h1>
+            <h1 className="display-5 font text-end"><u>Your 5 day forecast</u></h1>
             <div className="row neon-row justify-content-around m-1 p-5">
                 {forecast.map((item, index) => (
                     <div key={index} className="card bg-transparent neon-card m-5" style={{ width: "13rem" }}>

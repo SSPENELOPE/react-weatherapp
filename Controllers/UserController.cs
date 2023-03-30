@@ -210,7 +210,7 @@ namespace react_weatherapp.Controllers
 
 
         [HttpPost]
-        public ActionResult AddFavoriteCity([FromBody] Favorite favorite)
+        public IActionResult AddFavoriteCity([FromBody] Favorite favorite)
         {
 
             try
@@ -246,6 +246,38 @@ namespace react_weatherapp.Controllers
                 Console.WriteLine(ex.ToString());
                 return new BadRequestObjectResult("An error occurred while adding favorite city");
             }
+        }
+
+        [HttpDelete("{favId}")]
+        public IActionResult DeleteFavoriteCity(int favId)
+        {
+            // Try and retreive users saved favorites
+            try
+            {
+                // Create SQL connection
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+
+                // Create command, we tell it that its a stored procedure, then add the values
+                SqlCommand cmd = new SqlCommand("usp_DeleteFavoriteCity", myConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FavId", favId);
+
+                // Open our connection
+                myConnection.Open();
+                // Execute the command
+                cmd.ExecuteNonQuery();
+                myConnection.Close();
+
+            }
+
+            // Catch any errors
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occurred while removing your saved item");
+            }
+            return new JsonResult("Removed City");
         }
     }
 }

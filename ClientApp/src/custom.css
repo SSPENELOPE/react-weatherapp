@@ -322,6 +322,61 @@ code {
 }
 
 
+/***************** User Favorite Component ***********************/
+.editBtn {
+  background-color: var(--primary);
+  color: #fff;
+  text-shadow: var(--textshadow);
+}
+
+.editBtn:hover {
+  color: #fff;
+  box-shadow: var(--boxshadow);
+}
+
+.delete-btn {
+  transition: transform 0.2s ease-in-out;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Define the animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.deleteColumn {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+/* Apply the animation to the column when it is removed */
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+  opacity: 0;
+}
+
 /**************  LOGIN START   ********************/
 a {
   color: #92badd;

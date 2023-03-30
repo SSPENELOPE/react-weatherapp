@@ -64,9 +64,7 @@ function ProfileHeader(props) {
     return () => clearTimeout(debounceTimerRef.current);
   }, [city, fetchSuggestions]);
 
-
-
-
+  
   return (
     <div className="jumbotron jumbotron-fluid custom-border">
       <div className="container">

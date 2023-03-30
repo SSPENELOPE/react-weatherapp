@@ -29,16 +29,16 @@ namespace react_weatherapp.Controllers
         [HttpPost]
         public ActionResult Login([FromBody] User user)
         {
-                var data = _context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+            var data = _context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
 
-                 /* If the arguements from the body exist in the DB,
-                 we will log the user in by generating a token with the users data attached to it */
-                if (data != null)
-                {
-                      var token = TokenHelper.GenerateToken(data, _config);
-                      return Ok(token);
-                }
-                return NotFound("user not found");    
+            /* If the arguements from the body exist in the DB,
+            we will log the user in by generating a token with the users data attached to it */
+            if (data != null)
+            {
+                var token = TokenHelper.GenerateToken(data, _config);
+                return Ok(token);
+            }
+            return NotFound("user not found");
         }
     }
 
@@ -81,26 +81,20 @@ namespace react_weatherapp.Controllers
             myCommand.ExecuteNonQuery();
             myConnection.Close();
 
-            // Create the options we will need to connect to our db
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlServer(Conn.connectionstring);
 
-            // Instantiate an instance of AppDbContext, pass it the arguements from the body
-            using (var context = new AppDbContext(optionsBuilder.Options))
+            var data = _context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+
+            /* If the arguements we passed it are not null, which means the stored procedure worked correctly,
+            we log the user in here */
+            if (data != null)
             {
-                var data = context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
-
-                 /* If the arguements we passed it are not null, which means the stored procedure worked correctly,
-                 we log the user in here */
-                if (data != null)
-                {
-                   var token = TokenHelper.GenerateToken(data, _config);
-                   return Ok(token);
-                }
-
-                return NotFound("user not found");
-
+                var token = TokenHelper.GenerateToken(data, _config);
+                return Ok(token);
             }
+
+            return NotFound("user not found");
+
+
         }
     }
 }

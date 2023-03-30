@@ -18,7 +18,7 @@ function CityList(props) {
 
     return (
         <div>
-            <div className="">
+            <div>
                 {showClearBtn && (
                     <h2 className="font justify-self-start">
                         <u>Previously Searched</u>

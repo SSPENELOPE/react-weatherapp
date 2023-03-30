@@ -425,6 +425,47 @@ code {
   opacity: 0;
 }
 
+/**************** Profile Editor  ***********************/
+.editorWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column; 
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.editorContent {
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: transparent;
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  min-height: 60vh;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: var(--boxshadow);
+  text-align: center;
+}
+
+.editBtns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 5px;
+  min-height: 40vh;
+}
+
+.cancel {
+  color: red;
+  text-shadow: .1vw 0vw .25vw #e34949, .2vw 0vw .25vw #ea1a13;
+}
+
+
 /**************  LOGIN START   ********************/
 a {
   color: #92badd;

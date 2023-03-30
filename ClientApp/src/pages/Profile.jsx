@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import CurrentWeather from "../components/CurrentWeather";
 import FiveDay from "../components/FiveDay";
+import ProfileEditor from "../components/ProfileEditor";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasFaStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons';
@@ -36,6 +37,20 @@ function Profile() {
         const storedData = localStorage.getItem('weatherData');
         return storedData ? JSON.parse(storedData) : "";
     });
+
+    // State variable for user fvaorites stored in the cookies
+    const [favoriteCities, setFavoriteCities] = useState(() => {
+        const favoritesCookies = Cookies.get('favoriteCities') || null;
+      return  favoritesCookies ? JSON.parse(favoritesCookies) : [];
+    });
+
+
+    const [editProfile, setEditProfile] = useState(false);
+
+    const editor = {
+        editProfile,
+        setEditProfile
+    };
 
     // Function to fetch the weather and store it, we will pass this as a prop
     const getWeather = async () => {
@@ -77,14 +92,9 @@ function Profile() {
             favorite,
             setFavorite,
             profileId
-        }
+        };
         
-    
-        const [favoriteCities, setFavoriteCities] = useState(() => {
-            const favoritesCookies = Cookies.get('favoriteCities') || null;
-          return  favoritesCookies ? JSON.parse(favoritesCookies) : [];
-        });
-
+        // Function to fetch and store the users's favorites, is also passed as a prop elsewhere
         const handleFavoriteFetch = async () => {
          await fetch(`/api/Favorites/${profileId}`, {
                 method: 'GET',
@@ -116,11 +126,12 @@ function Profile() {
             });
         } 
 
+        // We will pass this data needed as an object
         const cookieManager = {
             favoriteCities,
             setFavoriteCities,
             handleFavoriteFetch
-        }
+        };
 
         // Run a check against or database and determine if the user has favorited cities
         useEffect(() => {
@@ -137,14 +148,14 @@ function Profile() {
     // We first will check to see if the user is logged in, if they are NOT we will direct them to the login page
     if (!Auth.loggedIn()) {
         document.location.replace("/login");
-    }
+    };
 
     // Show this while we wait for out useEffect to take place before rendering the next components
     if(!cookiesLoaded) {
         return (
             <div>Loading...</div>
         )
-    } 
+    }; 
 
     // If we are logged in this is what we will display
     if (Auth.loggedIn() && profileId && cookiesLoaded) {
@@ -171,6 +182,7 @@ function Profile() {
                             </Offcanvas.Header>
                             <Offcanvas.Body className="bg-dark">
                                 <div>
+                                    <button className="btn font" onClick={() => setEditProfile(true)}>Edit Profile</button>
                                     <UserFavorties
                                      onClickButton={onClickButton} 
                                      city={city} 
@@ -186,6 +198,7 @@ function Profile() {
                     </div>
 
                     <div>
+                        { editProfile && <ProfileEditor editor={editor}/>}
                         {/* Here we will only render the information onto the page if it exist */}
                         {weatherData && <CurrentWeather data={weatherData} city={city} favorite={favoriteItems} cookieManager={cookieManager} />}
                         {weatherData && <FiveDay data={weatherData} city={city} />}
@@ -194,7 +207,7 @@ function Profile() {
                 </div>
             </div>
         )
-    }
+    };
 
 
 }

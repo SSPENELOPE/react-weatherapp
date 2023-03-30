@@ -388,6 +388,7 @@ code {
 
 .delete-btn:hover {
   transform: scale(1.2);
+  background-color: whitesmoke;
 }
 
 /* Define the animation */
@@ -443,7 +444,6 @@ code {
   padding: 30px;
   width: 100%;
   max-width: 450px;
-  min-height: 60vh;
   position: relative;
   padding: 0px;
   -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);

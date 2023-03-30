@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Cookies from 'js-cookie';
 
 
@@ -84,7 +84,7 @@ function UserFavorties(props) {
                                                 {item.FavCity}
                                             </button>
                                             <button className="font btn delete-btn" onClick={() => handleDelete(item.FavId,item.FavCity)}>
-                                                Delete
+                                                <FontAwesomeIcon icon={faTrash} />
                                             </button>
                                            
                                         </li>

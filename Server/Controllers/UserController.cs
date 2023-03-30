@@ -280,6 +280,46 @@ namespace react_weatherapp.Controllers
             return new JsonResult("Removed City");
         }
     }
+
+
+    /****************************** Edit the users data ***********************/
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class Edit : Controller
+    {
+         Connection Conn;
+
+        public Edit(Connection _CONN)
+        {
+            Conn = _CONN;
+        }
+
+        [HttpPut]
+        public IActionResult UpdateUsername(User user) {
+            try {
+                   // Create SQL connection
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+
+                // Create command, we tell it that its a stored procedure, then add the values
+                SqlCommand cmd = new SqlCommand("usp_UpdateUsername", myConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", user.UserId);
+                cmd.Parameters.AddWithValue("@name", user.Name);
+
+                // Execute it
+                myConnection.Open();
+                cmd.ExecuteNonQuery();
+                myConnection.Close();
+
+            } catch(Exception ex) {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occured while updating your username");
+            }
+             return new JsonResult("Successfuly upadted Username");
+        }
+
+    }
 }
 
 

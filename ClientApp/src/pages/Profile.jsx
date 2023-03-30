@@ -21,6 +21,8 @@ function Profile() {
     // Ensure we have the right userId and Name, pass the name as a prop
     const profileId = Auth.getProfile()?.userId;
     const userName = Auth.getProfile()?.unique_name;
+    const profile = Auth.getProfile();
+    
 
     // This is how we will open and close the offCanvas
     const [show, setShow] = useState(false);
@@ -198,7 +200,9 @@ function Profile() {
                     </div>
 
                     <div>
-                        { editProfile && <ProfileEditor editor={editor}/>}
+                        { editProfile && (
+                            <ProfileEditor profile={profile} editor={editor}/>
+                        )}
                         {/* Here we will only render the information onto the page if it exist */}
                         {weatherData && <CurrentWeather data={weatherData} city={city} favorite={favoriteItems} cookieManager={cookieManager} />}
                         {weatherData && <FiveDay data={weatherData} city={city} />}

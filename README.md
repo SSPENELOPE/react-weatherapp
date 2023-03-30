@@ -56,6 +56,14 @@
 
 
 # ChangeLog
+### 3/30/23 :
+* Added Cookies to the page to hold and store the users favorite cites. This allowed for an alternative method to localStorage however is most likley not practical in a production build. It was just more so done as a learning experience.
+
+* Moved the state of the favorites all to the parent component which is the "profile" page.
+
+* Added a checkmark animation and removed to the alert after clicking the favorite star. 
+
+* Added the means to edit and delete individualy saved cities
 ### 3/29/23 :
 * Added a if statement to the use effect on the currentweather page, this should fix the issue where the entirety of the page was not working when it could not find the users data.
 

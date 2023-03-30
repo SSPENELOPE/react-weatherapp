@@ -1,34 +1,38 @@
 import React, { useState, useEffect } from "react";
 import HourlyWeather from "./HourlyWeather";
-import Cookies from 'js-cookie';
+import Checkmark from "./Checkmark";
 
 
 function CurrentWeather(props) {
+    // Our state variables to manage showing the checkmark
+    const [isChecked, setIsChecked] = useState(false);
+    const [showCheckmark, setShowCheckmark] = useState(false);
+
     // Our state variables to manage the page
     const [saveState, setSaveState] = useState({ UserId: '', FavCity: '' })
     const { favoriteCities, setFavoriteCities, handleFavoriteFetch } = props.cookieManager || [];
 
-    
     // Destructer the items needed for saving user's favorites
     const { profileId, solidStar, regularStar, favorite, setFavorite } = props.favorite || [];
-    
+
     // If it is a fresh search we will take the data passed as a prop, if the page is refreshed we will go to local storage to ensure the data persist on the page... I may end up moving some items to the indexedDB later on
     const current = JSON.parse(localStorage.getItem("weatherData")).current;
     const hourly = JSON.parse(localStorage.getItem("weatherData")).hourly;
     const city = JSON.parse(localStorage.getItem("currentCity"));
-    
-    // Separate our data so we only have city names
+
+    // Create a new array we can store only the FavCity name in
     const newList = []
-    // Ensure the user is logged in
-    if(profileId) {
-        favoriteCities.forEach((item) => {
+    // Ensure the user is logged in before doing attempting to separate them
+    if (profileId) {
+        favoriteCities.forEach((item) => { // We added a protection measure for this in parent component
             newList.push(item.FavCity);
         });
     }
 
-    // Run a check against the cookies/"favList" and determine whether the city is a favorite or not, we will also update or savedState according to our dependancies
+    // Run a check against the cookies and determine whether the city is a favorite or not, we will also update or savedState according to our dependancies
     useEffect(() => {
-        // We only want to run this if the user is logged in. We do this by checking if the profileId exist
+        /* We only want to run this if the user is logged in. We do this by checking if the profileId exist
+        followed by checking if our list includes the city name */
         if (profileId) {
             setSaveState({
                 UserId: profileId,
@@ -43,13 +47,18 @@ function CurrentWeather(props) {
         }
     }, [city, profileId]);
 
-
+    const checkmarkHandler = () => {
+        setIsChecked(!isChecked);
+        setShowCheckmark(true);
+        setTimeout(() => setShowCheckmark(false), 2000);
+    }
 
     // This is our handling function for when a user clicks the favorite "star" indicator
     const favoriteHandler = async () => {
-        // If favList does not include the city name, execute the following
+        // If our list does NOT include the city name, execute the following
         if (!newList.includes(city)) {
             setFavorite(solidStar); // Update the star to solid
+          
             // Make the fetch request
             const res = await fetch('/api/Favorites', {
                 method: 'POST',
@@ -60,8 +69,8 @@ function CurrentWeather(props) {
             });
             // Add measures to ensure the API call was executed properly
             if (res.ok) {
-                handleFavoriteFetch();
-                alert('City saved to favorites list');
+                handleFavoriteFetch(); // Recall the cookies/update state
+                checkmarkHandler(); // Show the user it worked with checkmark
             } else {
                 alert('Sorry there was an error, try again later');
             }
@@ -70,6 +79,8 @@ function CurrentWeather(props) {
             return;
         }
     };
+
+ 
 
 
 
@@ -81,6 +92,7 @@ function CurrentWeather(props) {
                 {profileId && (
                     <button className="btn neon mx-3" onClick={favoriteHandler}>
                         {favorite}
+                        {showCheckmark && <Checkmark />}
                     </button>
                 )}
             </h1>

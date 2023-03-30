@@ -25,7 +25,7 @@ function CurrentWeather(props) {
     // Ensure the user is logged in before doing attempting to separate them
     if (profileId) {
         favoriteCities.forEach((item) => { // We added a protection measure for this in parent component
-            newList.push(item.FavCity);
+            newList.push(item.FavCity.toUpperCase().trim());
         });
     }
 
@@ -39,7 +39,7 @@ function CurrentWeather(props) {
                 FavCity: city,
             });
 
-            if (newList.includes(city.trim())) {
+            if (newList.includes(city.toUpperCase().trim())) {
                 setFavorite(solidStar);
             } else {
                 setFavorite(regularStar);
@@ -56,7 +56,7 @@ function CurrentWeather(props) {
     // This is our handling function for when a user clicks the favorite "star" indicator
     const favoriteHandler = async () => {
         // If our list does NOT include the city name, execute the following
-        if (!newList.includes(city)) {
+        if (!newList.includes(city.toUpperCase().trim())) {
             setFavorite(solidStar); // Update the star to solid
           
             // Make the fetch request

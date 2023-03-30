@@ -13,9 +13,9 @@ function UserFavorties(props) {
     // Destrucured variables passed from the props
     const { favoriteCities, setFavoriteCities, handleFavoriteFetch } = props.cookieManager;
     const { regularStar, setFavorite } = props.favorite || [];
-   
+    const city = props.city
     // Function to handle the deleting a favorite city
-    const handleDelete = async (favId) => {
+    const handleDelete = async (favId, favCity) => {
         const favItemId = `fav-item-${favId}`;
       
         const favItem = document.getElementById(favItemId);
@@ -28,9 +28,12 @@ function UserFavorties(props) {
             .then(response => {
                 if (response.ok) {
                     // Fade out the column
-                    
                     favItem.classList.add("deleteColumn");
-                    setFavorite(regularStar);
+
+                    // This is how we will remove the solidStar from the active city if the user deletes it
+                    if(city.toUpperCase().trim() == favCity.toUpperCase().trim()) {
+                        setFavorite(regularStar)
+                    }
                     // Remove the column from the DOM after the animation is complete
                     setTimeout(() => {
                         const updatedFavorites = favoriteCities.filter(
@@ -52,7 +55,6 @@ function UserFavorties(props) {
 
     // When the canvas is opened we will check to see if the favoriteCities has a length > 0
     useEffect(() => {
-       console.log(favoriteCities)
         if (favoriteCities.length > 0) {
             setHasFavorites(true);
         } else {
@@ -81,7 +83,7 @@ function UserFavorties(props) {
                                                 onClick={() => props.onClickButton(item.FavCity)}>
                                                 {item.FavCity}
                                             </button>
-                                            <button className="font btn delete-btn" onClick={() => handleDelete(item.FavId)}>
+                                            <button className="font btn delete-btn" onClick={() => handleDelete(item.FavId,item.FavCity)}>
                                                 Delete
                                             </button>
                                            

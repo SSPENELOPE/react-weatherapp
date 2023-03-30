@@ -30,7 +30,7 @@ function Profile() {
         return currentCity ? JSON.parse(currentCity) : "";
     });
 
-   /*  This will check to see if we the stored weather data exist,
+   /*  This will check to see if the stored weather data exist,
     if it does not we will set state equal to an empty string */
     const [weatherData, setWeatherData] = useState(() => {
         const storedData = localStorage.getItem('weatherData');
@@ -99,7 +99,7 @@ function Profile() {
                     if(data === "No data") {
                         setCookiesLoaded(true);
                         return;
-                    } else  {
+                    } else {
                         // Looping through the cities and adding them to the "favList" array
                         data.forEach((item) => {
                             favList.push(item);

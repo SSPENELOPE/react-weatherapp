@@ -1,6 +1,5 @@
 # Weather Dashboard
 
-
 # What is this?
 - This is a recreation of my school project (Weather Dashboard) using many different technologies. The front end of this application will be built using React. The back end of this application will be built using ASP.NET Core. The database for this application will be a azureSQL database and the application will be deployed using azure web services.
 
@@ -64,6 +63,8 @@
 * Added a checkmark animation and removed to the alert after clicking the favorite star. 
 
 * Added the means to edit and delete individualy saved cities
+
+* Updated the check against the cookies to show the city is favorited regardless of the casing used
 ### 3/29/23 :
 * Added a if statement to the use effect on the currentweather page, this should fix the issue where the entirety of the page was not working when it could not find the users data.
 

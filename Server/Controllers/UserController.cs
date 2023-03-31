@@ -350,7 +350,7 @@ namespace react_weatherapp.Controllers
             }
             return new JsonResult("Successfuly upadted Email");
         }
-        
+
         [HttpPut]
         public IActionResult UpdatePassword(User user)
         {
@@ -379,10 +379,7 @@ namespace react_weatherapp.Controllers
                 return StatusCode(500, "An error occured while updating your email");
             }
             return new JsonResult("Successfuly upadted Password");
-
         }
-
-
     }
 }
 

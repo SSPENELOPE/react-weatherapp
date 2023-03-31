@@ -287,7 +287,7 @@ namespace react_weatherapp.Controllers
     [ApiController]
     public class Edit : Controller
     {
-         Connection Conn;
+        Connection Conn;
 
         public Edit(Connection _CONN)
         {
@@ -295,9 +295,11 @@ namespace react_weatherapp.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateUsername(User user) {
-            try {
-                   // Create SQL connection
+        public IActionResult UpdateUsername(User user)
+        {
+            try
+            {
+                // Create SQL connection
                 SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
                 Conn.connectionstring = myConnection.ConnectionString;
 
@@ -312,12 +314,73 @@ namespace react_weatherapp.Controllers
                 cmd.ExecuteNonQuery();
                 myConnection.Close();
 
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.ToString());
                 return StatusCode(500, "An error occured while updating your username");
             }
-             return new JsonResult("Successfuly upadted Username");
+            return new JsonResult("Successfuly upadted Username");
         }
+
+        [HttpPut]
+        public IActionResult UpdateEmail(User user)
+        {
+            try
+            {
+                // Create SQL connection
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+
+                // Create command, we tell it that its a stored procedure, then add the values
+                SqlCommand cmd = new SqlCommand("usp_UpdateEmail", myConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", user.UserId);
+                cmd.Parameters.AddWithValue("@email", user.Email);
+
+                myConnection.Open();
+                cmd.ExecuteNonQuery();
+                myConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occured while updating your email");
+            }
+            return new JsonResult("Successfuly upadted Email");
+        }
+
+        [HttpPut]
+        public IActionResult UpdatePassword(User user)
+        {
+
+            /* Todo: Add method to check if current passwords match, then update user password */
+            try
+            {
+                // Create SQL connection
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+
+                // Create command, we tell it that its a stored procedure, then add the values
+                SqlCommand cmd = new SqlCommand("usp_UpdatePassword", myConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", user.UserId);
+                cmd.Parameters.AddWithValue("@password", user.Password);
+
+                myConnection.Open();
+                cmd.ExecuteNonQuery();
+                myConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occured while updating your email");
+            }
+            return new JsonResult("Successfuly upadted Password");
+
+        }
+
 
     }
 }

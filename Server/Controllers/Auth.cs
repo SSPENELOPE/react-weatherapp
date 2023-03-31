@@ -14,7 +14,7 @@ namespace react_weatherapp.Controllers
     // This uses EF 
     [ApiController]
     [Route("auth/[controller]")]
-    public class LoginController : ControllerBase
+    public class LoginController : Controller
     {
         private readonly IConfiguration _config;
         private readonly AppDbContext _context;
@@ -94,7 +94,33 @@ namespace react_weatherapp.Controllers
 
             return NotFound("user not found");
 
+        }
+    }
 
+    [Route("auth/Prelogged")]
+    [ApiController]
+
+    public class Prelogged : Controller
+    {
+        private readonly IConfiguration _config;
+        private readonly AppDbContext _context;
+        public Prelogged(AppDbContext context, IConfiguration config)
+        {
+            _context = context;
+            _config = config;
+        }
+
+        [HttpPost]
+        public IActionResult Relog([FromBody] User user)
+        {
+            var data = _context.Users.SingleOrDefault(u => u.Email == user.Email && u.UserId == user.UserId);
+            if (data != null)
+            {
+                var token = TokenHelper.GenerateToken(data, _config);
+                return Ok(token);
+            }
+
+            return NotFound("user not found");
         }
     }
 }

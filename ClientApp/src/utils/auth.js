@@ -33,11 +33,19 @@ class AuthService {
       window.location.assign('/Profile');
     }
   
-    logout() {
+    logout(redirectToHome = true) {
       localStorage.removeItem('token');
-      window.location.assign('/');
+      if (redirectToHome) {
+        window.location.assign('/');
+      }
       Cookies.remove('favoriteCities');
     }
+
+    async relog() {
+      this.logout();
+
+    }
+
     redirect() {
       window.location.assign('/login');
       alert("You must be signed in to Schedule an appointment");

@@ -12,6 +12,7 @@ import ProfileEditor from "../components/ProfileEditor";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasFaStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons';
+import { faUserPen } from "@fortawesome/free-solid-svg-icons";
 import Cookies from 'js-cookie';
 
 function Profile() {
@@ -46,8 +47,15 @@ function Profile() {
       return  favoritesCookies ? JSON.parse(favoritesCookies) : [];
     });
 
-
-    const [editProfile, setEditProfile] = useState(false);
+    // We will check to see if the user relogged so we direct them back to where they were if they were editing
+    const relogged = localStorage.getItem("relogged");   
+    const [editProfile, setEditProfile] = useState(() => {
+        if(relogged === "true") {
+            return true;
+        } else {
+            return false;
+        }
+    });
 
     const editor = {
         editProfile,
@@ -144,9 +152,6 @@ function Profile() {
         }, []);
 
    
-
-
-   
     // We first will check to see if the user is logged in, if they are NOT we will direct them to the login page
     if (!Auth.loggedIn()) {
         document.location.replace("/login");
@@ -184,7 +189,14 @@ function Profile() {
                             </Offcanvas.Header>
                             <Offcanvas.Body className="bg-dark">
                                 <div>
-                                    <button className="btn font" onClick={() => setEditProfile(true)}>Edit Profile</button>
+                                    <button
+                                     className="btn cust-btn font"
+                                      onClick={() => {
+                                        setEditProfile(true); 
+                                        setShow(false)
+                                        }}
+                                        >Edit Profile <FontAwesomeIcon icon={faUserPen} />
+                                    </button>
                                     <UserFavorties
                                      onClickButton={onClickButton} 
                                      city={city} 

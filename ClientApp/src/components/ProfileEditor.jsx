@@ -110,7 +110,7 @@ function ProfileEditor(props) {
         } else (
             alert(response.statusText = "Sorry try again later")
         );
-    }
+    };
 
     /* PASSWORD */
     const [pw, setPw] = useState({password: "", UserId: profile.userId});
@@ -119,13 +119,14 @@ function ProfileEditor(props) {
     const handlePwChange = (event) => {
         const value = event.target.value;
         setPw(value);
-    }
+    };
 
-    const handlePwSubmit = () => {
+    const handlePwSubmit = async (event) => {
+        event.preventDefault();
         const data = {
             password: pw,
             UserId: profile.userId
-        }
+        };
         
         const response = await fetch("/api/Edit/UpdatePassword", {
             method: "PUT",
@@ -148,6 +149,7 @@ function ProfileEditor(props) {
         } else (
             alert(response.statusText = "Sorry try again later")
         );
+    };
 
    
 
@@ -263,7 +265,7 @@ function ProfileEditor(props) {
                                         <div>
                                             {/* Submit button */}
                                             <button
-                                            className="btn font"
+                                           
                                             onClick={handlePwSubmit}
                                                 >Change Email
                                             </button>
@@ -279,9 +281,6 @@ function ProfileEditor(props) {
                     </div>
                     <button className="btn font" onClick={() => {setEditProfile(false); setRelog();}}>Done</button>
                 </div>
-
-                
-
             </div>
         </div>
     )

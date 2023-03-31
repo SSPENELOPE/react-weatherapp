@@ -350,7 +350,7 @@ namespace react_weatherapp.Controllers
             }
             return new JsonResult("Successfuly upadted Email");
         }
-
+        
         [HttpPut]
         public IActionResult UpdatePassword(User user)
         {
@@ -371,6 +371,7 @@ namespace react_weatherapp.Controllers
                 myConnection.Open();
                 cmd.ExecuteNonQuery();
                 myConnection.Close();
+
             }
             catch (Exception ex)
             {

@@ -123,4 +123,34 @@ namespace react_weatherapp.Controllers
             return NotFound("user not found");
         }
     }
+
+    [Route("auth/CheckPassword")]
+    [ApiController]
+
+    public class CheckPassword : Controller
+    {
+        private readonly IConfiguration _config;
+        private readonly AppDbContext _context;
+
+        public CheckPassword(AppDbContext context, IConfiguration config)
+        {
+            _context = context;
+            _config = config;
+        }
+
+        [HttpPost]
+        public IActionResult CheckTrue([FromBody] User user)
+        {
+            var userInDb = _context.Users.SingleOrDefault(u => u.UserId == user.UserId && u.Password == user.Password);
+            if (userInDb == null) 
+            {
+                return new JsonResult(false);
+            }
+
+            bool passwordMatches = user.Password == userInDb.Password;
+            return new JsonResult(passwordMatches);   
+        }
+    }
+
+
 }

@@ -144,11 +144,9 @@ namespace react_weatherapp.Controllers
             var userInDb = _context.Users.SingleOrDefault(u => u.UserId == user.UserId && u.Password == user.Password);
             if (userInDb == null) 
             {
-                return new JsonResult(false);
+                return new JsonResult("Incorrect");
             }
-
-            bool passwordMatches = user.Password == userInDb.Password;
-            return new JsonResult(passwordMatches);   
+            return new JsonResult("Password Matches");   
         }
     }
 

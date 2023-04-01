@@ -456,7 +456,7 @@ code {
 
 .cancel {
   color: red;
-  text-shadow: .1vw 0vw .25vw #e34949, .2vw 0vw .25vw #ea1a13;
+  text-shadow: .1vw 0vw .10vw #e34949, .2vw 0vw .20vw #ea1a13;
 }
 
 

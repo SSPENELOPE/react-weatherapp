@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
     const [formState, setFormState] = useState({ email: '', password: '' });
@@ -32,9 +34,11 @@ function Login() {
         if(response.ok) {
             const data = await response.json();
             Auth.login(data.Value.token);
-           
         } else {
-            alert("Invalid Username or Password")
+            toast.error("Invalid Username or Password", {
+                position: toast.POSITION.TOP_CENTER,
+                draggable: false,
+              })
         };
     }
 

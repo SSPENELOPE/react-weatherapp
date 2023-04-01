@@ -12,14 +12,14 @@ function ProfileEditor(props) {
     const { editProfile, setEditProfile } = props.editor;
 
     /*** Function to relog the user after the changes have been made ***/
-    const relog = async (userData) => {
+    const relog = async (relogData) => {
 
         const response = await fetch("/auth/Prelogged", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(userData),
+            body: JSON.stringify(relogData),
         })
         if (response.ok) {
             const data = await response.json();
@@ -41,182 +41,180 @@ function ProfileEditor(props) {
     const [email, setEmail] = useState("");
     const [showEmail, setShowEmail] = useState(false);
 
-    /* Handler to update the state email when input is changed */
-    const handleEmailChange = (event) => {
-        const value = event.target.value;
-        setEmail(value)
-    }
-
     /* Handle the submit of the email change */
     const handleEmailSubmit = async (event) => {
         event.preventDefault();
-        const data = {
-            email: email,
-            UserId: profile.userId
-        }
 
         try {
+            const data = {
+                email: email,
+                UserId: profile.userId
+            };
+
             const response = await fetch("/api/Edit/UpdateEmail", {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data),
-            })
-            if (response.ok) {
-                const userData = {
-                    email: email,
-                    UserId: profile.userId
-                }
-                setEmail("");
-                setShowEmail(false);
-                toast.success("Email changed!, relogging user...", {
-                    position: toast.POSITION.TOP_CENTER,
-                    draggable: false,
-                  });
-    
-                setTimeout(() => {
-                    Auth.logout(false);
-                    relog(userData);
-                    localStorage.setItem("relogged", "true");
-                }, 3000); // Wait for our success message to be displayed
-            } else (
-                toast.error(response.statusText + "Sorry try again later", {
-                    position: toast.POSITION.TOP_CENTER,
-                    draggable: false,
-                  })
-            );
-        } catch(error) {
-            toast.error(error + "Their was an issue updating you password, contact support if the problem persist", {
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) throw new Error(response.statusText);
+
+            setEmail("");
+            setShowEmail(false);
+
+            toast.success("Email changed!, relogging user...", {
                 position: toast.POSITION.TOP_CENTER,
-                draggable: false,
-              });
-        }
-    
+                draggable: false
+            });
 
-    }
-
-
-    /***  USERNAME  MODIFIERS ***/
-    /** Varaibles to manage username state **/
-    const [name, setName] = useState("");
-    const [showUsername, setShowUsername] = useState(false);
-
-    /* Handler to update username state */
-    const handleUsernameChange = (event) => {
-        const value = event.target.value;
-        setName(value)
-    }
-
-    /* This is where we submit the request for the username update */
-    const handleUsernameSubmit = async (event) => {
-        event.preventDefault();
-      
-        const data = {
-            name: name,
-            UserId: profile.userId
-        }
-
-        const response = await fetch("/api/Edit/UpdateUsername", {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-        })
-        if (response.ok) {
-            const userData = {
-                email: profile.email,
+            const relogData = {
+                email: email,
                 UserId: profile.userId
-            }
-            setName("");
-            setShowUsername(false);
-            toast.success("Username changed!, relogging user...", {
-                position: toast.POSITION.TOP_CENTER,
-                draggable: false,
-              });
+            };
 
             setTimeout(() => {
                 Auth.logout(false);
-                relog(userData);
+                relog(relogData);
                 localStorage.setItem("relogged", "true");
             }, 3000); // Wait for our success message to be displayed
-        } else (
-            toast.error(response.statusText + "Sorry try again later", {
+
+        } catch (error) {
+            toast.error(`${error}. There was an issue updating your email. Please contact support if the problem persists.`, {
                 position: toast.POSITION.TOP_CENTER,
-                draggable: false,
-              })
-        );
+                draggable: false
+            });
+        }
+    };
+
+    /* Handler to update the state email when input is changed */
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+
+    /***  USERNAME  MODIFIERS ***/
+    /* Variables to manage username state */
+    const [name, setName] = useState("");
+    const [showUsername, setShowUsername] = useState(false);
+
+    /* Submit the request for the username update */
+    const handleUsernameSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const data = {
+                name: name,
+                UserId: profile.userId
+            };
+
+            const response = await fetch("/api/Edit/UpdateUsername", {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) throw new Error(response.statusText);
+
+            setName("");
+            setShowUsername(false);
+
+            toast.success("Username changed!, relogging user...", {
+                position: toast.POSITION.TOP_CENTER,
+                draggable: false
+            });
+
+            const relogData = {
+                email: profile.email,
+                UserId: profile.userId
+            };
+
+            setTimeout(() => {
+                Auth.logout(false);
+                relog(relogData);
+                localStorage.setItem("relogged", "true");
+            }, 3000); // Wait for our success message to be displayed
+
+        } catch (error) {
+            toast.error(`${error}. There was an issue updating your username. Please contact support if the problem persists.`, {
+                position: toast.POSITION.TOP_CENTER,
+                draggable: false
+            });
+        }
+    };
+
+    /* Handler to update username state */
+    const handleUsernameChange = (event) => {
+        setName(event.target.value);
     };
 
 
     /***  PASSWORD MODIFIERS ***/
     /** All the variables we need to manage the submitted data and their state **/
-    const [newPw1, setNewPw1] = useState("");
-    const [newPw2, setNewPw2] = useState("");
-    const [currentPw, setCurrentPw] = useState("");
-    const [showPw, setShowPw] = useState(false);
+    const [showPwForm, setShowPwForm] = useState(false);
     const [passwordsMatch, setPasswordsMatch] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+    const [passwords, setPasswords] = useState({ currentPw: '', newPw1: '', newPw2: '' });
+
     /** Handlers for updating state when input is modified **/
-    const handleCurrentPwChange = (event) => {
-        const value = event.target.value;
-        setCurrentPw(value);
-    };
-    const handleNewPw1Change = (event) => {
-        const value = event.target.value;
-        setNewPw1(value);
-    };
-    const handleNewPw2Change = (event) => {
-        const value = event.target.value;
-        setNewPw2(value);
+    const handlePasswordInputChange = (event) => {
+        const { name, value } = event.target;
+        setPasswords({
+            ...passwords,
+            [name]: value,
+        });
     };
 
     /* If current password is correct, we will update the users password here */
-    const handlePasswordUpdate = async () => {   
+    const handlePasswordUpdate = async () => {
+        const { newPw1 } = passwords;
         const data = {
-            password: newPw1,
-            UserId: profile.userId
-        }
-
+          password: newPw1,
+          UserId: profile.userId
+        };
+      
         try {
-            const response = await fetch("/api/Edit/UpdatePassword", {
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-            })
-            if (response.status == 200) {
-                toast.success("Password changed!", {
-                    position: toast.POSITION.TOP_CENTER,
-                    draggable: false,
-                  });
-            } else {
-                toast.error(response.statusText + "Sorry try again later", {
-                    position: toast.POSITION.TOP_CENTER,
-                    draggable: false,
-                  });
-            }
-        } catch(error) {
-            toast.error(error + "Their was an issue updating you password, contact support if the problem persist", {
-                position: toast.POSITION.TOP_CENTER,
-                draggable: false,
-              });
+          const response = await fetch("/api/Edit/UpdatePassword", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+          });
+      
+          if (response.status === 200) {
+            setPasswords({ currentPw: "", newPw1: "", newPw2: "" });
+            setShowPwForm(false);
+      
+            toast.success("Password changed, make sure you use this password next time you log in!", {
+              position: toast.POSITION.TOP_CENTER,
+              draggable: false,
+            });
+          } else {
+            throw new Error(`${response.statusText} Sorry try again later`);
+          }
+        } catch (error) {
+          toast.error(`${error}. There was an issue updating your password, please contact support if the problem persists.`, {
+            position: toast.POSITION.TOP_CENTER,
+            draggable: false,
+          });
         }
-    
-    }
+      };
 
     /* Here we submit the request, first checking if the current password is correct */
     const handlePwSubmit = async (event) => {
         event.preventDefault();
+        const { currentPw } = passwords;
         const data = {
             password: currentPw,
             UserId: profile.userId
         };
-    
+
         try {
             const response = await fetch("/auth/CheckPassword", {
                 method: "POST",
@@ -225,9 +223,9 @@ function ProfileEditor(props) {
                 },
                 body: JSON.stringify(data),
             });
-    
+
             const responseData = await response.json();
-            
+
             if (responseData === "Password Matches") {
                 handlePasswordUpdate();
             } else {
@@ -240,12 +238,13 @@ function ProfileEditor(props) {
             toast.error(error + "Sorry try again later", {
                 position: toast.POSITION.TOP_CENTER,
                 draggable: false,
-              });
+            });
         }
     };
 
     // This is how we will check if the passwords match AND if the criteria is met
     useEffect(() => {
+        const { newPw1, newPw2 } = passwords;
         if (newPw1 !== "" && newPw2 !== "") {
             if (newPw1 === newPw2) {
                 setPasswordsMatch(true);
@@ -255,7 +254,7 @@ function ProfileEditor(props) {
         } else {
             return;
         }
-    }, [newPw1, newPw2]);
+    }, [passwords.newPw1, passwords.newPw2]);
 
 
     return (
@@ -273,7 +272,7 @@ function ProfileEditor(props) {
                                 onClick={() => {
                                     setShowEmail(true);
                                     setShowUsername(false);
-                                    setShowPw(false);
+                                    setShowPwForm(false);
                                 }}
                             ><FontAwesomeIcon icon={faGear} />
                             </button>
@@ -312,7 +311,7 @@ function ProfileEditor(props) {
                                 onClick={() => {
                                     setShowUsername(true);
                                     setShowEmail(false);
-                                    setShowPw(false);
+                                    setShowPwForm(false);
                                 }}
                             ><FontAwesomeIcon icon={faGear} />
                             </button>
@@ -349,7 +348,7 @@ function ProfileEditor(props) {
                             <button
                                 className="btn font"
                                 onClick={() => {
-                                    setShowPw(true);
+                                    setShowPwForm(true);
                                     setShowUsername(false);
                                     setShowEmail(false);
                                 }}
@@ -357,7 +356,7 @@ function ProfileEditor(props) {
                             </button>
                         </div>
 
-                        {showPw && (
+                        {showPwForm && (
                             <form className="d-flex flex-column align-items-center">
                                 {/* Hide/Show Password Input */}
                                 <div className="d-flex flex-row align-items-center ">
@@ -375,10 +374,12 @@ function ProfileEditor(props) {
                                 <input
                                     required
                                     type={showPassword ? 'name' : 'password'}
-                                    onChange={handleCurrentPwChange}
-                                    value={currentPw}
+                                    name="currentPw"
+                                    value={passwords.currentPw}
+                                    onChange={handlePasswordInputChange}
+                                    placeholder="Current Password"
                                 ></input>
-                                {newPw1 !== "" && newPw2 !== "" && !passwordsMatch && (
+                                {passwords.newPw1 !== "" && passwords.newPw2 !== "" && !passwordsMatch && (
                                     <div className="cancel">
                                         <FontAwesomeIcon icon={faBan} />
                                         <span>Passwords must match</span>
@@ -390,8 +391,10 @@ function ProfileEditor(props) {
                                 <input
                                     required
                                     type={showPassword ? 'name' : 'password'}
-                                    onChange={handleNewPw1Change}
-                                    value={newPw1}
+                                    name="newPw1"
+                                    value={passwords.newPw1}
+                                    onChange={handlePasswordInputChange}
+                                    placeholder="New Password"
                                 ></input>
 
                                 {/* Confirm new password input  */}
@@ -399,8 +402,10 @@ function ProfileEditor(props) {
                                 <input
                                     required
                                     type={showPassword ? 'name' : 'password'}
-                                    onChange={handleNewPw2Change}
-                                    value={newPw2}
+                                    name="newPw2"
+                                    value={passwords.newPw2}
+                                    onChange={handlePasswordInputChange}
+                                    placeholder="Confirm Password"
                                 ></input>
 
                                 {/* Control buttons */}
@@ -414,7 +419,7 @@ function ProfileEditor(props) {
                                     {/* Cancel button */}
                                     <button
                                         className="btn cancel"
-                                        onClick={() => setShowPw(false)}
+                                        onClick={() => setShowPwForm(false)}
                                     >Cancel
                                     </button>
                                 </div>

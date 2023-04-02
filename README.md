@@ -1,13 +1,17 @@
 # Weather Dashboard
 
 # What is this?
-- This is a recreation of my school project (Weather Dashboard) using many different technologies. The front end of this application will be built using React. The back end of this application will be built using ASP.NET Core. The database for this application will be a azureSQL database and the application will be deployed using azure web services.
+- This is a recreation of my school project (Weather Dashboard) using many different technologies. The front end of this application is built using React. The back end of this application is built using ASP.NET Core. The database for this application is a azureSQL database and the application is deployed on azure web services.
 
-- This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. Lots of implementations missing that will be added eventually. Read further to find out more. 
+- This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. I've added as much as I can to ensure it includes most of the major criteria you would want in a production site. 
 
-- Lots of neat features have been added. I highly suggest creating an account. It can be with random details. Mess around with the features. The offCanvas effect for your previously searched is really cool I thought. I put a lot of work into the suggestions as well. You can see how I did all that on the profileHeader component and header component.
+- In the works is an admin account that can manage all users on the site. I will provide in this readme a .gif file of how it works as well as provide the file directory as to how I did it. 
 
-- In the works is an admin account that can manage and users on the site. I will give the deet for the admin account creation once it is finished
+- A majority of all database handling will be migrating to entity frameworks in the future
+
+- I will be going through and adding more comments to everything as I get the time.
+
+- Lesson learned in this repo, Code organization and cleanliness. I tryed to do the best I could with the knowledge I have, however I have a lot of refactoring to do. 
 
 # Table of Contents
 - [Installation](#installation)
@@ -19,33 +23,35 @@
 - After I am finsihed creating this application I will give detailed instructions on how to clone and set the repository up for your own application
 
 # Usage
-- UPDATE: I have migrated to a different azure resource group with provisional database, there should no longer be delays when trying to log in
+- It is Highly Recommended thay you create an account. You do not need to use your real information, my regex's and authentication process is not that serious. A majority of the intferace and quality user experience comes when the user is logged in. Checking your browsers localstorage you will see your "token", which is your JWT. If this was a production site I would name that to something unique so we know its our sites token. You can see how I accomplished that in the auth.cs, login.jsx, and registration.jsx files.
 
-- If the City you are looking for does not appear in the suggestions then it probably does not exist within the openweathermap API. I have a JSON provided by them with thousands of the cities they collect data for and that is where the suggestions come from
+- UPDATE: I have migrated to a different azure resource group with a provisional database, there should no longer be delays when trying to log in. 
 
-- The routes for updating and deleting are created and work but are not implemented yet
+- If the City you are looking for does not appear in the suggestions then it probably does not exist within the openweathermap API. I have a JSON provided by them with thousands of the cities they collect data for and that is where the suggestions come from. 
 
-- Create an account, login and check your applications local storage which should now include your jwt. You can see how I accomplished that in the Auth.cs, login.jsx and registration.jsx.
+- You may update your user information, however the option to delete you account does not exist yet.
 
-- Logged in users can favorite their cities. However it is not yet displayed in the offCanvas. I am still working out kinks with the saving and rendering method between the front and backend. As of right now the star should change to solid if you favorite it and your localStorage should include your favorites
+- For all of your own testing purposes you will need to create your own appsettings.json file and include your "DefaultConnection" string to your own database or use secrets.json is VS. I will later be moving to microsofts built in Secrets.json and will re-include the appsettings.json in this repo after I have removed all sensitive data from it.
 
-- Logged in or not, search for a city and the current weather and five day forecast will be displayed
+- You can visit this site at: https://starweather.azurewebsites.net. 
 
-- For all of your own testing purposes you will need to create your own appsettings.json file and include your "DefaultConnection" string to your own database or use secrets.json is VS.  I will later be moving to microsofts built in Secrets.json and will re-include the appsettings.json in this repo after I have removed all sensitive data from it.
+### Registration 
+![alt text](./ClientApp/src/assets/gifs/registration.gif)
 
-- If you're feeling froggy and want to see what the site looks like in its current state, you can check it out at https://starweather.azurewebsites.net. Or just look at the nifty screenshot in here
+### Favorites 
+![alt text](./ClientApp/src/assets/gifs/favorites.gif)
 
-![alt text](./ClientApp/src/assets/images/dashboard.gif)
+### Settings
+![alt text](./ClientApp/src/assets/gifs/settings.gif)
 
 ## Bugs
-- No media queries yet, resizing the screen will not alter shapes and sizes yet. Will be fixed towards the end of the project
+- Error handeling for the improper city search has been implemented. Still refining it.
 
-- Error handeling for the improper city search has been implemented. Still refining it
+- If a city was not found by the API you are still able to favorite it. I am working on tracing back to where this came from. Will be fixed in the coming week/weeks.
 
 - Need to implement suggestion hidding when there is an exact match, I see that it can be quite annoying seeing the city name underneath the proper one.
 
-- Favorites are still finicky, the start may go back to open even after you favorite a city but will reappear solid after page refresh. I am currently working through that.
-
+- The previously viewed list can become really long, will implement a method to limit the size of the list 
 
 ### Contribution/questions
 - For anything regarding this category you can email me at SSEPENLOPE23@gmail.com
@@ -55,6 +61,16 @@
 
 
 # ChangeLog
+### 4/2/2023 : 
+* Added password validation to force users to input a more "secure" password.
+
+* Added a function to check against the database to ensure the "username" is unique, and that the email they are signing up with does not already exist.
+
+* Added means to support turning suggestion box on and off in the user settings. This was done using stored procedures in the DB as well as cookies to reduce the calls we make to the server. 
+
+* Fixed the handling of favorite cities, they should now instanly update to your list when saving or removing. Should not require page refresh whatsoever. However I am still smoothing some things out the user may not see on the front end. 
+
+* I know I'm forgetting a lot and thats the issue with coding til 3 AM and not commiting as frequently as I should. I'll add things as I remember them.
 ### 3/30/23 :
 * Added Cookies to the page to hold and store the users favorite cites. This allowed for an alternative method to localStorage however is most likley not practical in a production build. It was just more so done as a learning experience.
 

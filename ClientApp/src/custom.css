@@ -11,6 +11,10 @@
   inset 0 0 0.5px 0.2px #17dcff;
  }
 
+ .fixthis {
+  border: 4px solid limegreen;
+ }
+
 a {
   color: var(--primary);
   text-shadow: var(--textshadow);
@@ -86,11 +90,18 @@ code {
  /*  border: 3px solid var(--primary); */
   box-shadow: var(--boxshadow);
   min-height: 40vh;
+  max-height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 2em;
   padding: 3em;
+}
+
+.current {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .currentBox {
@@ -102,7 +113,6 @@ code {
   color: var(--primary);
   text-shadow: var(--textshadow);
 }
-
 
 .currentWrapper ul li {
   color: var(--primary);
@@ -134,6 +144,54 @@ code {
   width: 70%;
 }
 
+.checkmark {
+  display: inline-block;
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+
+.checkmark__circle {
+  box-sizing: border-box;
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
+  border: 3px solid #4CAF50;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.checkmark__check {
+  box-sizing: border-box;
+  height: 22px;
+  width: 34px;
+  border-bottom: 3px solid #4CAF50;
+  border-right: 3px solid #4CAF50;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 13px;
+  left: 10px;
+  animation: checkmark 0.5s ease-in-out;
+}
+
+@keyframes checkmark {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(45deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+
+
 /********************       5 day forcast      ************************/
 
 .fiveDayWrapper {
@@ -148,7 +206,7 @@ code {
 }
 
 .fiveDayWrapper .card ul li:first-child {
-  font-size: 2.5rem;
+  font-size: 2rem;
   background-color: gray;
 }
 
@@ -156,16 +214,6 @@ code {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-}
-.test {
-  display: flex;
-  justify-content: center;
-  min-width: 100%;
-  min-height: 100%;
-}
-
-.test:first-child {
-  font-size: 40px;
 }
 
 .bg-transparent {
@@ -181,6 +229,11 @@ code {
       inset 0 0 0.4px 0.2px #1e91f0,
       inset 0 0 0.5px 0.2px #17dcff;
   border-radius: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 
 .neon-card {
@@ -188,16 +241,16 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 2em;
-  padding: 3em;;
-  min-width: 20vw;
+  /* margin: 2em; */
+  flex-basis: calc(100% / 4 - 2em); 
+  max-width: 25%;
   min-height: 30vh;
 }
 
 .neon {
   text-align: center;
   color: #17dcff;
-  font-size: 30px;
+  font-size: 25px;
   text-shadow:
       .1vw 0vw .25vw #1e91f0, .2vw 0vw .25vw #1e3df0;
 }
@@ -295,12 +348,6 @@ code {
 }
 
 
-/* .sideNav {
-  border: 3px solid limegreen;
-  min-height: 80vh;
-  width: 20vw;
-} */
-
 
 /*************** CityList Component ****************/
 .offCanvasSearched {
@@ -319,6 +366,102 @@ code {
   text-shadow: var(--textshadow);
   color: var(--primary);
   transform: scale(1.2);
+}
+
+
+/***************** User Favorite Component ***********************/
+.editBtn {
+  background-color: var(--primary);
+  color: #fff;
+  text-shadow: var(--textshadow);
+}
+
+.editBtn:hover {
+  color: #fff;
+  box-shadow: var(--boxshadow);
+}
+
+.delete-btn {
+  transition: transform 0.2s ease-in-out;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+  background-color: whitesmoke;
+}
+
+/* Define the animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.deleteColumn {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+/* Apply the animation to the column when it is removed */
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+  opacity: 0;
+}
+
+/**************** Profile Editor  ***********************/
+.editorWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column; 
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.editorContent {
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: transparent;
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: var(--boxshadow);
+  text-align: center;
+}
+
+.editBtns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 5px;
+  min-height: 40vh;
+}
+
+.cancel {
+  color: red;
+  text-shadow: .1vw 0vw .10vw #e34949, .2vw 0vw .20vw #ea1a13;
 }
 
 
@@ -595,3 +738,131 @@ input[type=text]:placeholder {
 
 
 /*****************      Media queries     *****************/
+/* For the media queries we will try to follow the common break points for a responsize layout */
+/* Medium size Screens */ 
+/*  We will wrap the 1024px breakpoint into this one. What can I say
+      except I'm lazy and it works */
+@media screen and (max-width: 1280px) {
+  .fiveDayWrapper .card ul li:first-child {
+    font-size: 2rem;
+  }
+
+  .test {
+    width: 80%;
+  }
+  .currentWrapper {
+    max-height: fit-content;
+  }
+
+  .current {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-height: fit-content;
+  }
+
+  .data-list li {
+    font-size: 15px;
+  }
+
+  .currentBox,
+  .data-list,
+  .hourlyBox,
+  .hourly {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  
+
+  .stat-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-basis: calc(100% / 2 - 2em); 
+    max-width: 30%;
+  }
+
+  .neon-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .card,
+  .neon-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 40%;
+  }
+
+  .neon {
+    font-size: 20px;
+  }
+
+}
+
+/* Tablets/Smaller Devices */
+@media screen and (max-width: 768px) {
+
+  .currentWrapper {
+    padding: 5px;
+  }
+
+  .data-list li,
+  .data-list h2 {
+    font-size: 12px;
+  }
+
+  .data-list {
+    padding: 0px;
+    justify-content: center;
+  }
+
+  .hourlyBox {
+    width: 90%;
+  }
+
+  .stat-group {
+    margin: 0px 5px;
+  }
+
+  .neon-card {
+    min-width: 80%;
+    margin: 10px;
+  }
+
+  .currentBox {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+  }
+
+  .table-cell {
+    font-size: 12px;
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+
+  .fiveDayWrapper .card ul li:first-child {
+    font-size: 1rem;
+  }
+
+  .neon {
+    font-size: 12px;
+  }
+
+  .neon-card {
+    max-height: fit-content;
+  }
+}

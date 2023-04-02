@@ -6,11 +6,13 @@ import Registration from './pages/Registration.jsx';
 import Profile from './pages/Profile.jsx';
 import videoBg from './assets/images/videoBg.mp4';
 import './custom.css';
-
+import { ToastContainer } from 'react-toastify';
 
 function App() {
+
     return (
         <Router>
+                <ToastContainer />
                 <video className="video-1" src={videoBg} autoPlay loop muted />
             <Routes>
                 <Route path="/" element={<Home />} />
@@ -21,5 +23,6 @@ function App() {
         </Router>
     );
 }
+
 
 export default App;

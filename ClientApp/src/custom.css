@@ -84,6 +84,17 @@ code {
   flex-direction: column;
 }
 
+.listDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.clearBtn {
+  align-self: self-start;
+  font-size: 12px;
+}
+
 
 /**************** Current Weather ***************/
 .currentWrapper {
@@ -810,6 +821,10 @@ input[type=text]:placeholder {
     font-size: 20px;
   }
 
+  .cust-btn {
+    font-size: 12px;
+  }
+
 }
 
 /* Tablets/Smaller Devices */
@@ -852,6 +867,10 @@ input[type=text]:placeholder {
     font-size: 12px;
   }
 
+  .cust-btn {
+    font-size: 10px;
+  }
+
 }
 
 @media screen and (max-width: 480px) {
@@ -859,10 +878,11 @@ input[type=text]:placeholder {
   .fiveDayWrapper .card ul li:first-child {
     font-size: 1.5rem;
   }
-  .fiveDayWrapper {
+  .fiveDayWrapper,
+  .currentWrapper {
     width: 100%;
     display: flex;
-    margin: 0px 0px;
+    margin: 3px 0px;
     padding: 5px;
     justify-self: center;
     align-self: center;
@@ -882,5 +902,9 @@ input[type=text]:placeholder {
     width: 100%;
     padding: 0;
     margin: 0;
+  }
+
+  .cities {
+    font-size: 10px;
   }
 }

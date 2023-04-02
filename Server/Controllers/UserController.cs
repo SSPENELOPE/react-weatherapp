@@ -362,16 +362,18 @@ namespace react_weatherapp.Controllers
                 SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
                 Conn.connectionstring = myConnection.ConnectionString;
 
+                /* Hash the users password */
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
                 // Create command, we tell it that its a stored procedure, then add the values
                 SqlCommand cmd = new SqlCommand("usp_UpdatePassword", myConnection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UserId", user.UserId);
-                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@password", hashedPassword);
 
                 myConnection.Open();
                 cmd.ExecuteNonQuery();
                 myConnection.Close();
-
             }
             catch (Exception ex)
             {

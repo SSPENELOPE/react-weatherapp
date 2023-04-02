@@ -7,6 +7,8 @@ using System.Data;
 using react_weatherapp.Helpers;
 
 
+
+
 namespace react_weatherapp.Controllers
 {
 
@@ -29,16 +31,19 @@ namespace react_weatherapp.Controllers
         [HttpPost]
         public ActionResult Login([FromBody] User user)
         {
-            var data = _context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+            // Retrieve the user from the database by email
+            var data = _context.Users.SingleOrDefault(u => u.Email == user.Email);
 
-            /* If the arguements from the body exist in the DB,
-            we will log the user in by generating a token with the users data attached to it */
-            if (data != null)
+            // Check if user exists and password is valid
+            if (data != null && BCrypt.Net.BCrypt.Verify(user.Password, data.Password))
             {
+                // Password is valid, generate and return token
                 var token = TokenHelper.GenerateToken(data, _config);
                 return Ok(token);
             }
-            return NotFound("user not found");
+
+            // User not found or password is invalid
+            return NotFound("user not found or password is invalid");
         }
     }
 
@@ -107,10 +112,13 @@ namespace react_weatherapp.Controllers
             SqlCommand myCommand = new SqlCommand("usp_Registration", myConnection);
             myCommand.CommandType = CommandType.StoredProcedure;
 
+
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
             // Add the values from the body of the page that will be passed to the stored procedure
             myCommand.Parameters.AddWithValue("@email", user.Email);
             myCommand.Parameters.AddWithValue("@name", user.Name);
-            myCommand.Parameters.AddWithValue("@password", user.Password);
+            myCommand.Parameters.AddWithValue("@password", hashedPassword);
             myCommand.Parameters.AddWithValue("@suggestionSetting", "On");
 
             // This is where we make it happen cap'n
@@ -119,11 +127,13 @@ namespace react_weatherapp.Controllers
             myConnection.Close();
 
 
-            var data = _context.Users.SingleOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+            var data = _context.Users.SingleOrDefault(u => u.Email == user.Email);
+            bool validPassword = BCrypt.Net.BCrypt.Verify(user.Password, hashedPassword);
+
 
             /* If the arguements we passed it are not null, which means the stored procedure worked correctly,
             we log the user in here */
-            if (data != null)
+            if (data != null && validPassword)
             {
                 var token = TokenHelper.GenerateToken(data, _config);
                 return Ok(token);
@@ -177,15 +187,14 @@ namespace react_weatherapp.Controllers
 
         [HttpPost]
         public IActionResult CheckTrue([FromBody] User user)
+            
         {
-            var userInDb = _context.Users.SingleOrDefault(u => u.UserId == user.UserId && u.Password == user.Password);
-            if (userInDb == null) 
+            var data = _context.Users.SingleOrDefault(u => u.UserId == user.UserId);
+            if (BCrypt.Net.BCrypt.Verify(user.Password, data.Password)) 
             {
-                return new JsonResult("Incorrect");
+                return new JsonResult("Password Matches");   
             }
-            return new JsonResult("Password Matches");   
+            return new JsonResult("Incorrect");
         }
     }
-
-
 }

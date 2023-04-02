@@ -86,7 +86,7 @@ function Header(props) {
             ) : (
                 // if we are NOT logged in
                 <div>
-                    <h1 className="text-light font">Weather Dashboard</h1>
+                    <h1 className="text-light font">Welcome to <span className="text-uppercase ">Star Weather</span> !</h1>
                     <section className="d-flex flex-column">
                         <div className="d-flex flex-row justify-content-between">
                             <div className="d-flex flex-column">
@@ -103,7 +103,7 @@ function Header(props) {
                                      ></input>
                                     <button 
                                     type="submit" 
-                                    className="m-1 bg-primary rounded custom-button" 
+                                    className="m-1 btn cust-btn" 
                                     id="search"
                                     >Search</button>
                                 </form>
@@ -129,18 +129,21 @@ function Header(props) {
                                 <Link to="/login" className="btn cust-btn">Login</Link>
                             </div>
                         </div>
-                        <div className="row align-items-center justify-content-between">
-                            <div className="row listDiv">
-                                <h3 className="my-2 d-flex">Previously Viewed:</h3>
-                                <ul className="cities-list mx-3" id="city-list"></ul>
-                            </div>
+                        <div className="d-flex flex-row align-items-center ">
+                            <div>
+                                <div className="listDiv">
+                                    <h3 className="my-2 d-flex justify-self-start">Previously Viewed:</h3>
+                                    <ul className="cities-list mx-3" id="city-list"></ul>
+                                </div>
+                            
                             {btn ? (
-                                <div>
-                                    <button id="clear-button" onClick={clear}>Clear Previously Viewed</button>
+                                <div className="d-flex justify-self-start">
+                                    <button id="clear-button" className="my-2 btn cust-btn font clearBtn" onClick={clear}>Clear Previously Viewed</button>
                                 </div>
                             ) : (
                                 <span></span>
                             )}
+                            </div>
                         </div>
                     </section>
                 </div>

@@ -5,7 +5,7 @@
 
 - This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. I've added as much as I can to ensure it includes most of the major criteria you would want in a production site. 
 
-- In the works is an admin account that can manage all users on the site. I will provide in this readme a .gif file of how it works as well as provide the file directory as to how I did it. 
+- In the works is an admin account that can manage all users on the site. I will provide in this readme and a .gif file of how it works as well as provide the file directory as to how I did it. 
 
 - A majority of all database handling will be migrating to entity frameworks in the future
 
@@ -13,7 +13,7 @@
 
 - Lesson learned in this repo, Code organization and cleanliness. I tryed to do the best I could with the knowledge I have, however I have a lot of refactoring to do. 
 
-- I dont have my own QA team so if you catch any errors or typos please feel free to email me here [Contribution/questions](#Contribution/questions), with what you found.
+- I dont have my own QA team so if you catch any errors or typos please feel free to email me here [Contribution/questions](#Contribution/questions), with what you found. 
 
 # Table of Contents
 - [Installation](#installation)
@@ -52,6 +52,8 @@
 - If a city was not found by the API you are still able to favorite it. I am working on tracing back to where this came from. Will be fixed in the coming week/weeks.
 
 - Need to implement suggestion hidding when there is an exact match, I see that it can be quite annoying seeing the city name underneath the proper one.
+
+- I will update the logic of the user input to remove the all caps spelling, the was intially implemented to ensure all saving/retrieving methods were the same casing to remove duplicates
 
 
 ### Contribution/questions

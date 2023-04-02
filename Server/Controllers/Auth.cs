@@ -42,7 +42,43 @@ namespace react_weatherapp.Controllers
         }
     }
 
+    /******************          Check Email for user account already               ***********************/
 
+    [Route("auth/[controller]")]
+    [ApiController]
+    public class Authenticate : Controller
+    {
+        Connection Conn;
+        public Authenticate(Connection _CONN)
+        {
+            Conn = _CONN;
+        }
+
+        DataTable table = new DataTable();
+        
+        [HttpGet] 
+        public IActionResult Authenication()
+        {
+            try {
+                // Create sql connection and store the data into the DB using a stored procedure
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+                SqlCommand myCommand = new SqlCommand("usp_ReturnUsers", myConnection);
+                myCommand.CommandType = CommandType.StoredProcedure;
+
+                myConnection.Open();
+
+                SqlDataReader reader = myCommand.ExecuteReader();
+                table.Load(reader);
+                myConnection.Close();
+
+            } catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occured while retrieving data");
+            }
+            return new JsonResult(table);
+        }
+    }
 
     /******************************         User Registration           *****************************/
     // This uses vanilla C# with EF to use our generate token function
@@ -75,6 +111,7 @@ namespace react_weatherapp.Controllers
             myCommand.Parameters.AddWithValue("@email", user.Email);
             myCommand.Parameters.AddWithValue("@name", user.Name);
             myCommand.Parameters.AddWithValue("@password", user.Password);
+            myCommand.Parameters.AddWithValue("@suggestionSetting", "On");
 
             // This is where we make it happen cap'n
             myConnection.Open();

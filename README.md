@@ -11,7 +11,7 @@
 
 - I will be going through and adding more comments to everything as I get the time.
 
-- Lesson learned in this repo, Code organization and cleanliness. I tryed to do the best I could with the knowledge I have, however I have a lot of refactoring to do. 
+- Lesson learned in this repo, Code organization and cleanliness. I tryed to do the best I could with the knowledge I have, however I have a lot of refactoring to do. Something I did not understand well coming into building this was the CLEAN ARCHITECHTURE principals and design which I will be planning before creating on my next project
 
 - I dont have my own QA team so if you catch any errors or typos please feel free to email me here [Contribution/questions](#Contribution/questions), with what you found. 
 
@@ -65,6 +65,8 @@
 
 # ChangeLog
 ### 4/2/2023 : 
+* Added bcrypt to the backend for all password handling
+
 * Updated previously viewed logic to only allow 5 previously viewed cities, this a large list from cluttering the screen
 
 * Added password validation to force users to input a more "secure" password.

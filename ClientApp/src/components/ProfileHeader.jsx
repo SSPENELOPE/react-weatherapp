@@ -11,6 +11,8 @@ function ProfileHeader(props) {
   const debounceTimerRef = useRef(null);
   const DEBOUNCE_DELAY = 300;
 
+  const suggestionsSetting = props.suggestionsSetting;
+
   // On page load we will pre cache the user's local storage with the citie names from out large JSON file
   useEffect(() => {
     loadSuggestions.cacheCitySuggestions();
@@ -64,11 +66,13 @@ function ProfileHeader(props) {
     return () => clearTimeout(debounceTimerRef.current);
   }, [city, fetchSuggestions]);
 
+  
+
 
   return (
     <div className="jumbotron jumbotron-fluid custom-border">
       <div className="container">
-        <h1 className="display-4 font">Welcome {props.userName}</h1>
+        <h1 className="display-4 font"><u>Welcome {props.userName}</u></h1>
         <p className="lead font">To your personal weather dashboard</p>
       </div>
       <div className="d-flex justify-content-between align-items-center">
@@ -112,8 +116,8 @@ function ProfileHeader(props) {
                   </div>
                 </div>
               ) : (
-                citySuggestions.length > 0 && (
-                  <div className="suggestions-container">
+             suggestionsSetting === "On" &&  citySuggestions.length > 0 && (
+                  <div className="suggestions-container-notLogged">
                     <ul className="suggestions">
                       {citySuggestions.map((suggestion, index) => (
                         <li

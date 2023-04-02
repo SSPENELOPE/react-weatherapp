@@ -86,7 +86,7 @@ function CurrentWeather(props) {
 
     return (
         <div className="currentWrapper">
-            <h1 className="display-3">
+            <h1 className="display-3 city-title">
                 <u>{city}</u>
                 {/* If the user is logged in we will allow them to save a favorite city */}
                 {profileId && (
@@ -96,25 +96,35 @@ function CurrentWeather(props) {
                     </button>
                 )}
             </h1>
-            <div className="d-flex flex-row justify-content-around">
+            <div className="current">
 
                 <div className="d-flex flex-column currentBox">
                     <h1 className="text-center font bg-dark">Your Current Weather</h1>
                     <ul className="font data-list">
-                        <h2 className="font"><u>Current Temprature</u></h2>
-                        <li className="data">{Math.round(current.temp)}<span>&#8457;</span></li>
-                        <h2 className="font"><u>Feels Like</u></h2>
-                        <li className="data">{Math.round(current.feels_like)}<span>&#8457;</span></li>
-                        <h2 className="font"><u>Humidity</u></h2>
-                        <li className="data">{current.humidity}%</li>
-                        <h2 className="font"><u>UV-Index</u></h2>
-                        <li className="data">{current.uvi}</li>
-                        <h2 className="font"><u>Clouds</u></h2>
-                        <li className="data">{current.clouds}% Cloud Coverage</li>
+                        <div className="stat-group">
+                            <h2 className="font"><u>Current Temprature</u></h2>
+                            <li className="data">{Math.round(current.temp)}<span>&#8457;</span></li>
+                        </div>
+                        <div className="stat-group">
+                            <h2 className="font"><u>Feels Like</u></h2>
+                            <li className="data">{Math.round(current.feels_like)}<span>&#8457;</span></li>
+                        </div>
+                        <div className="stat-group">
+                            <h2 className="font"><u>Humidity</u></h2>
+                            <li className="data">{current.humidity}%</li>
+                        </div>
+                        <div className="stat-group">
+                            <h2 className="font"><u>UV-Index</u></h2>
+                            <li className="data">{current.uvi}</li>
+                        </div>
+                        <div className="stat-group">
+                            <h2 className="font"><u>Clouds</u></h2>
+                            <li className="data">{current.clouds}% Cloud Coverage</li>
+                        </div>        
                     </ul>
                 </div>
 
-                <div className="d-flex flex-column currentBox">
+                <div className="d-flex flex-column hourlyBox">
                     <HourlyWeather hourly={hourly} />
                 </div>
             </div>

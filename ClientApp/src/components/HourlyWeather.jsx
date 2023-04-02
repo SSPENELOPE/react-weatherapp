@@ -1,9 +1,11 @@
 import React from "react";
 
 function HourlyWeather(props) {
+    /* Take the only 7 hours worth of data */    
     const hourly = props.hourly.slice(0, 7);
+
     return (
-        <div className="d-flex flex-column align-items-center">
+        <div className="d-flex flex-column align-items-center hourly">
             <h3 className="font">Your Hourly Weather</h3>
             {hourly.map((item, Index) => (
                 <div key={Index} className="table-rows">

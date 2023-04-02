@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../utils/auth";
 import fetchWeather from "../utils/fetchWeather";
+import suggestions from "../utils/suggestions";
 import CityList from "../components/CityList";
 import ProfileHeader from "../components/ProfileHeader";
 import UserFavorties from "../components/UserFavorites";
@@ -9,6 +10,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import CurrentWeather from "../components/CurrentWeather";
 import FiveDay from "../components/FiveDay";
 import ProfileEditor from "../components/ProfileEditor";
+import UserSettings from "../components/UserSettings";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasFaStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons';
@@ -19,7 +21,7 @@ function Profile() {
     // State to manage if we've loaded cookies
     const [cookiesLoaded, setCookiesLoaded] = useState(false);
 
-    // Ensure we have the right userId and Name, pass the name as a prop
+    // Ensure we have the right userId and Name, pass the them as props
     const profileId = Auth.getProfile()?.userId;
     const userName = Auth.getProfile()?.unique_name;
     const profile = Auth.getProfile();
@@ -28,7 +30,7 @@ function Profile() {
     // This is how we will open and close the offCanvas
     const [show, setShow] = useState(false);
 
-    /* This will check to see if we have a city name stored, if we dont set the state to empty string */
+    /* This will check to see if we have a city name stored, if we dont then set the state to empty string */
     const [city, setCity] = useState(() => {
         const currentCity = localStorage.getItem("currentCity");
         return currentCity ? JSON.parse(currentCity) : "";
@@ -67,7 +69,7 @@ function Profile() {
         try {
             const response = await fetchWeather.getWeather();
             setWeatherData(response);
-            setCity(city);
+            setCity(city); // We set this in getWeather function and retrieved in the state variable
             localStorage.setItem('weatherData', JSON.stringify(response));
         } catch (error) {
             console.log(error);
@@ -148,8 +150,30 @@ function Profile() {
             // We will again check here to ensure the user is logged in, extra security measure
             if (profileId) {
                 handleFavoriteFetch();
+                localStorage.setItem("suggestionsOn", "true");
             }
         }, []);
+
+        /* We could use local storage for the suggestion setting, however we will use cookies because why not,
+             I have no other reason to use them at the moment,
+              we wont delete these either, this will allow us to reduce api calls to the database */
+        const [suggestionsSetting, setSuggestionsSetting] = useState("");
+
+        const suggestionData = {
+            suggestionsSetting,
+            setSuggestionsSetting
+        }
+
+        useEffect(() => {
+            const setting = Cookies.get("suggestionSettings");
+            if(setting) {
+                setSuggestionsSetting(setting);
+            } else {
+                suggestions.getSuggestionSettings(profileId);
+                console.log("Made a request for settings");
+            }
+        }, [suggestionsSetting])
+
 
    
     // We first will check to see if the user is logged in, if they are NOT we will direct them to the login page
@@ -173,6 +197,7 @@ function Profile() {
                  onClick={getWeather}
                  onClickButton={onClickButton}
                  userName={userName}
+                 suggestionsSetting={suggestionsSetting}
                 />
 
                 <div className="d-flex flex-column">
@@ -206,6 +231,7 @@ function Profile() {
                                     <CityList
                                      onClickButton={onClickButton}
                                       />
+                                    <UserSettings suggestionData={suggestionData} profileId={profileId} />
                                 </div>
                             </Offcanvas.Body>
                         </Offcanvas>

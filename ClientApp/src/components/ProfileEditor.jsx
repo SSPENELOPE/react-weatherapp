@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear, faCheckDouble, faBan, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faBan, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Auth from "../utils/auth";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 
 function ProfileEditor(props) {
     /*** This is our prop variables ***/
     const profile = props.profile;
-    const { editProfile, setEditProfile } = props.editor;
+    const { setEditProfile } = props.editor;
 
     /*** Function to relog the user after the changes have been made ***/
     const relog = async (relogData) => {

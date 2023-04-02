@@ -11,6 +11,10 @@
   inset 0 0 0.5px 0.2px #17dcff;
  }
 
+ .fixthis {
+  border: 4px solid limegreen;
+ }
+
 a {
   color: var(--primary);
   text-shadow: var(--textshadow);
@@ -86,11 +90,18 @@ code {
  /*  border: 3px solid var(--primary); */
   box-shadow: var(--boxshadow);
   min-height: 40vh;
+  max-height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 2em;
   padding: 3em;
+}
+
+.current {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .currentBox {
@@ -102,7 +113,6 @@ code {
   color: var(--primary);
   text-shadow: var(--textshadow);
 }
-
 
 .currentWrapper ul li {
   color: var(--primary);
@@ -196,7 +206,7 @@ code {
 }
 
 .fiveDayWrapper .card ul li:first-child {
-  font-size: 2.5rem;
+  font-size: 2rem;
   background-color: gray;
 }
 
@@ -204,16 +214,6 @@ code {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-}
-.test {
-  display: flex;
-  justify-content: center;
-  min-width: 100%;
-  min-height: 100%;
-}
-
-.test:first-child {
-  font-size: 40px;
 }
 
 .bg-transparent {
@@ -229,6 +229,11 @@ code {
       inset 0 0 0.4px 0.2px #1e91f0,
       inset 0 0 0.5px 0.2px #17dcff;
   border-radius: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 
 .neon-card {
@@ -236,16 +241,16 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 2em;
-  padding: 3em;;
-  min-width: 20vw;
+  /* margin: 2em; */
+  flex-basis: calc(100% / 4 - 2em); 
+  max-width: 25%;
   min-height: 30vh;
 }
 
 .neon {
   text-align: center;
   color: #17dcff;
-  font-size: 30px;
+  font-size: 25px;
   text-shadow:
       .1vw 0vw .25vw #1e91f0, .2vw 0vw .25vw #1e3df0;
 }
@@ -733,3 +738,131 @@ input[type=text]:placeholder {
 
 
 /*****************      Media queries     *****************/
+/* For the media queries we will try to follow the common break points for a responsize layout */
+/* Medium size Screens */ 
+/*  We will wrap the 1024px breakpoint into this one. What can I say
+      except I'm lazy and it works */
+@media screen and (max-width: 1280px) {
+  .fiveDayWrapper .card ul li:first-child {
+    font-size: 2rem;
+  }
+
+  .test {
+    width: 80%;
+  }
+  .currentWrapper {
+    max-height: fit-content;
+  }
+
+  .current {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-height: fit-content;
+  }
+
+  .data-list li {
+    font-size: 15px;
+  }
+
+  .currentBox,
+  .data-list,
+  .hourlyBox,
+  .hourly {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  
+
+  .stat-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-basis: calc(100% / 2 - 2em); 
+    max-width: 30%;
+  }
+
+  .neon-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .card,
+  .neon-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 40%;
+  }
+
+  .neon {
+    font-size: 20px;
+  }
+
+}
+
+/* Tablets/Smaller Devices */
+@media screen and (max-width: 768px) {
+
+  .currentWrapper {
+    padding: 5px;
+  }
+
+  .data-list li,
+  .data-list h2 {
+    font-size: 12px;
+  }
+
+  .data-list {
+    padding: 0px;
+    justify-content: center;
+  }
+
+  .hourlyBox {
+    width: 90%;
+  }
+
+  .stat-group {
+    margin: 0px 5px;
+  }
+
+  .neon-card {
+    min-width: 80%;
+    margin: 10px;
+  }
+
+  .currentBox {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+  }
+
+  .table-cell {
+    font-size: 12px;
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+
+  .fiveDayWrapper .card ul li:first-child {
+    font-size: 1rem;
+  }
+
+  .neon {
+    font-size: 12px;
+  }
+
+  .neon-card {
+    max-height: fit-content;
+  }
+}

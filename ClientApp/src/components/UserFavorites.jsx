@@ -6,14 +6,15 @@ import Cookies from 'js-cookie';
 
 function UserFavorties(props) {
    
-
     // State variable to manage what to display on the users offCanvas
     const [hasFavorites, setHasFavorites] = useState(false);
     const [editMode, setEditMode] = useState(false);
+
     // Destrucured variables passed from the props
     const { favoriteCities, setFavoriteCities, handleFavoriteFetch } = props.cookieManager;
     const { regularStar, setFavorite } = props.favorite || [];
     const city = props.city
+
     // Function to handle the deleting a favorite city
     const handleDelete = async (favId, favCity) => {
         const favItemId = `fav-item-${favId}`;

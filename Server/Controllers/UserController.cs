@@ -146,7 +146,7 @@ namespace react_weatherapp.Controllers
     }
 
 
-    /**************************************************          Get/Add User Favorited Cities        *********************************/
+    /**************************************************     "FAVORITE" TABLE ROUTES        *********************************/
 
     [Route("api/[controller]")]
     [ApiController]
@@ -160,7 +160,7 @@ namespace react_weatherapp.Controllers
         }
 
         DataTable table = new DataTable();
-
+        /* GET FAVORITE */
         [HttpGet("{userId}")]
         public IActionResult GetFavorites(int userId)
         {
@@ -208,7 +208,7 @@ namespace react_weatherapp.Controllers
 
         }
 
-
+        /* ADD FAVORITE */
         [HttpPost]
         public IActionResult AddFavoriteCity([FromBody] Favorite favorite)
         {
@@ -248,6 +248,7 @@ namespace react_weatherapp.Controllers
             }
         }
 
+        /* DELETE FAVORITE */
         [HttpDelete("{favId}")]
         public IActionResult DeleteFavoriteCity(int favId)
         {
@@ -282,7 +283,7 @@ namespace react_weatherapp.Controllers
     }
 
 
-    /****************************** Edit the users data ***********************/
+    /******************************  "USER" TABLE EDIT ROUTES  ***********************/
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class Edit : Controller
@@ -293,7 +294,7 @@ namespace react_weatherapp.Controllers
         {
             Conn = _CONN;
         }
-
+        /* USERNAME */
         [HttpPut]
         public IActionResult UpdateUsername(User user)
         {
@@ -322,7 +323,7 @@ namespace react_weatherapp.Controllers
             }
             return new JsonResult("Successfuly upadted Username");
         }
-
+        /* EMAIL */
         [HttpPut]
         public IActionResult UpdateEmail(User user)
         {
@@ -350,12 +351,11 @@ namespace react_weatherapp.Controllers
             }
             return new JsonResult("Successfuly upadted Email");
         }
-
+        /* PASSWORD */
         [HttpPut]
         public IActionResult UpdatePassword(User user)
         {
 
-            /* Todo: Add method to check if current passwords match, then update user password */
             try
             {
                 // Create SQL connection
@@ -376,9 +376,77 @@ namespace react_weatherapp.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return StatusCode(500, "An error occured while updating your email");
+                return StatusCode(500, "An error occured while updating your password");
             }
             return new JsonResult("Successfuly upadted Password");
+        }
+
+        /**************************    USER SETTINGS     *******************/
+
+        /*  SUGGESTIONS  */
+        [HttpGet("{userId}")]
+        public IActionResult GetSuggestion(int userId)
+        {
+            DataTable table = new DataTable();
+            try
+            {
+                // Create SQL connection
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+
+                SqlCommand cmd = new SqlCommand("usp_GetSuggestionSetting", myConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+
+                myConnection.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    table.Load(reader);
+                    reader.Close();
+                    myConnection.Close();
+                }
+
+                if (table.Rows.Count > 0)
+                {
+                    return new JsonResult(table);
+                }
+                else
+                {
+                    return StatusCode(204, "No data found");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occured while fethcing your settings");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SetSuggestion(User user)
+        {
+            try
+            {
+                // Create SQL connection
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+
+                SqlCommand cmd = new SqlCommand("usp_setSuggestion", myConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", user.UserId);
+                cmd.Parameters.AddWithValue("@suggestionSetting", user.SuggestionSetting);
+                
+                myConnection.Open();
+                cmd.ExecuteNonQuery();
+                myConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occured while updating your password");
+            }
+            return new JsonResult("Successfuly set suggestion setting");
         }
     }
 }

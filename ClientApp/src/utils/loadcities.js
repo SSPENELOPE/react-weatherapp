@@ -33,11 +33,18 @@ class LoadCities {
         cities.addEventListener("click", props.onClickButton(city));
 
         // If city doesn't exist in storageArray, append it to the list and add it to the storageArray
-        if (!cityExists) {
+        if (!cityExists && storageArray.length < 5) {
             cityList.appendChild(cities);
             storageArray.push(city);
             localStorage.setItem("savedCities", JSON.stringify(storageArray));
-        }
+          } else if (!cityExists && storageArray.length >= 5) {
+            // If city doesn't exist in storageArray and the length is 5 or more, remove the first city and add the new city
+            storageArray.shift();
+            cityList.removeChild(cityList.firstChild);
+            cityList.appendChild(cities);
+            storageArray.push(city);
+            localStorage.setItem("savedCities", JSON.stringify(storageArray));
+          }
     }
 
     profileCityStorage() {
@@ -49,7 +56,11 @@ class LoadCities {
         const cityExists = storageArray.includes(city);
 
         // If city doesn't exist in storageArray, append it to the list and add it to the storageArray
-        if (!cityExists) {
+        if (!cityExists && storageArray.length < 5) {
+            storageArray.push(city);
+            localStorage.setItem("savedCities", JSON.stringify(storageArray));
+          } else if (!cityExists && storageArray.length >= 5) {
+            storageArray.shift();
             storageArray.push(city);
             localStorage.setItem("savedCities", JSON.stringify(storageArray));
           }

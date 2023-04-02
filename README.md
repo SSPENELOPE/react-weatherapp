@@ -13,6 +13,8 @@
 
 - Lesson learned in this repo, Code organization and cleanliness. I tryed to do the best I could with the knowledge I have, however I have a lot of refactoring to do. 
 
+- I dont have my own QA team so if you catch any errors or typos please feel free to email me here [Contributions/questions](#Contribution/questions), with what you found.
+
 # Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
@@ -51,8 +53,6 @@
 
 - Need to implement suggestion hidding when there is an exact match, I see that it can be quite annoying seeing the city name underneath the proper one.
 
-- The previously viewed list can become really long, will implement a method to limit the size of the list 
-
 ### Contribution/questions
 - For anything regarding this category you can email me at SSEPENLOPE23@gmail.com
 
@@ -62,6 +62,8 @@
 
 # ChangeLog
 ### 4/2/2023 : 
+* Updated previously viewed logic to only allow 5 previously viewed cities, this a large list from cluttering the screen
+
 * Added password validation to force users to input a more "secure" password.
 
 * Added a function to check against the database to ensure the "username" is unique, and that the email they are signing up with does not already exist.
@@ -69,6 +71,8 @@
 * Added means to support turning suggestion box on and off in the user settings. This was done using stored procedures in the DB as well as cookies to reduce the calls we make to the server. 
 
 * Fixed the handling of favorite cities, they should now instanly update to your list when saving or removing. Should not require page refresh whatsoever. However I am still smoothing some things out the user may not see on the front end. 
+
+* Changed media queries again so cards and data appears more readable on smaller devices
 
 * I know I'm forgetting a lot and thats the issue with coding til 3 AM and not commiting as frequently as I should. I'll add things as I remember them.
 ### 3/30/23 :

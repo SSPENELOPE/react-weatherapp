@@ -104,8 +104,9 @@ code {
   justify-content: space-around;
 }
 
-.currentBox {
-  width:30%;
+.currentBox,
+.hourlyBox {
+  width:40%;
   margin: 5px;
 }
 
@@ -134,7 +135,7 @@ code {
 
 .table-rows {
   border-top: 3px double yellow;
-  width: 70%;
+  width: 90%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -208,6 +209,7 @@ code {
 .fiveDayWrapper .card ul li:first-child {
   font-size: 2rem;
   background-color: gray;
+  text-decoration: underline;
 }
 
 .forecast {
@@ -855,14 +857,30 @@ input[type=text]:placeholder {
 @media screen and (max-width: 480px) {
 
   .fiveDayWrapper .card ul li:first-child {
-    font-size: 1rem;
+    font-size: 1.5rem;
+  }
+  .fiveDayWrapper {
+    width: 100%;
+    display: flex;
+    margin: 0px 0px;
+    padding: 5px;
+    justify-self: center;
+    align-self: center;
   }
 
+  .neon-row {
+    width: 100%;
+    padding: 0;
+    margin: 0 !important;
+  }
   .neon {
-    font-size: 12px;
+    font-size: 20px;
   }
 
   .neon-card {
     max-height: fit-content;
+    width: 100%;
+    padding: 0;
+    margin: 0;
   }
 }

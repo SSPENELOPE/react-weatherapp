@@ -6,9 +6,9 @@ function FiveDay(props) {
     return (
         <div className="fiveDayWrapper">
             <h1 className="display-5 font text-end"><u>Your 5 day forecast</u></h1>
-            <div className="neon-row m-1 p-2">
+            <div className="neon-row">
                 {forecast.map((item, index) => (
-                    <div key={index} className="card bg-transparent neon-card m-5 fixthis">
+                    <div key={index} className="card bg-transparent neon-card my-2 mx-2">
                         <ul className="list-group bg-dark list-group-flush test bg-transparent">
                             <li className="list-group-item bg-transparent neon">
                             {new Date(item.dt * 1000).toLocaleString('en-US', { weekday: 'long' })}

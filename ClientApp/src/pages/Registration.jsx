@@ -101,7 +101,7 @@ function Registration() {
         
         event.preventDefault();
         if(passwordError !== "") {
-            toast.error(`Please make sure you password mathes the requirements`, {
+            toast.error(`Please make sure your password mathes the requirements`, {
                 position: toast.POSITION.TOP_CENTER,
                 draggable: false
             })

@@ -13,7 +13,7 @@
 
 - Lesson learned in this repo, Code organization and cleanliness. I tryed to do the best I could with the knowledge I have, however I have a lot of refactoring to do. 
 
-- I dont have my own QA team so if you catch any errors or typos please feel free to email me here [Contributions/questions](#Contribution/questions), with what you found.
+- I dont have my own QA team so if you catch any errors or typos please feel free to email me here [Contribution/questions](#Contribution/questions), with what you found.
 
 # Table of Contents
 - [Installation](#installation)
@@ -52,6 +52,7 @@
 - If a city was not found by the API you are still able to favorite it. I am working on tracing back to where this came from. Will be fixed in the coming week/weeks.
 
 - Need to implement suggestion hidding when there is an exact match, I see that it can be quite annoying seeing the city name underneath the proper one.
+
 
 ### Contribution/questions
 - For anything regarding this category you can email me at SSEPENLOPE23@gmail.com

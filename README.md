@@ -15,6 +15,8 @@
 
 - Lesson learned in this repo, Code organization and cleanliness. I tried to do the best I could with the knowledge I have, however I have a lot of refactoring to do. Something I did not understand well coming into building this was the CLEAN ARCHITECHTURE principals and design which I will be planning before creating on my next project
 
+- I am currently working on packing this with electron.js and creating a downloadable version. I am not experienced with electron, as I learn it and create the packages I will add the download links to this site.
+
 - I dont have my own QA team so if you catch any errors or typos please feel free to email me with what you found. 
 
 # Table of Contents
@@ -50,8 +52,6 @@
 
 ## Bugs
 - Error handeling for the improper city search has been implemented. Still refining it.
-
-- If a city was not found by the API you are still able to favorite it. I am working on tracing back to where this came from. Will be fixed in the coming week/weeks.
 
 - Need to implement suggestion hidding when there is an exact match, I see that it can be quite annoying seeing the city name underneath the proper one.
 

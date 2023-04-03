@@ -5,6 +5,8 @@
 
 - This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. I've added as much as I can to ensure it includes most of the major criteria you would want in a production site. 
 
+- The site works on all size devices to include MOST modern mobile phones. If the pixel width is below 300 I cant promise anything will look as it should. 
+
 - In the works is an admin account that can manage all users on the site. I will provide in this readme, a .gif file of how it works as well as provide the file directory as to how I did it. 
 
 - A majority of all database handling will be migrating to entity frameworks in the future

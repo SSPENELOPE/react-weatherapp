@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 function UserSettings(props) {
     const { suggestionsSetting, setSuggestionsSetting } = props.suggestionData;
     const profileId = props.profileId;
-
+    console.log(suggestionsSetting)
     const turnOnSuggestions = () => {
         const suggestionType = "On";
         suggestions.setSuggestionSetting(profileId, suggestionType);

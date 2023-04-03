@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 class FetchWeather {
     
     async getWeather() {
@@ -7,8 +8,11 @@ class FetchWeather {
       const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&exclude=hourly,daily&appid='+process.env.REACT_APP_APPID+'';
       const response = await fetch(weatherUrl, { cache: 'reload' });
       if (!response.ok) {
-        alert("Sorry we can't find a city with that name, you may consider checking your spelling")
-        throw new Error('Error: ' + response.statusText);
+        toast.error(`${response.statusText}`, {
+          position: toast.POSITION.TOP_CENTER,
+          draggable: false
+      });
+      return response.status;
       }
       const data = await response.json();
       const lat = data.coord.lat;
@@ -17,10 +21,18 @@ class FetchWeather {
 
       const newResponse = await fetch(newUrl, { cache: 'reload' });
       if(!newResponse.ok) {
-        throw new Error('Error: ' + newResponse.statusText);
-      }
+        toast.error(`${newResponse.statusText}`, {
+          position: toast.POSITION.TOP_CENTER,
+          draggable: false
+      });
+      };
       const newData = await newResponse.json();
-      return newData;
+      const status = newResponse.status;
+      const responseObj = {
+        newData,
+        status
+      };
+      return responseObj;
     }
 
     async getWeatherButton(city) {

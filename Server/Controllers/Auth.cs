@@ -13,7 +13,7 @@ namespace react_weatherapp.Controllers
 {
 
     /******************************         User Login           *****************************/
-    // This uses EF 
+    // Self explanitory
     [ApiController]
     [Route("auth/[controller]")]
     public class LoginController : Controller
@@ -44,44 +44,6 @@ namespace react_weatherapp.Controllers
 
             // User not found or password is invalid
             return NotFound("user not found or password is invalid");
-        }
-    }
-
-    /******************          Check Email for user account already               ***********************/
-
-    [Route("auth/[controller]")]
-    [ApiController]
-    public class Authenticate : Controller
-    {
-        Connection Conn;
-        public Authenticate(Connection _CONN)
-        {
-            Conn = _CONN;
-        }
-
-        DataTable table = new DataTable();
-        
-        [HttpGet] 
-        public IActionResult Authenication()
-        {
-            try {
-                // Create sql connection and store the data into the DB using a stored procedure
-                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
-                Conn.connectionstring = myConnection.ConnectionString;
-                SqlCommand myCommand = new SqlCommand("usp_ReturnUsers", myConnection);
-                myCommand.CommandType = CommandType.StoredProcedure;
-
-                myConnection.Open();
-
-                SqlDataReader reader = myCommand.ExecuteReader();
-                table.Load(reader);
-                myConnection.Close();
-
-            } catch (Exception ex) {
-                Console.WriteLine(ex.ToString());
-                return StatusCode(500, "An error occured while retrieving data");
-            }
-            return new JsonResult(table);
         }
     }
 
@@ -138,12 +100,53 @@ namespace react_weatherapp.Controllers
                 var token = TokenHelper.GenerateToken(data, _config);
                 return Ok(token);
             }
-
             return NotFound("user not found");
-
         }
     }
 
+
+
+    /******************   RETURN ALL USER NAMES/EMAILS     ***********************/
+    // We will run a check against this returned data on the front end
+    [Route("auth/[controller]")]
+    [ApiController]
+    public class Authenticate : Controller
+    {
+        Connection Conn;
+        public Authenticate(Connection _CONN)
+        {
+            Conn = _CONN;
+        }
+
+        DataTable table = new DataTable();
+        
+        [HttpGet] 
+        public IActionResult Authenication()
+        {
+            try {
+                // Create sql connection and store the data into the DB using a stored procedure
+                SqlConnection myConnection = new SqlConnection(Conn.connectionstring);
+                Conn.connectionstring = myConnection.ConnectionString;
+                SqlCommand myCommand = new SqlCommand("usp_ReturnUsers", myConnection);
+                myCommand.CommandType = CommandType.StoredProcedure;
+
+                myConnection.Open();
+
+                SqlDataReader reader = myCommand.ExecuteReader();
+                table.Load(reader);
+                myConnection.Close();
+
+            } catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "An error occured while retrieving data");
+            }
+            return new JsonResult(table);
+        }
+    }
+
+
+    /*******************      RELOG USER        ***********************/
+    //  If the user was previously logged in we will run this without forcing them to use password again
     [Route("auth/Prelogged")]
     [ApiController]
 
@@ -171,6 +174,9 @@ namespace react_weatherapp.Controllers
         }
     }
 
+
+    /*****************     VERIFY PASSWORD      *************************/
+   // Check the users current password before allowing user to change it
     [Route("auth/CheckPassword")]
     [ApiController]
 

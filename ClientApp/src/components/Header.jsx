@@ -2,7 +2,8 @@ import React, { useMemo, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import loadcities from "../utils/loadcities";
-import loadSuggestions from "../utils/loadSuggestions"
+import loadSuggestions from "../utils/loadSuggestions";
+import { toast } from "react-toastify";
 const DEBOUNCE_DELAY = 300;
 
 
@@ -34,13 +35,18 @@ function Header(props) {
 
     const handleSearch = async (event) => {
         event.preventDefault();
-        localStorage.setItem("currentCity", JSON.stringify(city));
-        loadcities.handleCityStorage(props);
-        setCity("");
-        setCitySuggestions([]);
-        props.onClick();
-      };
-
+        
+       const responseStatus = await props.onClick()
+       if (responseStatus === 200) {
+           localStorage.setItem("currentCity", JSON.stringify(city));
+           loadcities.handleCityStorage(props);
+           setCity("");
+           setCitySuggestions([]);
+       } else {
+        return;
+       }
+    };
+    
     useEffect(() => {
         const storedCities = localStorage.getItem("savedCities") || [];
         if(storedCities.length > 0) {

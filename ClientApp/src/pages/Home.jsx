@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import CurrentWeather from '../components/CurrentWeather';
 import FiveDay from '../components/FiveDay';
 import fetchWeather from "../utils/fetchWeather";
+import { toast } from "react-toastify";
 
 function Home() {
 /********************* City Handling ****************/
@@ -30,13 +31,16 @@ function Home() {
 
   // Func to get weather, passed as a prop to the header
   const getWeather = async () => {
-    try {
+   
       const response = await fetchWeather.getWeather();
-      setWeatherData(response);
-      localStorage.setItem('weatherData', JSON.stringify(response));
-    } catch (error) {
-      console.log(error);
-    }
+      if (response.status === 200) {
+          const data = response.newData;
+          setWeatherData(data);
+          localStorage.setItem('weatherData', JSON.stringify(data));
+          return response.status;
+      } else {
+        return;
+      }
   };
 
   const onClickButton = async (city) => {

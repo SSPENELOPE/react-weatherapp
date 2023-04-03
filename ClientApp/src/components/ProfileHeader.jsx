@@ -30,11 +30,16 @@ function ProfileHeader(props) {
   // Search handler, clears states and sets storage when the user submits the search
   const handleSearch = async (event) => {
     event.preventDefault();
-    localStorage.setItem("currentCity", JSON.stringify(city));
-    setCity("");
-    setCitySuggestions([]);
-    loadcities.profileCityStorage(props);
-    props.onClick();
+
+    const responseStatus = await props.onClick();
+    if(responseStatus === 200) {
+        localStorage.setItem("currentCity", JSON.stringify(city));
+        setCity("");
+        setCitySuggestions([]);
+        loadcities.profileCityStorage(props);
+    } else {
+      return;
+    }
   };
 
   // Function to handle what happens when the user clicks a suggestion

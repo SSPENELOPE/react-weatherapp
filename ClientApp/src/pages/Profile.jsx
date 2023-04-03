@@ -66,14 +66,17 @@ function Profile() {
 
     // Function to fetch the weather and store it, we will pass this as a prop
     const getWeather = async () => {
-        try {
             const response = await fetchWeather.getWeather();
-            setWeatherData(response);
-            setCity(city); // We set this in getWeather function and retrieved in the state variable
-            localStorage.setItem('weatherData', JSON.stringify(response));
-        } catch (error) {
-            console.log(error);
-        }
+            if(response.status === 200) {
+                console.log(response.status)
+                setWeatherData(response.newData);
+                setCity(city); // We set this in getWeather function and retrieved in the state variable
+                localStorage.setItem('weatherData', JSON.stringify(response.newData));
+                return response.status;
+            } else {
+                return;
+            }
+      
     };
 
     // Function specifically for the previously viewed or favorites buttons to recall a city search

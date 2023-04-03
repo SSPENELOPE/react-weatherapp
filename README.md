@@ -5,13 +5,13 @@
 
 - This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. I've added as much as I can to ensure it includes most of the major criteria you would want in a production site. 
 
-- In the works is an admin account that can manage all users on the site. I will provide in this readme and a .gif file of how it works as well as provide the file directory as to how I did it. 
+- In the works is an admin account that can manage all users on the site. I will provide in this readme, a .gif file of how it works as well as provide the file directory as to how I did it. 
 
 - A majority of all database handling will be migrating to entity frameworks in the future
 
 - I will be going through and adding more comments to everything as I get the time.
 
-- Lesson learned in this repo, Code organization and cleanliness. I tryed to do the best I could with the knowledge I have, however I have a lot of refactoring to do. Something I did not understand well coming into building this was the CLEAN ARCHITECHTURE principals and design which I will be planning before creating on my next project
+- Lesson learned in this repo, Code organization and cleanliness. I tried to do the best I could with the knowledge I have, however I have a lot of refactoring to do. Something I did not understand well coming into building this was the CLEAN ARCHITECHTURE principals and design which I will be planning before creating on my next project
 
 - I dont have my own QA team so if you catch any errors or typos please feel free to email me with what you found. 
 

@@ -66,17 +66,15 @@ function Profile() {
 
     // Function to fetch the weather and store it, we will pass this as a prop
     const getWeather = async () => {
+            
             const response = await fetchWeather.getWeather();
-            if(response.status === 200) {
-                console.log(response.status)
-                setWeatherData(response.newData);
+           
+            if(response.current) {
+                setWeatherData(response);
                 setCity(city); // We set this in getWeather function and retrieved in the state variable
-                localStorage.setItem('weatherData', JSON.stringify(response.newData));
-                return response.status;
-            } else {
-                return;
-            }
-      
+                localStorage.setItem('weatherData', JSON.stringify(response));
+                return response;
+            }   
     };
 
     // Function specifically for the previously viewed or favorites buttons to recall a city search
@@ -167,6 +165,7 @@ function Profile() {
             setSuggestionsSetting
         }
 
+        // When the user changes setting set it here, by checking if the settings already exit we reduce calls to our server
         useEffect(() => {
             const setting = Cookies.get("suggestionSettings");
             if(setting) {
@@ -175,7 +174,7 @@ function Profile() {
                 suggestions.getSuggestionSettings(profileId);
                 console.log("Made a request for settings");
             }
-        }, [suggestionsSetting])
+        }, [profileId, suggestionsSetting])
 
 
    

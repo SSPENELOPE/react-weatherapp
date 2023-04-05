@@ -33,13 +33,10 @@ function Home() {
   const getWeather = async () => {
    
       const response = await fetchWeather.getWeather();
-      if (response.status === 200) {
-          const data = response.newData;
-          setWeatherData(data);
-          localStorage.setItem('weatherData', JSON.stringify(data));
-          return response.status;
-      } else {
-        return;
+      if(response.current) {
+        setWeatherData(response);
+        localStorage.setItem('weatherData', JSON.stringify(response));
+        return response;
       }
   };
 

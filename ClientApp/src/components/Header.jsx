@@ -36,15 +36,14 @@ function Header(props) {
     const handleSearch = async (event) => {
         event.preventDefault();
         
-       const responseStatus = await props.onClick()
-       if (responseStatus === 200) {
+       const response = await props.onClick()
+       console.log(response);
+       if (response.current) {
            localStorage.setItem("currentCity", JSON.stringify(city));
            loadcities.handleCityStorage(props);
            setCity("");
            setCitySuggestions([]);
-       } else {
-        return;
-       }
+       } 
     };
     
     useEffect(() => {

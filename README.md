@@ -13,7 +13,7 @@
 
 - I will be going through and adding more comments to everything as I get the time.
 
-- Lesson learned in this repo, Code organization and cleanliness. I tried to do the best I could with the knowledge I have, however I have a lot of refactoring to do. Something I did not understand well coming into building this was the CLEAN ARCHITECHTURE principals and design which I will be planning before creating on my next project
+- Lesson learned in this repo, Code organization and cleanliness. I tried to do the best I could with the knowledge I have, however I have a lot of refactoring to do. Something I did not understand well coming into building this was the CLEAN ARCHITECHTURE principals and design which I will be planning before creating my next project
 
 - I am currently working on packing this with electron.js and creating a downloadable version. I am not experienced with electron, as I learn it and create the packages I will add the download links to this site.
 

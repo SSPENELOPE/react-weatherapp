@@ -37,7 +37,6 @@ function Header(props) {
         event.preventDefault();
         
        const response = await props.onClick()
-       console.log(response);
        if (response.current) {
            localStorage.setItem("currentCity", JSON.stringify(city));
            loadcities.handleCityStorage(props);
@@ -53,7 +52,7 @@ function Header(props) {
         } else {
             setBtn(false);
         }
-    })
+    }, [])
 
   // Memoize the fetchSuggestions function
   const fetchSuggestions = useMemo(() => async () => {

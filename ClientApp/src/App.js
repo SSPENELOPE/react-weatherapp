@@ -12,8 +12,8 @@ function App() {
 
     return (
         <Router>
-                <ToastContainer />
-                <video className="video-1" src={videoBg} autoPlay loop muted />
+            <ToastContainer />
+            <video className='video-1' src={videoBg} loop autoPlay mute />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />

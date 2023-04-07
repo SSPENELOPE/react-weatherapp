@@ -13,7 +13,7 @@ function App() {
     return (
         <Router>
             <ToastContainer />
-            <video className='video-1' src={videoBg} loop autoPlay mute />
+            <video className='video-1' src={videoBg} loop autoPlay muted />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />

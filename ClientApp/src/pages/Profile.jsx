@@ -11,6 +11,7 @@ import CurrentWeather from "../components/CurrentWeather";
 import FiveDay from "../components/FiveDay";
 import ProfileEditor from "../components/ProfileEditor";
 import UserSettings from "../components/UserSettings";
+import Footer from "../components/Footer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasFaStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons';
@@ -247,7 +248,7 @@ function Profile() {
                         {weatherData && <CurrentWeather data={weatherData} city={city} favorite={favoriteItems} cookieManager={cookieManager} />}
                         {weatherData && <FiveDay data={weatherData} city={city} />}
                     </div>
-
+                    <Footer />
                 </div>
             </div>
         )

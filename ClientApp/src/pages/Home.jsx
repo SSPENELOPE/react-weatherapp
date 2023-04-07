@@ -2,8 +2,8 @@
 import Header from '../components/Header';
 import CurrentWeather from '../components/CurrentWeather';
 import FiveDay from '../components/FiveDay';
+import Footer from '../components/Footer';
 import fetchWeather from "../utils/fetchWeather";
-import { toast } from "react-toastify";
 
 function Home() {
 /********************* City Handling ****************/
@@ -57,6 +57,7 @@ function Home() {
       <Header onClick={getWeather} onClickButton={onClickButton} onChange={handleCityChange}  />
       {weatherData && <CurrentWeather data={weatherData} city={city} />}
       {weatherData && <FiveDay data={weatherData} city={city} />}
+      <Footer />
     </div>
   );
 }

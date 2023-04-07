@@ -66,6 +66,12 @@
 
 
 # ChangeLog
+
+### 4/7/2023
+* After lots of trial and error the desktop version for windows is now included on the site
+
+* Created a footer that has a download button and links to the author (me)
+
 ### 4/2/2023 : 
 * Fixed issue that was displaying an incorrect or not found city name, the incorrect city name should no longer be displayed
 
@@ -84,6 +90,7 @@
 * Changed media queries again so cards and data appears more readable on smaller devices
 
 * I know I'm forgetting a lot and thats the issue with coding til 3 AM and not commiting as frequently as I should. I'll add things as I remember them.
+---
 ### 3/30/23 :
 * Added Cookies to the page to hold and store the users favorite cites. This allowed for an alternative method to localStorage however is most likley not practical in a production build. It was just more so done as a learning experience.
 
@@ -94,6 +101,7 @@
 * Added the means to edit and delete individualy saved cities
 
 * Updated the check against the cookies to show the city is favorited regardless of the casing used
+---
 ### 3/29/23 :
 * Added a if statement to the use effect on the currentweather page, this should fix the issue where the entirety of the page was not working when it could not find the users data.
 

@@ -478,6 +478,31 @@ code {
 }
 
 
+/************** FOOTER *******************/
+.footer {
+  border-top: 3px solid rgb(63, 63, 63);
+  background: linear-gradient(to right, #211E55, #2D3060, #38386B, #434F76, #4F5D81, #5B6B8C, #677898, #7495A3, #80A2AE, #8CA0B6, #98AEBF, #A5BCC8, #B1CAD1, #BED8DA, #CADEE3, #D7EBEE);
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
 /**************  LOGIN START   ********************/
 a {
   color: #92badd;

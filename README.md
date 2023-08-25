@@ -3,7 +3,7 @@
 # What is this?
 - This is a recreation of my school project (Weather Dashboard) using many different technologies. The front end of this application is built using React. The back end of this application is built using ASP.NET Core. The database for this application is a azureSQL database and the application is deployed on azure web services.
 
-- This is essentially a knock off weather app created by your's truly. It is star citizen themed, well because I love space and star citizen. Search a city and get the weather. I've added as much as I can to ensure it includes most of the major criteria you would want in a production site. 
+- This is a weather app and it is star citizen themed, well because I love space and star citizen. Search a city and get the weather. I've added as much as I can to ensure it includes most of the major criteria you would want in a production site. 
 
 - The site works on all size devices to include MOST modern mobile phones. If the pixel width is below 300 I cant promise anything will look as it should. 
 
@@ -15,9 +15,13 @@
 
 - Lesson learned in this repo, Code organization and cleanliness. I tried to do the best I could with the knowledge I have, however I have a lot of refactoring to do. Something I did not understand well coming into building this was the CLEAN ARCHITECHTURE principals and design which I will be planning before creating my next project
 
-- I am currently working on packing this with electron.js and creating a downloadable version. I am not experienced with electron, as I learn it and create the packages I will add the download links to this site.
+- The Electron Version is created and can be found here, "https://github.com/SSPENELOPE/StarWeatherApplication".
 
 - I dont have my own QA team so if you catch any errors or typos please feel free to email me with what you found. 
+
+- It has come to my attention that the production version on Azure is having some issues, the links to view preivously viewed cities does not work when you are not logged in, If you experience white screen I suggest you clear your cache and browser data. That seems to be the general fix for the issue. I will attempt to recreate this in the future and get it fixed, however I have other projects that are consuming my time. 
+
+- I have downgraded my Azure subscription being that im sure this site is not used alot, You may experience delays waiting for the the server responses if the site has not been visted in the last 30min - 1 hour
 
 # Table of Contents
 - [Installation](#installation)
